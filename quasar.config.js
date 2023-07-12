@@ -10,7 +10,7 @@
 
 const { configure } = require('quasar/wrappers');
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       fix: true,
@@ -30,20 +30,20 @@ module.exports = configure(function (/* ctx */) {
     boot: ['axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['app.scss'],
+    css: ['app.scss', 'global.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
+      // 'material-icons-outlined', // optional, you are not bound to it
       // 'ionicons-v4',
-      'mdi-v5',
+      'mdi-v7',
       // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
-      'material-icons', // optional, you are not bound to it
+      // 'roboto-font', // optional, you are not bound to it
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
@@ -62,7 +62,11 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      env: {},
+      env: {
+        API_URL: ctx.dev
+          ? 'https://life-server.onrender.com/api'
+          : 'https://life-server.onrender.com/api',
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -85,11 +89,10 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {},
-
-      iconSet: 'material-icons', // Quasar icon set
-      // lang: 'en-US', // Quasar language pack
-
+      config: {
+        lang: 'es-ES', // Quasar language pack
+      },
+      iconSet: 'mdi-v7', // Quasar icon set
       // For special cases outside of where the auto-import strategy can have an impact
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
@@ -98,7 +101,9 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'Loading'
+      ],
     },
 
     // animations: 'all', // --- includes all animations
