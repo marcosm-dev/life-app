@@ -63,13 +63,11 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: {
+        ...require('dotenv').config().parsed,
         API_URL: ctx.dev
           ? 'http://localhost:3001/api'
           : 'https://life-server-gvc8.onrender.com/api',
-        EMAILJS_SERVICE_ID: 'service_bldnvm7',
-        EMAILJS_TEMPLATE_ID: 'template_9xh4u64',
-        EMAILJS_PUBLIC_KEY: '9JCl-XSfl-UPqVgjv',
-        GOOGLE_MAPS_API_KEY: 'AIzaSyD6KwXWZOlCgmkOKLkEjuT_u2qcFDUnZs8',
+
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
