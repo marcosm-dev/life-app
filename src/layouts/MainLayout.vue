@@ -3,6 +3,7 @@
     <q-header class="row bg-dark" elevated>
       <div class="col-auto">
         <q-img
+          @click="$router.push('/home')"
           class="rounded-borders q-ma-xs"
           width="84px"
           src="../assets/logo.jpg"
@@ -16,21 +17,23 @@
         active-color="warning"
         class="col header-tabs"
       >
-        <q-tab
+        <q-route-tab
           name="inicio"
           label="Inicio"
           no-caps
           :disable="true"
         />
-        <q-tab
+        <q-route-tab
           name="categorias"
           label="Categorías"
+          to="/home"
           no-caps
          />
-        <q-tab
+        <q-route-tab
           name="manuales"
           label="Manuales"
           no-caps
+          to="/manuales"
         />
       </q-tabs>
 
@@ -52,13 +55,13 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-ripple>
-                  <q-item-section>
-                    Contacto
+                <q-item clickable disable v-ripple>
+                  <q-item-section no-wrap>
+                    Pago
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-ripple>
+                <q-item clickable disable v-ripple>
                   <q-item-section>
                     Reclamaciones
                   </q-item-section>
@@ -73,17 +76,19 @@
                 <img src="../assets/avatar.jpg">
               </q-avatar>
 
-              <div class="text-subtitle1 q-mt-md q-mb-xs">Instalador</div>
+              <div class="text-subtitle1 q-mt-md q-mb-xs">
+                {{ store.user.userName }}
+              </div>
 
               <q-btn
                 color="negative"
                 dense
                 class="full-width"
                 label="Salir"
+                @click="store.logout()"
                 size="md"
                 no-caps
                 uneleveated
-                v-close-popup
               />
 
             </div>
@@ -93,31 +98,6 @@
         </q-avatar>
 
     </q-header>
-    <q-menu>
-        <div class="row no-wrap q-pa-md">
-          <div class="column">
-            <div class="text-h6 q-mb-md">Settings</div>
-          </div>
-
-          <q-separator vertical inset class="q-mx-lg" />
-
-          <div class="column items-center">
-            <q-avatar size="72px">
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
-            </q-avatar>
-
-            <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
-
-            <q-btn
-              color="primary"
-              label="Logout"
-              push
-              size="sm"
-              v-close-popup
-            />
-          </div>
-        </div>
-      </q-menu>
     <!-- <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -132,16 +112,20 @@
 
       </q-list>
     </q-drawer> -->
-
-    <q-page-container>
+    <q-page-container class="container">
       <router-view />
     </q-page-container>
-    <q-footer class="main-footer row justify-between q-px-md">
-      <p class="text-warning">SERPICA</p>
-      <div class="column text-caption items-end text-bold" style="line-height: 0.5;">
-        <p>Contacto</p>
-        <p>Política de privacidad</p>
-        <p>Protección de datos</p>
+    <q-footer
+      reveal
+      class="main-footer row justify-between q-px-md"
+    >
+      <a href="https://www.serpica.org" class="text-warning serpica-title">
+        SERPICA
+      </a>
+      <div class="column q-col-gutter-y-md text-caption items-end text-bold" style="line-height: 0.5;">
+        <router-link class="q-mb-xs" to="/contacto">Contacto</router-link>
+        <a href="#">Política de privacidad</a>
+        <a href="#">Protección de datos</a>
         <div class="row full-width main-footer-italy">
           <div class="col flag-green" />
           <div class="col flag-white text-dark text-center text-bold text-dark" />
@@ -154,13 +138,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useAuthStore } from '../stores/auth';
 
 export default defineComponent({
   name: 'MainLayout',
   setup() {
+    const store = useAuthStore();
     const leftDrawerOpen = ref(null);
 
     return {
+      store,
       leftDrawerOpen,
       tab: ref('categorias'),
     };
@@ -174,11 +161,18 @@ export default defineComponent({
     font-size: 13px;
     font-weight: 600;
   }
+  @media (min-width: 768px) {
+    .header-tabs .q-tab, .q-tab__label {
+      padding: 5px;
+      font-size: 16px;
+      font-weight: 600;
+  }
+  }
   .main-footer {
     background-position: center;
     background-size: contain;
     height: 100px;
-    background-color: #181818;
+    background-color: rgb(20, 20, 20,0.96);
     align-items: center;
     display: flex;
     color: $positive;

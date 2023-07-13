@@ -16,4 +16,11 @@ export interface Product {
   urlImage: string
   userId: number
   categoryId: number
+  amount: number
+  uuid?: string
+}
+
+export interface EmailData {
+  nombre: string
+  email: string
 }

@@ -30,7 +30,7 @@ module.exports = configure(function (ctx) {
     boot: ['axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['app.scss', 'global.scss'],
+    css: ['app.scss', 'global.scss', 'fonts.sass'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -64,8 +64,12 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         API_URL: ctx.dev
-          ? 'https://life-server.onrender.com/api'
-          : 'https://life-server.onrender.com/api',
+          ? 'http://localhost:3001/api'
+          : 'https://life-server-gvc8.onrender.com/api',
+        EMAILJS_SERVICE_ID: 'service_bldnvm7',
+        EMAILJS_TEMPLATE_ID: 'template_9xh4u64',
+        EMAILJS_PUBLIC_KEY: '9JCl-XSfl-UPqVgjv',
+        GOOGLE_MAPS_API_KEY: 'AIzaSyD6KwXWZOlCgmkOKLkEjuT_u2qcFDUnZs8',
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
@@ -102,7 +106,8 @@ module.exports = configure(function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Loading'
+        'Loading',
+        'Dialog'
       ],
     },
 

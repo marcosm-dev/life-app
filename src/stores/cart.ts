@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
-import { api } from 'src/boot/axios';
-import { LocalStorage } from 'quasar';
 
 import { Product } from 'src/components/models';
 
@@ -9,20 +7,38 @@ export const useCartStore = defineStore('cart', {
   state: () => ({
     cart: <Product[]>[]
   }),
-  getters: {},
+  getters: {
+    amount() {
+      const amount: number = this.cart.reduce((acc, crr) => acc += crr.amount, 0);
+      return amount;
+    }
+  },
   actions: {
+    updateCart(products: Product[]) {
+      this.cart = products;
+    },
     addOrUpdateProduct(product: Product) {
-      console.log(product)
-      const productIdx = this.cart.findIndex((p: Product) => p.id === product.id) ?? null
+      const productIdx = this.cart.findIndex((p: Product) => p.uuid === product.uuid);
+
+      if (product.quantity === -1) {
+        this.cart = this.cart.filter(p => p.uuid !== product.uuid)
+        console.log('entra')
+      }
+
       if (productIdx !== -1) {
-        const productToUpdate: Product = this.cart[productIdx]
-        productToUpdate.quantity += product.quantity;
+        const productToUpdate: Product = this.cart[productIdx];
+        productToUpdate.amount = product.amount;
+        productToUpdate.quantity = product.quantity;
       } else {
-        this.cart.push(product);
+        console.log('adios')
+        this.cart.push({...product, amount: product.price});
       }
     },
-    removeFromCart(productId: number) {
-      this.cart = this.cart.filter(p => p.id === productId);
+    addNewProductLine(product: Product) {
+      this.cart.push({...product, amount: product.price})
+    },
+    removeFromCart(uuid: number) {
+      this.cart = this.cart.filter(p => p.uuid !== uuid);
     }
   },
   persist: {

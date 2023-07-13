@@ -22,6 +22,14 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+      <div class="row justify-center text-center">
+        <a
+          href="https://www.serpica.org"
+          class="text-warning knockout text-h4 fixed full-width serpica"
+        >
+          SERPICA
+      </a>
+      </div>
       <q-footer class="row bg-white" :style="$q.screen.width <= 768 ? 'height: 10px' : 'height: 20px'">
           <div class="col flag-green" />
           <div class="col flag-white text-dark text-center text-bold text-dark">
@@ -45,3 +53,11 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss">
+  .serpica {
+    margin: 0 auto;
+    bottom: 15%;
+    display: block !important;
+  }
+</style>

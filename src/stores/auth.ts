@@ -22,7 +22,7 @@ export interface NewUser {
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
-    user: {},
+    user: <NewUser>{},
   }),
   getters: {
     authenticated: (state) => !!Object.keys(state.user).length,
@@ -30,6 +30,10 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     toggleRegister () {
       this.register = !this.register;
+    },
+    logout() {
+      this.router.push('/')
+      LocalStorage.clear();
     },
     async signup(user: User) {
       try {

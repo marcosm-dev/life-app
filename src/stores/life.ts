@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
-import { LocalStorage } from 'quasar';
 
 export const useLifeStore = defineStore('life', {
   state: () => ({

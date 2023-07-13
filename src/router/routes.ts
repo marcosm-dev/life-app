@@ -5,7 +5,12 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'account-signin',
     component: () => import('layouts/AuthLayout.vue'),
-    children: [{ path: '/', component: () => import('pages/AuthPage.vue') }],
+    children: [
+      {
+        path: '/',
+        component: () => import('pages/AuthPage.vue')
+      },
+    ],
   },
   {
     path: '/home',
@@ -14,6 +19,14 @@ const routes: RouteRecordRaw[] = [
     },
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      {
+        path: '/manuales',
+        component: () => import('pages/ManualesPage.vue')
+      },
+      {
+        path: '/contacto',
+        component: () => import('pages/ContactoPage.vue')
+      },
       {
         path: '/home',
         component: () => import('pages/IndexPage.vue')

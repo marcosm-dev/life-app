@@ -27,7 +27,7 @@
 
   <q-page
     v-show="!registerSuccess"
-    class="justify-center items-center q-px-md q-mx-auto row"
+    class="justify-center items-center q-px-md q-mx-auto row bg-white"
     style="max-width: 450px"
   >
 
@@ -247,12 +247,14 @@ import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import { NewUser, User } from '../stores/auth'
+import { useServicesStore } from '../stores/services';
 
 export default defineComponent({
   name: 'AuthPage',
   setup() {
     const router = useRouter();
     const store = useAuthStore();
+    const services = useServicesStore();
     const $q = useQuasar();
     const errors = ref<string[]>([]);
     const revealPassword = ref(false);
@@ -284,7 +286,13 @@ export default defineComponent({
           spinnerColor: 'positive',
           message: 'Registrando usuario ...',
         });
+
+        const sendData = {
+          nombre: newUser.userName,
+          email: newUser.email,
+        }
         const { error, msg } = await store.signup(newUser);
+        await services.sendEmail(sendData)
 
         if (msg) registerSuccess.value = true;
         if (error && !errors.value.includes(error)) errors.value.push(error);

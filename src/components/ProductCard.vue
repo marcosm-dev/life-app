@@ -1,66 +1,73 @@
 <template>
-  <q-card class="column q-mb-md">
-    <q-card-section class="q-pa-sm col">
-      <q-img class="col" src="../assets/logo.jpg" width="160px" height="70px" />
+  <q-card
+    class="q-mb-lg shadow-12 rounded-borders"
+    :class="$q.screen.width < 768 ? 'column' : 'row'"
+  >
+    <q-card-section class="q-py-sm col-12 col-sm-8">
+        <q-img
+          class="col"
+          style="max-height: 175px"
+          :src="product.urlImage"
+          fetchpriority="high"
+          fit="scale-down"
+        >
+          <template v-slot:error>
+              <q-img
+                class="col"
+                src="../assets/logo.jpg"
+                width="170px"
+                height="70px"
+              />
+          </template>
+        </q-img>
       <span class="text-bold text-h6 q-mx-sm">
         {{ product.name }}
       </span>
       <q-separator size="1px" class="q-mx-sm" spaced="5px" />
-      <p class="q-py-md text-caption">{{ product.description }}</p>
-      <div class="text-caption row">
-        <div class="col-12">Incluye:</div>
-        <p class="text-bold">
+      <p class="q-pa-md text-caption">{{ product.description }}</p>
+      <div class="text-caption row q-px-md">
+        <div v-if="product.accesories" class="col-12">Incluye:</div>
+        <div class="col-auto text-bold">
           {{ product.accesories }}
-        </p>
+        </div>
         <a
           href="https://www.homelife.it/es/producto/vis"
-          class="text-warning q-ml-auto cursor-pointer"
+          class="text-warning cursor-pointer"
+          :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
         >
           Mas información
         </a>
       </div>
     </q-card-section>
-    <q-separator size="1px" class="q-mx-sm" />
-    <q-card-actions class="col items-end no-padding">
-      <div class="row items-center text-center full-width">
-        <div class="col-12 q-pt-md text-h5">
-          {{ product.price * quantity }} €
-        </div>
-        <q-btn
-          @click="quantity ? (quantity -= 1) : null"
-          class="col text-black"
-          color="dark-page"
-          square
-          icon="mdi-minus"
-          unelevated
-        />
-        <div class="col items-center q-py-lg text-subtitle1">
-          {{ quantity }}
-        </div>
-        <q-btn
-          @click="quantity += 1"
-          unelevated
-          class="col text-black"
-          color="dark-page"
-          square
-          icon="mdi-plus"
-        />
-      </div>
+    <q-separator size="1px" inset />
+    <q-card-actions
+      class="col items-end no-padding full-width"
+      :class="$q.screen.width > 768 && 'q-ma-xl'"
+    >
+
+      <ProductQuantity
+        @update-product="updateProductQuantity"
+        :quantity="quantity"
+        :price="product.price"
+      />
 
       <q-btn
         @click="addProduct"
         label="AÑADIR"
         color="dark"
+        padding="6px"
         class="full-width q-mt-md"
         square
         unelevated
       />
       <q-btn
+        @click="toggleCartDialog"
         label="PAGAR DIRECTAMENTE"
+        padding="8px"
         class="full-width q-mt-xs text-bold"
         color="warning"
         unelevated
-        square
+        style="border-top-left-radius: 0; border-top-right-radius: 0;"
       />
     </q-card-actions>
   </q-card>
@@ -68,8 +75,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useCartStore } from '../stores/cart';
 import { Product } from './models';
+
+import ProductQuantity from 'components/ProductQuantity.vue';
+import useCartDialog from '../composables/useCartDialog'
+import useProductCart from 'src/composables/useProductCart';
 
 
 export default defineComponent({
@@ -81,15 +91,26 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useCartStore();
+    const { toggleCartDialog } = useCartDialog();
+    const { addOrUpdateProduct } = useProductCart();
+
     const quantity = ref(1);
     return {
-      addProduct(){
-        store.addOrUpdateProduct({...<Product>props.product, quantity: quantity.value})
+      updateProductQuantity(action: string) {
+        if (action === '+') quantity.value += 1
+        else quantity.value -= 1
       },
+      addProduct(){
+        toggleCartDialog();
+        addOrUpdateProduct ({ ...<Product>props.product, quantity: quantity.value })
+          quantity.value = 1;
+      },
+      toggleCartDialog,
       quantity,
-      store,
     };
   },
+  components: {
+    ProductQuantity
+  }
 });
 </script>
