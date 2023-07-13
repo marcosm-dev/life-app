@@ -38,8 +38,11 @@ export default route(function () {
     const store = useAuthStore();
 
     if (to.matched.some(record => record.meta.requiresAuth && !store.authenticated)) {
-      next()
-      // next('/')
+      if (process.env.DEV) {
+        next()
+      } else {
+        next('/')
+      }
     } else {
       next()
     }
