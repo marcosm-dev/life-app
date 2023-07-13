@@ -266,8 +266,6 @@ export default defineComponent({
       password: '',
     });
 
-    console.log(process.env)
-
     const newUser: NewUser = reactive({
       userName: '',
       lastName: '',
