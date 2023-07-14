@@ -30,7 +30,7 @@ module.exports = configure(function (ctx) {
     boot: ['axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['app.scss', 'global.scss', 'fonts.sass'],
+    css: ['fonts.sass', 'app.scss', 'global.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -65,7 +65,7 @@ module.exports = configure(function (ctx) {
       env: {
         ...require('dotenv').config().parsed,
         API_URL: ctx.dev
-          ? 'http://localhost:3001/api'
+          ? 'https://life-server-gvc8.onrender.com/api'  // http://localhost:3001/api
           : 'https://life-server-gvc8.onrender.com/api',
 
       },

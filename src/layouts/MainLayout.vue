@@ -21,19 +21,23 @@
           name="inicio"
           label="Inicio"
           no-caps
+          to="/home"
           :disable="true"
+          exact
         />
         <q-route-tab
           name="categorias"
           label="Categorías"
           to="/home"
           no-caps
+          exact
          />
         <q-route-tab
           name="manuales"
           label="Manuales"
           no-caps
           to="/manuales"
+          exact
         />
       </q-tabs>
 
@@ -94,7 +98,12 @@
             </div>
           </div>
         </q-menu>
-          <img src="../assets/avatar.jpg" />
+          <img
+            width="45px"
+            height="45px"
+            src="../assets/avatar.jpg"
+            alt="imagen de usuario"
+          />
         </q-avatar>
 
     </q-header>
@@ -119,9 +128,16 @@
       reveal
       class="main-footer row justify-between q-px-md"
     >
-      <a href="https://www.serpica.org" class="text-warning serpica-title">
+      <a href="https://www.serpica.org" class="col-auto text-warning serpica-title">
         SERPICA
       </a>
+      <div class="col q-ml-md">
+        <q-icon
+          @click="toggleCartDialog"
+          name="mdi-cart-arrow-down"
+          size="40px"
+        />
+      </div>
       <div class="column q-col-gutter-y-md text-caption items-end text-bold" style="line-height: 0.5;">
         <router-link class="q-mb-xs" to="/contacto">Contacto</router-link>
         <a href="#">Política de privacidad</a>
@@ -139,16 +155,18 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
+import useCartDialog from 'src/composables/useCartDialog';
 
 export default defineComponent({
   name: 'MainLayout',
   setup() {
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
-
+    const { toggleCartDialog } = useCartDialog();
     return {
       store,
       leftDrawerOpen,
+      toggleCartDialog,
       tab: ref('categorias'),
     };
   },

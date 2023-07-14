@@ -10,6 +10,8 @@
           :src="product.urlImage"
           fetchpriority="high"
           fit="scale-down"
+          crossorigin="anonymous"
+          :ratio="1"
         >
           <template v-slot:error>
               <q-img
@@ -52,16 +54,16 @@
       />
 
       <q-btn
-        @click="addProduct"
-        label="AÑADIR"
-        color="dark"
+        @click="addProduct(false)"
+        :label="checkIsAdded ? 'AÑADIR OTRO' : 'AÑADIR'"
+        :color="checkIsAdded ? 'primary' : 'dark'"
         padding="6px"
         class="full-width q-mt-md"
         square
         unelevated
       />
       <q-btn
-        @click="toggleCartDialog"
+        @click="addProduct(true)"
         label="PAGAR DIRECTAMENTE"
         padding="8px"
         class="full-width q-mt-xs text-bold"
@@ -74,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { Product } from './models';
 
 import ProductQuantity from 'components/ProductQuantity.vue';
@@ -92,16 +94,19 @@ export default defineComponent({
   },
   setup(props) {
     const { toggleCartDialog } = useCartDialog();
-    const { addOrUpdateProduct } = useProductCart();
+    const { addOrUpdateProduct, cart } = useProductCart();
 
     const quantity = ref(1);
     return {
+      checkIsAdded: computed(() => cart.value.some(p => p.id === props.product.id)),
       updateProductQuantity(action: string) {
         if (action === '+') quantity.value += 1
         else quantity.value -= 1
       },
-      addProduct(){
-        toggleCartDialog();
+      addProduct(open: boolean) {
+        if (open) {
+          toggleCartDialog();
+        }
         addOrUpdateProduct ({ ...<Product>props.product, quantity: quantity.value })
           quantity.value = 1;
       },

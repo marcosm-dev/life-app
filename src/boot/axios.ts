@@ -15,7 +15,12 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 
-const api = axios.create({ baseURL: process.env.API_URL });
+const api = axios.create({
+  baseURL: process.env.API_URL,
+  headers: {
+    'Content-Encoding' : 'gzip'
+  }
+});
 
 // Compose the URL for your project's endpoint and add the query
 export default boot(({ app }) => {
