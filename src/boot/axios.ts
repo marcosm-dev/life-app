@@ -17,9 +17,6 @@ declare module '@vue/runtime-core' {
 
 const api = axios.create({
   baseURL: process.env.API_URL,
-  headers: {
-    'Content-Encoding' : 'gzip'
-  }
 });
 
 // Compose the URL for your project's endpoint and add the query

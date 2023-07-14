@@ -65,7 +65,7 @@ module.exports = configure(function (ctx) {
       env: {
         ...require('dotenv').config().parsed,
         API_URL: ctx.dev
-          ? 'https://life-server-gvc8.onrender.com/api'  // http://localhost:3001/api
+          ? 'http://localhost:3001/api'  // http://localhost:3001/api
           : 'https://life-server-gvc8.onrender.com/api',
 
       },
