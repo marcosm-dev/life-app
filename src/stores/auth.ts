@@ -32,8 +32,9 @@ export const useAuthStore = defineStore('auth', {
       this.register = !this.register;
     },
     logout() {
-      this.router.push('/')
+      this.router.push('/');
       LocalStorage.clear();
+      this.$reset();
     },
     async signup(user: User) {
       try {

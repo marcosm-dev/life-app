@@ -9,7 +9,7 @@
         color="white"
         size="40px"
       />
-      <q-card class="q-dialog-plugi full-width">
+      <q-card class="full-width">
         <q-icon
           v-if="$q.screen.width >= 600"
           v-close-popup

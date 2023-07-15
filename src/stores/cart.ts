@@ -37,7 +37,7 @@ export const useCartStore = defineStore('cart', {
     addNewProductLine(product: Product) {
       this.cart.push({...product, amount: product.price})
     },
-    removeFromCart(uuid: number) {
+    removeFromCart(uuid: string) {
       this.cart = this.cart.filter(p => p.uuid !== uuid);
     }
   },

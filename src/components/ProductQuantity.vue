@@ -12,6 +12,7 @@
       {{ quantity }}
     </div>
     <q-btn
+      aria-label="minus"
       @click="$emit('update-product', '-')"
       class="col col-sm-5 col-md-5"
       :color="quantity === 0 ? 'negative' : 'dark-page'"
@@ -23,6 +24,7 @@
     />
 
     <q-btn
+      aria-label="plus"
       @click="$emit('update-product', '+')"
       unelevated
       class="col col-sm-2 col-md-5 offset-2 text-black"
