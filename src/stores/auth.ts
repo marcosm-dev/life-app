@@ -47,9 +47,7 @@ export const useAuthStore = defineStore('auth', {
     async login(user: User) {
 
       try {
-        const { data } = await api.post('/auth/login', user, {
-
-        })
+        const { data } = await api.post('/auth/login', user)
         this.user = data;
 
         // Guardamos token en localStorage
@@ -57,6 +55,7 @@ export const useAuthStore = defineStore('auth', {
         return data
       } catch (error: any) {
         const { response } = error;
+        console.log(response)
         return { ...response.data }
       }
     }

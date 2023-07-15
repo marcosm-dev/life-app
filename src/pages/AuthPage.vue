@@ -262,8 +262,8 @@ export default defineComponent({
     const { register } = storeToRefs(store);
 
     const user: User = reactive({
-      email: '',
-      password: '',
+      email: process.env.DEV ? 'marcosa.mm@icloud.com' : '',
+      password: process.env.DEV ? '1234' : '',
     });
 
     const newUser: NewUser = reactive({
