@@ -11,6 +11,9 @@ export const useCartStore = defineStore('cart', {
     amount() {
       const amount: number = this.cart.reduce((acc, crr) => acc += crr.amount, 0);
       return amount;
+    },
+    cartCount():number {
+      return this.cart.length
     }
   },
   actions: {

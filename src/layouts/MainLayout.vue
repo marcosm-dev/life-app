@@ -131,12 +131,21 @@
       <a href="https://www.serpica.org" class="col-auto text-warning serpica-title">
         SERPICA
       </a>
-      <div class="col q-ml-md">
-        <q-icon
-          @click="toggleCartDialog"
-          name="mdi-cart-arrow-down"
-          size="40px"
-        />
+      <div class="col q-ml-md" v-if="cart.length">
+
+        <q-btn
+          text-color="primary"
+          color="white"
+          rounded
+        >
+            <transition
+              appear
+              enter-active-class="animated fadeIn"
+            >
+              <q-icon name="mdi-cart-arrow-down" size="25px" />
+            </transition>
+          <div class="text-body1"> {{ cartCount }}</div>
+        </q-btn>
       </div>
       <div class="column q-col-gutter-y-md text-caption items-end text-bold" style="line-height: 0.5;">
         <router-link class="q-mb-xs" to="/contacto">Contacto</router-link>
@@ -162,9 +171,12 @@ export default defineComponent({
   setup() {
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
-    const { toggleCartDialog } = useCartDialog();
+    const { toggleCartDialog, cart, cartCount } = useCartDialog();
+
     return {
       store,
+      cart,
+      cartCount,
       leftDrawerOpen,
       toggleCartDialog,
       tab: ref('categorias'),
@@ -200,5 +212,13 @@ export default defineComponent({
 
   .main-footer-italy .col {
     height: 7px;
+  }
+
+  .cart-icon:hover {
+    font-size: 45px !important;
+    color: #fff !important;
+  }
+  .animated-cart {
+    transition-duration: 2s !important;
   }
 </style>

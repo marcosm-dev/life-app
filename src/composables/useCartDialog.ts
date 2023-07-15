@@ -11,7 +11,7 @@ const useCartDialog = () => {
     open: false,
   })
   const store = useCartStore();
-  const { cart } = storeToRefs(store);
+  const { cart, cartCount } = storeToRefs(store);
 
   function toggleCartDialog() {
     state.open = !state.open;
@@ -32,6 +32,7 @@ const useCartDialog = () => {
   return {
     cart,
     state,
+    cartCount,
     toggleCartDialog,
   }
 }
