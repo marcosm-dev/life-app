@@ -34,5 +34,7 @@ yarn-error.log*
 *.sln
 
 # local .env files
+.env.production*
 .env.local*
 .env
+.vercel

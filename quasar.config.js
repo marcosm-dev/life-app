@@ -63,7 +63,9 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        ...require('dotenv').config().parsed,
+        ...require('dotenv').config({
+          path: '.env.production'
+        }).parsed,
         API_URL: ctx.dev
           ? 'http://localhost:3000/api'  // http://localhost:3001/api
           : 'https://life-server-gvc8.onrender.com/api',
