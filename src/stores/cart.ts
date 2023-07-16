@@ -5,7 +5,9 @@ import { Product } from 'src/components/models';
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    cart: <Product[]>[]
+    cart: <Product[]>[],
+    loading: true,
+    productQuantity: 0
   }),
   getters: {
     amount() {
@@ -17,6 +19,10 @@ export const useCartStore = defineStore('cart', {
     }
   },
   actions: {
+    toggleLoading(val?: boolean) {
+      if (val) this.loading = val;
+      else this.loading = false;
+    },
     updateCart(products: Product[]) {
       this.cart = products;
     },

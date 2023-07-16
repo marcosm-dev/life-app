@@ -21,6 +21,7 @@ export interface Product {
 }
 
 export interface EmailData {
+  [key: string]: unknown;
   nombre: string
   email: string
 }

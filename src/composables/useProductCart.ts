@@ -7,7 +7,7 @@ import { uid } from 'quasar';
 const useProductCart = () => {
 
   const store = useCartStore();
-  const { cart, amount } = storeToRefs(store);
+  const { cart, cartCount, amount } = storeToRefs(store);
 
   function addOrUpdateProduct(product: Product) {
 
@@ -17,6 +17,8 @@ const useProductCart = () => {
     product.amount = amount;
 
     if (!product.uuid) product.uuid = uuid;
+
+    store.productQuantity = product.quantity;
 
     store.addOrUpdateProduct({ ...product })
   }
@@ -33,6 +35,7 @@ const useProductCart = () => {
     addOrUpdateProduct,
     updateCart,
     resetCart,
+    cartCount,
     amount,
     cart
   }

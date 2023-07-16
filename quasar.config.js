@@ -13,9 +13,9 @@ const { configure } = require('quasar/wrappers');
 module.exports = configure(function (ctx) {
   return {
     eslint: {
-      fix: true,
+      fix: false,
       // include: [],
-      // exclude: [],
+      exclude: ['/src/css/*.scss'],
       // rawOptions: {},
       warnings: true,
       errors: true,
@@ -27,7 +27,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['axios'],
+    boot: ['bus', 'axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['fonts.sass', 'app.scss', 'global.scss'],
@@ -53,7 +53,7 @@ module.exports = configure(function (ctx) {
         node: 'node16',
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'history', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -111,9 +111,7 @@ module.exports = configure(function (ctx) {
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [
-      'fadeIn',
-    ],
+    animations: ['headShake', 'fadeIn'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {

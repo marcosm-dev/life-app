@@ -131,22 +131,38 @@
       <a href="https://www.serpica.org" class="col-auto text-warning serpica-title">
         SERPICA
       </a>
-      <div class="col q-ml-md" v-if="cart.length">
-
-        <q-btn
-          text-color="primary"
-          color="white"
-          rounded
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        :duration="5000"
+      >
+        <div
+          :class="!cart.length ? 'hidden' : 'animated fadeIn'"
+          class="col q-ml-md cursor-pointer cart-container"
+          @click="toggleCartDialog"
         >
-            <transition
+            <div class="flex">
+            <!-- <transition
               appear
               enter-active-class="animated fadeIn"
-            >
-              <q-icon name="mdi-cart-arrow-down" size="25px" />
-            </transition>
-          <div class="text-body1"> {{ cartCount }}</div>
-        </q-btn>
-      </div>
+            > -->
+              <div class="cart-count">
+                {{ cartCount  }}
+              </div>
+                <!-- <div v-if="productQuantity">
+                  +{{ productQuantity }}
+                </div> -->
+                <q-icon
+                  ref="cartItemElement"
+                  name="mdi-cart-arrow-down"
+                  class="q-my-auto q-ml-xs"
+                  :class="showCart ? 'animated headShake' : ''"
+                  size="30px"
+                />
+            <!-- </transition> -->
+            </div>
+        </div>
+      </transition>
       <div class="column q-col-gutter-y-md text-caption items-end text-bold" style="line-height: 0.5;">
         <router-link class="q-mb-xs" to="/contacto">Contacto</router-link>
         <a href="#">Política de privacidad</a>
@@ -162,20 +178,54 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import { useAuthStore } from '../stores/auth';
+import { morph } from 'quasar';
+
 import useCartDialog from 'src/composables/useCartDialog';
+import useCartAnimation from '../composables/useCartAnimation';
 
 export default defineComponent({
   name: 'MainLayout',
   setup() {
+    const { toggle, productQuantity, loading } = useCartAnimation();
+    const { toggleCartDialog, cart, cartCount } = useCartDialog();
+    const bus: any = inject('bus')
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
-    const { toggleCartDialog, cart, cartCount } = useCartDialog();
+    const cartItemElement = ref(null);
+    const showCart = ref(false);
+
+      // Incio animación de producto hacia el carrito
+
+      bus.on('product-to-cart', (from: any) => {
+        morph({
+              from,
+              to: cartItemElement.value?.$el,
+              duration: 2500,
+              tweenToOpacity: 0,
+              hideFromClone: true,
+              keepToClone: true,
+              easing: 'ease-in-out',
+              waitFor: 'transitionend',
+              onEnd: end => {
+                showCart.value = true;
+                setTimeout(() => {
+                  showCart.value = false;
+                }, 3000);
+              }
+          })
+    })
+
+
 
     return {
       store,
       cart,
+      loading,
+      showCart,
+      productQuantity,
+      cartItemElement,
       cartCount,
       leftDrawerOpen,
       toggleCartDialog,
@@ -220,5 +270,23 @@ export default defineComponent({
   }
   .animated-cart {
     transition-duration: 2s !important;
+  }
+
+  .cart-count {
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    background: #fff;
+    color: $dark;
+    height: 28px;
+    width: 28px;
+    font-size: 16px;
+    text-align: center;
+    align-items: center;
+    border-radius: 12px;
+  }
+
+  .headShake {
+    animation-duration: 2s;
   }
 </style>

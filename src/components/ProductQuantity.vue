@@ -7,7 +7,7 @@
   >
     <div
       :class="$q.screen.width < 768 ? 'q-mb-sm' : 'q-mb-lg'"
-      class="col-12 text-center text-h5"
+      class="col-12 text-center text-h5 card-item"
     >
       {{ quantity }}
     </div>
@@ -70,7 +70,20 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ProductQuantity',
-  props: ['quantity', 'price', 'dense'],
+  props: {
+    quantity: {
+      type: Number,
+      default: 0
+    },
+    price: {
+      type: Number,
+      default: 0
+    },
+    dense: {
+      type: Boolean,
+      default: false
+    }
+  },
   emits: ['update-product'],
 });
 </script>

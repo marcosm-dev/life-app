@@ -1,36 +1,35 @@
 <template>
 
-  <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
-
-  <q-dialog
-    v-model="registerSuccess"
-    @hide="registerSuccess = false"
-  >
-    <q-card>
-      <q-card-section class="text-h6 text-center">
-        Gracias por registrarte
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        En menos de 24 horas revisaremos tu solicitud.
-        Recibirás una notificación por correo electrónico cuando esté aprobada.
-      </q-card-section>
-      <q-card-actions>
-        <q-btn
-          @click="reset"
-          label="IR A PÁGINA DE INICIO"
-          flat
-          color="primary q-mx-auto"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
-
   <q-page
     v-show="!registerSuccess"
     class="justify-center items-center q-px-md q-mx-auto row bg-white"
     style="max-width: 450px"
   >
 
+  <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
+
+    <q-dialog
+      v-model="registerSuccess"
+      @hide="registerSuccess = false"
+    >
+      <q-card>
+        <q-card-section class="text-h6 text-center">
+          Gracias por registrarte
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          En menos de 24 horas revisaremos tu solicitud.
+          Recibirás una notificación por correo electrónico cuando esté aprobada.
+        </q-card-section>
+        <q-card-actions>
+          <q-btn
+            @click="reset"
+            label="IR A PÁGINA DE INICIO"
+            flat
+            color="primary q-mx-auto"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
    <!-- REGISTRO DE USUARIO -->
 
     <q-form v-if="register && !registerSuccess" class="col" @submit="onSignupSubmit">
@@ -95,7 +94,7 @@
             :type="revealPassword ? 'text' : 'password'"
             error-message="Las contraseñas no coinciden"
           >
-            <template v-slot:append>
+            <template #append>
               <q-icon
                 :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 class="cursor-pointer"
@@ -113,7 +112,7 @@
             v-model="newUser.confirmPassword"
             :rules="[(val) => val === newUser.password]"
           >
-            <template v-slot:append>
+            <template #append>
               <q-icon
                 :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 class="cursor-pointer"
@@ -248,6 +247,7 @@ import { storeToRefs } from 'pinia';
 
 import { NewUser, User } from '../stores/auth'
 import { useServicesStore } from '../stores/services';
+import { EmailData } from '../components/models';
 
 export default defineComponent({
   name: 'AuthPage',
@@ -287,7 +287,7 @@ export default defineComponent({
           message: 'Registrando usuario ...',
         });
 
-        const sendData = {
+        const sendData: EmailData = {
           nombre: newUser.userName,
           email: newUser.email,
         }

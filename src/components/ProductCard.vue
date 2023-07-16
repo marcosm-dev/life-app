@@ -13,7 +13,7 @@
           crossorigin="anonymous"
           :ratio="1"
         >
-          <template v-slot:error>
+          <template #error>
               <q-img
                 class="col"
                 src="../assets/logo.jpg"
@@ -55,18 +55,27 @@
 
       <q-btn
         @click="addProduct(false)"
-        :label="checkIsAdded ? 'AÑADIR OTRO' : 'AÑADIR'"
-        :color="checkIsAdded ? 'primary' : 'dark'"
+        :label="checkIsAdded ? 'AÑADIDO' : 'AÑADIR'"
+        :color="checkIsAdded ? 'secondary' : 'dark'"
         padding="6px"
         class="full-width q-mt-md"
         square
         unelevated
-      />
+      >
+          <div
+            :class="!checkIsAdded && 'invisible'"
+            ref="countItemElement"
+            class="product-count"
+          >
+              {{ loading ? quantity : itemsAdded }}
+          </div>
+      </q-btn>
       <q-btn
         @click="addProduct(true)"
         label="PAGAR DIRECTAMENTE"
         padding="8px"
         class="full-width q-mt-xs text-bold"
+        :class="$q.screen.width > 768 && 'q-mb-md'"
         color="warning"
         unelevated
         style="border-top-left-radius: 0; border-top-right-radius: 0;"
@@ -76,13 +85,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, inject } from 'vue';
 import { Product } from './models';
 
 import ProductQuantity from 'components/ProductQuantity.vue';
 import useCartDialog from '../composables/useCartDialog'
 import useProductCart from 'src/composables/useProductCart';
-
+import useCartAnimation from 'src/composables/useCartAnimation';
 
 export default defineComponent({
   name: 'ProductComponent',
@@ -92,24 +101,43 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['product-to-cart'],
   setup(props) {
+    const { toggle, loading } = useCartAnimation();
     const { toggleCartDialog } = useCartDialog();
     const { addOrUpdateProduct, cart } = useProductCart();
+    const countItemElement: any = ref(null);
+    const bus: any = inject('bus')
 
+    const morphGroupModel = ref('topleft')
+
+    const itemsAdded = computed(() => `${cart.value.reduce((acc, crr) => acc += (crr.id === props.product.id ? crr.quantity : 0), 0)}`);
     const quantity = ref(1);
+
     return {
       checkIsAdded: computed(() => cart.value.some(p => p.id === props.product.id)),
       updateProductQuantity(action: string) {
         if (action === '+') quantity.value += 1
         else quantity.value -= 1
       },
-      addProduct(open: boolean) {
+      addProduct(open: boolean): void {
+        toggle(true)
+        bus.emit('product-to-cart', countItemElement.value)
         if (open) {
           toggleCartDialog();
         }
         addOrUpdateProduct ({ ...<Product>props.product, quantity: quantity.value })
-          quantity.value = 1;
+
+          setTimeout(()=> {
+            toggle(false)
+            quantity.value = 1;
+        }, 1500)
       },
+      cart,
+      loading,
+      morphGroupModel,
+      countItemElement,
+      itemsAdded,
       toggleCartDialog,
       quantity,
     };
@@ -119,3 +147,16 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss">
+  .product-count {
+    background-color: $info !important;
+    border-radius: 50px;
+    line-height: 24px;
+    height: 24px;
+    width: 24px;
+    top: -10px;
+    right: -10px;
+    position: absolute;
+  }
+</style>

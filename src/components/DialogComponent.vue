@@ -99,7 +99,10 @@ import ProductQuantity from './ProductQuantity.vue';
 import useProductCart from 'src/composables/useProductCart';
 
 const props = defineProps({
-  products: Array,
+  products: {
+    type: Array,
+    default: () => []
+  }
 });
 
 defineEmits([
