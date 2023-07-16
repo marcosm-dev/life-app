@@ -7,7 +7,12 @@ export const useServicesStore = defineStore('services', {
   getters: {},
   actions: {
     async sendEmail(payload: EmailData) {
-      await sendEmail(payload)
+      try {
+        const response = await sendEmail(payload)
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 });
