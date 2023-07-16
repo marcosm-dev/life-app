@@ -5,9 +5,7 @@
     class="justify-center items-center q-px-md q-mx-auto row bg-white"
     style="max-width: 450px"
   >
-
   <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
-
     <q-dialog
       v-model="registerSuccess"
       @hide="registerSuccess = false"
@@ -199,8 +197,10 @@
         </q-card-actions>
         <q-card-section class="col-12 q-pt-none">
           <div class="row items-center">
+
             <q-separator class="col" size="2px" />
             <div class="col-auto q-px-sm text-no-wrap">
+                <div>PRUEBA: {{   prueba   }}</div>
               INFORMACIÓN Y CONTACTO
             </div>
             <q-separator class="col" size="2px" />
@@ -319,6 +319,7 @@ export default defineComponent({
         router.push(`/?${Date.now()}`)
         store.toggleRegister()
       },
+      prueba: ref(process.env),
       registerSuccess,
       revealPassword,
       register,
