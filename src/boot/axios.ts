@@ -16,7 +16,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 
 const api = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.API_URL + '/api',
 });
 
 // Compose the URL for your project's endpoint and add the query

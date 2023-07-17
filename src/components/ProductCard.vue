@@ -63,12 +63,19 @@
         unelevated
       >
           <div
-            :class="!checkIsAdded && 'invisible'"
+            :class="(!checkIsAdded || loading) && 'invisible'"
             ref="countItemElement"
             class="product-count"
           >
               {{ loading ? quantity : itemsAdded }}
           </div>
+          <!-- <div
+            :class="!checkIsAdded && 'invisible'"
+            ref="countItemElement"
+            class="product-count"
+          >
+              {{ loading ? quantity : itemsAdded }}
+          </div> -->
       </q-btn>
       <q-btn
         @click="addProduct(true)"

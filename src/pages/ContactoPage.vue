@@ -1,5 +1,8 @@
 <template>
   <q-page padding>
+    <h5 class="desktop-only text-center text-weight-bold">
+          Contacto
+    </h5>
     <div
       class="justify-center"
       :class="$q.screen.width > 768 ? 'row items-center'  : 'column'"
@@ -13,7 +16,7 @@
             </GoogleMap>
         </div>
 
-        <h5 class="text-center text-weight-bold q-mb-none">
+        <h5 class="mobile-only text-center text-weight-bold q-mb-none">
           Contacto
         </h5>
         <q-separator :vertical="$q.screen.width > 768" color="dark" size="30px" spaced="10px"/>
@@ -40,10 +43,6 @@
             </li>
         </ul>
     </div>
-
-
-
-
   </q-page>
 </template>
 

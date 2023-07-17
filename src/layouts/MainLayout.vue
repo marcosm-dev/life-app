@@ -146,7 +146,7 @@
               appear
               enter-active-class="animated fadeIn"
             > -->
-              <div class="cart-count">
+              <div v-memo="[cartCount]" ref="cartCount" class="cart-count">
                 {{ cartCount  }}
               </div>
                 <!-- <div v-if="productQuantity">
@@ -155,7 +155,8 @@
                 <q-icon
                   ref="cartItemElement"
                   name="mdi-cart-arrow-down"
-                  class="q-my-auto q-ml-xs"
+                  color="info"
+s                  class="q-my-auto q-ml-xs"
                   :class="showCart ? 'animated headShake' : ''"
                   size="30px"
                 />
@@ -178,7 +179,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue';
+import { defineComponent, ref, inject, nextTick } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { morph } from 'quasar';
 
@@ -203,11 +204,13 @@ export default defineComponent({
               from,
               to: cartItemElement.value?.$el,
               duration: 2500,
-              tweenToOpacity: 0,
-              hideFromClone: true,
+              tweenFromOpacity: 100,
+              tweenToOpacity: 100,
               keepToClone: true,
-              easing: 'ease-in-out',
+              easing: 'ease-out',
               waitFor: 'transitionend',
+              tween: true,
+
               onEnd: end => {
                 showCart.value = true;
                 setTimeout(() => {
