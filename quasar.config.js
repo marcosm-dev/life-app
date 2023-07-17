@@ -10,6 +10,8 @@
 
 const { configure } = require('quasar/wrappers');
 
+require('dotenv').config().parsed
+
 module.exports = configure(function (ctx) {
   return {
     eslint: {
@@ -63,11 +65,13 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        ...require('dotenv').config().parsed,
         API_URL: ctx.dev
           ? 'http://localhost:3000/api'  // http://localhost:3001/api
           : 'https://life-server-gvc8.onrender.com/api',
-
+          GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+          EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
+          EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
       },
       // rawDefine: {}
       // ignorePublicFolder: true,

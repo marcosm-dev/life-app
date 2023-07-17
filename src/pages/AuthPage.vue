@@ -200,7 +200,6 @@
 
             <q-separator class="col" size="2px" />
             <div class="col-auto q-px-sm text-no-wrap">
-                <div>PRUEBA: {{   prueba   }}</div>
               INFORMACIÓN Y CONTACTO
             </div>
             <q-separator class="col" size="2px" />
@@ -319,7 +318,6 @@ export default defineComponent({
         router.push(`/?${Date.now()}`)
         store.toggleRegister()
       },
-      prueba: ref(process.env),
       registerSuccess,
       revealPassword,
       register,
