@@ -162,8 +162,8 @@ export default defineComponent({
     line-height: 24px;
     height: 24px;
     width: 24px;
-    top: -10px;
-    right: -10px;
+    top: -6px;
+    right: -6px;
     position: absolute;
   }
 </style>

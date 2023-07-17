@@ -14,18 +14,19 @@
 
 <script lang="ts">
 import { QSpinnerGears, useQuasar } from 'quasar';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 
 export default {
   name: 'LifeManualsPage',
-  setup(){
+  setup() {
     const $q = useQuasar();
     const iframeLoaded = ref(false);
     const iframe = ref(null);
 
     $q.loading.show({
+      delay: 900,
       spinner: QSpinnerGears,
-      spinnerColor: 'positive',
+      spinnerColor: 'dark-page',
       backgroundColor: 'transparent',
     });
 
@@ -37,6 +38,12 @@ export default {
       })
       $q.loading.hide();
     }
+
+    onUnmounted(() => {
+      console.log('hola')
+      $q.loading.hide();
+    })
+
     return {
       iframe,
       iframeLoaded,

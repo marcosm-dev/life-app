@@ -44,6 +44,7 @@
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
           cover
+          class="full-auto"
           style="border-top-left-radius: 0;"
         >
           <div class="row no-wrap q-pa-md text-dark">
@@ -179,7 +180,7 @@ s                  class="q-my-auto q-ml-xs"
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, nextTick } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { morph } from 'quasar';
 
@@ -203,13 +204,14 @@ export default defineComponent({
         morph({
               from,
               to: cartItemElement.value?.$el,
-              duration: 2500,
-              tweenFromOpacity: 100,
+              duration: 2000,
+              delay: 300,
+              tweenFromOpacity: 0,
+              classes: loading.value ? 'bg-transparent' : '',
               tweenToOpacity: 100,
               keepToClone: true,
-              easing: 'ease-out',
+              easing: 'ease-in-out',
               waitFor: 'transitionend',
-              tween: true,
 
               onEnd: end => {
                 showCart.value = true;
