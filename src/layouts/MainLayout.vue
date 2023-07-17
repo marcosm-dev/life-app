@@ -147,7 +147,7 @@
               appear
               enter-active-class="animated fadeIn"
             > -->
-              <div v-memo="[cartCount]" ref="cartCount" class="cart-count">
+              <div ref="cartCount" class="cart-count">
                 {{ cartCount  }}
               </div>
                 <!-- <div v-if="productQuantity">
