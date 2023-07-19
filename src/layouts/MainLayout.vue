@@ -157,7 +157,7 @@
                   ref="cartItemElement"
                   name="mdi-cart-arrow-down"
                   color="info"
-s                  class="q-my-auto q-ml-xs"
+s                 class="q-my-auto q-ml-xs"
                   :class="showCart ? 'animated headShake' : ''"
                   size="30px"
                 />
@@ -180,9 +180,9 @@ s                  class="q-my-auto q-ml-xs"
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue';
+import { defineComponent, ref, inject, Ref } from 'vue';
 import { useAuthStore } from '../stores/auth';
-import { morph } from 'quasar';
+import { EventBus, morph } from 'quasar';
 
 import useCartDialog from 'src/composables/useCartDialog';
 import useCartAnimation from '../composables/useCartAnimation';
@@ -190,39 +190,37 @@ import useCartAnimation from '../composables/useCartAnimation';
 export default defineComponent({
   name: 'MainLayout',
   setup() {
-    const { toggle, productQuantity, loading } = useCartAnimation();
+    const { productQuantity, loading } = useCartAnimation();
     const { toggleCartDialog, cart, cartCount } = useCartDialog();
-    const bus: any = inject('bus')
+    const bus = inject<EventBus>('bus', new EventBus());
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
-    const cartItemElement = ref(null);
+    const cartItemElement: Ref<HTMLElement | null> = ref(null);
     const showCart = ref(false);
 
       // Incio animación de producto hacia el carrito
+      bus.on('product-to-cart', (from: HTMLDivElement) => {
+        if (cartItemElement.value)
+          morph({
+                from,
+                to: cartItemElement.value.$el,
+                duration: 2000,
+                delay: 300,
+                tweenFromOpacity: 0,
+                classes: loading.value ? 'bg-transparent' : '',
+                tweenToOpacity: 100,
+                keepToClone: true,
+                easing: 'ease-in-out',
+                waitFor: 'transitionend',
 
-      bus.on('product-to-cart', (from: any) => {
-        morph({
-              from,
-              to: cartItemElement.value?.$el,
-              duration: 2000,
-              delay: 300,
-              tweenFromOpacity: 0,
-              classes: loading.value ? 'bg-transparent' : '',
-              tweenToOpacity: 100,
-              keepToClone: true,
-              easing: 'ease-in-out',
-              waitFor: 'transitionend',
-
-              onEnd: end => {
-                showCart.value = true;
-                setTimeout(() => {
-                  showCart.value = false;
-                }, 3000);
-              }
+                onEnd: end => {
+                  showCart.value = true;
+                  setTimeout(() => {
+                    showCart.value = false;
+                  }, 3000);
+                }
           })
-    })
-
-
+      })
 
     return {
       store,

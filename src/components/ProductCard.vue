@@ -92,13 +92,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, inject } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  inject,
+  Ref,
+InjectionKey,
+} from 'vue';
 import { Product } from './models';
 
 import ProductQuantity from 'components/ProductQuantity.vue';
 import useCartDialog from '../composables/useCartDialog'
 import useProductCart from 'src/composables/useProductCart';
 import useCartAnimation from 'src/composables/useCartAnimation';
+import { EventBus } from 'quasar';
 
 export default defineComponent({
   name: 'ProductComponent',
@@ -113,8 +121,8 @@ export default defineComponent({
     const { toggle, loading } = useCartAnimation();
     const { toggleCartDialog } = useCartDialog();
     const { addOrUpdateProduct, cart } = useProductCart();
-    const countItemElement: any = ref(null);
-    const bus: any = inject('bus')
+    const countItemElement: Ref<HTMLDivElement | null> = ref(null);
+    const bus = inject<EventBus>('bus', new EventBus());
 
     const morphGroupModel = ref('topleft')
 
