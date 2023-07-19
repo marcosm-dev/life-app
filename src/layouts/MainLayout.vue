@@ -14,7 +14,7 @@
         inline-label
         dense
         indicator-color="warning"
-        active-color="warning"
+        active-color="dark bg-dark-page"
         class="col header-tabs"
       >
         <q-route-tab
@@ -82,7 +82,7 @@
               </q-avatar>
 
               <div class="text-subtitle1 q-mt-md q-mb-xs">
-                {{ store.user.userName }}
+                {{ store.user.name }}
               </div>
 
               <q-btn

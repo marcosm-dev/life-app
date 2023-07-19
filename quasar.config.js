@@ -66,7 +66,7 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         API_URL: ctx.dev
-          ? 'https://life-server-gvc8.onrender.com'  // http://localhost:3001/api
+          ? 'http://localhost:3000'  // http://localhost:3000
           : process.env.API_URL,
           GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
           EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,

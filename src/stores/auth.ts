@@ -9,9 +9,9 @@ export interface User {
 }
 
 export interface NewUser {
-  userName: string;
+  name: string;
   lastName: string;
-  cifDni: string;
+  VATIN: string;
   phone: string;
   address: string;
   email: string;

@@ -40,7 +40,7 @@
           <q-input
             outlined
             clearable
-            v-model="newUser.userName"
+            v-model="newUser.name"
             label="Nombre"
             lazy-rules
           />
@@ -54,7 +54,7 @@
           <q-input
             outlined
             clearable
-            v-model="newUser.cifDni"
+            v-model="newUser.VATIN"
             label="CIF o DNI"
             lazy-rules
           />
@@ -266,9 +266,9 @@ export default defineComponent({
     });
 
     const newUser: NewUser = reactive({
-      userName: '',
+      name: '',
       lastName: '',
-      cifDni: '',
+      VATIN: '',
       phone: '',
       address: '',
       email: '',
@@ -287,7 +287,7 @@ export default defineComponent({
         });
 
         const sendData: EmailData = {
-          nombre: newUser.userName,
+          nombre: newUser.name,
           email: newUser.email,
         }
         const { error, msg } = await store.signup(newUser);
