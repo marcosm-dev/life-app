@@ -76,7 +76,7 @@ module.exports = configure(function (ctx) {
           EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
           EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
           IMAGES_URL: ctx.dev
-          ? process.env.IMAGES_URI
+          ? 'http://localhost:4000/static'
           : process.env.IMAGES_URI
       },
       // rawDefine: {}

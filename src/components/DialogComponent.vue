@@ -283,7 +283,7 @@ function onOKClick() {
   }
     setTimeout(() => {
       dialogRef.value.hide()
-    }, 3000)
+    }, 5000)
 }
 
 function deleteCart() {
