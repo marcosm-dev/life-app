@@ -162,7 +162,7 @@
                 class="text-dark-page col-12 text-lowercase"
                 style="font-size: 10px; line-height: 1.5; color: rgb(0, 0, 0, 0.8)"
               >
-                sin igic
+                {{ igic ? 'igic incluido' : 'sin igic'  }}
               </div>
               <q-separator />
             </div>
@@ -217,7 +217,7 @@ const props = defineProps({
   }
 })
 const igic = ref(false)
-const step = ref(1)
+const step = ref(null)
 const loading = ref(false)
 const url = process.env.IMAGES_URL
   const TAXES = {
@@ -266,6 +266,13 @@ function finalPrice() {
           // visible.value = false
           showSimulatedReturnData.value = true
         }, 3000)
+
+        setTimeout(() => {
+          visible.value = false
+          showSimulatedReturnData.value = false
+          step.value = null
+          dialogRef.value.hide()
+        }, 5000)
   }
 
 // this is part of our example (so not required)
@@ -280,10 +287,11 @@ function onOKClick() {
     }, 1000)
   } else if (step.value === 1) {
     showTextLoading()
-  }
+  } else {
     setTimeout(() => {
       dialogRef.value.hide()
     }, 5000)
+  }
 }
 
 function deleteCart() {
