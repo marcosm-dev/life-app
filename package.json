@@ -13,6 +13,7 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@quasar/extras": "^1.16.4",
     "@vue/apollo-composable": "4.0.0-beta.8",
     "@vue/apollo-util": "4.0.0-beta.6",

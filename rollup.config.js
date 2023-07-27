@@ -12,6 +12,7 @@ export default {
         'apollo-link-http',
         'graphql-tag',
         'autoprefixer',
+        '@apollo/client/core'
       ],
     },
   },
