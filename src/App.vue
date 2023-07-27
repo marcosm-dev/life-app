@@ -3,9 +3,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { defineComponent, watchEffect } from 'vue'
+import { useAuthStore, NewUser } from './stores/auth'
 
 export default defineComponent({
-  name: 'App'
-});
+  name: 'App',
+  setup() {
+    const authStore = useAuthStore()
+
+    const { result } = useQuery(gql`
+      query me {
+          me {
+            name
+            lastName
+            VATIN
+            phone
+            address
+            email
+          }
+        }
+    `)
+
+    watchEffect(() => {
+      if(result.value) {
+        const user: NewUser = result.value?.me
+        authStore.setUser(user)
+      }
+    })
+  }
+})
 </script>

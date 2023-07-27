@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineStore } from 'pinia';
-import { api } from 'src/boot/axios';
-import { LocalStorage } from 'quasar';
+import { defineStore } from 'pinia'
+import { LocalStorage } from 'quasar'
 
 export interface User {
   email: string
@@ -9,14 +8,15 @@ export interface User {
 }
 
 export interface NewUser {
-  name: string;
-  lastName: string;
-  VATIN: string;
-  phone: string;
-  address: string;
-  email: string;
-  password: string;
-  confirmPassword?: string;
+  name: string
+  lastName: string
+  VATIN: string
+  phone: string
+  address: string
+  email: string
+  password: string
+  confirmPassword?: string
+  token?: string
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -29,39 +29,19 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     toggleRegister () {
-      this.register = !this.register;
+      this.register = !this.register
     },
     logout() {
-      this.router.push('/');
-      LocalStorage.clear();
-      this.$reset();
+      this.router.push('/')
+      LocalStorage.clear()
+      this.$reset()
     },
-    async signup(user: User) {
-      try {
-        const { data } = await api.post('/auth/signup', user)
-        return data;
-      } catch (error: any) {
-        const { response } = error;
-        return { ...response.data }
-      }
+    setUser(user: NewUser) {
+      this.user = user
+      if (user.token) LocalStorage.set('token', user.token)
     },
-    async login(user: User) {
-
-      try {
-        const { data } = await api.post('/auth/login', user)
-        this.user = data;
-
-        // Guardamos token en localStorage
-        LocalStorage.set('token', data.token)
-        return data
-      } catch (error: any) {
-        const { response } = error;
-        console.log(response)
-        return { ...response.data }
-      }
-    }
   },
   persist: {
     enabled: true
   }
-});
+})

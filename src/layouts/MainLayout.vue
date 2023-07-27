@@ -2,7 +2,18 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="row bg-dark" elevated>
       <div class="col-auto">
+        <div v-if="$route.query.categoryId" class="flex q-ma-xs back-btn">
+          <q-btn
+            @click="$router.back()"
+            size="23px"
+            class="q-mt-auto"
+            icon="mdi-arrow-left"
+            color="dark"
+            flat
+          />
+        </div>
         <q-img
+          v-else
           @click="$router.push('/home')"
           class="rounded-borders q-ma-xs"
           width="84px"
@@ -14,14 +25,14 @@
         inline-label
         dense
         indicator-color="warning"
-        active-color="dark bg-dark-page"
+        active-color="dark"
+        active-class="bg-dark-page text-subtitle1"
         class="col header-tabs"
       >
         <q-route-tab
           name="inicio"
           label="Inicio"
           no-caps
-          to="/home"
           :disable="true"
           exact
         />
@@ -291,5 +302,11 @@ export default defineComponent({
 
   .headShake {
     animation-duration: 2s;
+  }
+
+  .back-btn {
+    min-width: 84px;
+    background: rgb(255,255,255,0.8);
+    border-radius: 50px;
   }
 </style>

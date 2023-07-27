@@ -4,10 +4,11 @@
     :class="$q.screen.width < 768 ? 'column' : 'row'"
   >
     <q-card-section class="q-py-sm col-12 col-sm-8">
-        <q-img
+       <div :class="$q.screen.width < 768 ? 'column' : 'row items-end'">
+         <q-img
           class="col"
           style="max-height: 175px"
-          :src="product.urlImage"
+          :src="product.urlImage ?? '../assets/logo.jpg'"
           fetchpriority="high"
           fit="scale-down"
           crossorigin="anonymous"
@@ -22,26 +23,32 @@
               />
           </template>
         </q-img>
-      <span class="text-bold text-h6 q-mx-sm">
-        {{ product.name }}
-      </span>
-      <q-separator size="1px" class="q-mx-sm" spaced="5px" />
-      <p class="q-pa-md text-caption">{{ product.description }}</p>
-      <div class="text-caption row q-px-md">
-        <div v-if="product.accesories" class="col-12">Incluye:</div>
-        <div class="col-auto text-bold">
-          {{ product.accesories }}
-        </div>
-        <a
-          href="https://www.homelife.it/es/producto/vis"
-          class="text-warning cursor-pointer"
-          :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
-        >
-          Mas información
-        </a>
-      </div>
-    </q-card-section>
-    <q-separator size="1px" inset />
+        <span class="text-bold text-h6 q-mx-sm col">
+          {{ product.name }}
+        </span>
+          <div class="col-12">
+            <q-separator size="1px" class="q-mx-sm" spaced="5px" />
+              <p class="q-pa-md text-caption">{{ product.description }}</p>
+                <div class="text-caption row q-px-md">
+                  <div v-if="product.accesories" class="col-12">Incluye:</div>
+                  <div class="col-auto text-bold">
+                    {{ product.accesories }}
+                  </div>
+                  <div class="col text-warning">
+                    {{ product.stock }} en stock
+                  </div>
+                  <a
+                    href="https://www.homelife.it/es/producto/vis"
+                    class="text-info cursor-pointer col-auto"
+                    :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
+                  >
+                    Mas información
+                  </a>
+                </div>
+            </div>
+          </div>
+        </q-card-section>
+        <q-separator size="1px" inset />
     <q-card-actions
       class="col items-end no-padding full-width"
       :class="$q.screen.width > 768 && 'q-ma-xl'"
@@ -98,7 +105,6 @@ import {
   computed,
   inject,
   Ref,
-InjectionKey,
 } from 'vue';
 import { Product } from './models';
 

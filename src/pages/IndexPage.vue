@@ -8,21 +8,25 @@
       :class="$q.screen.width < 768 ? 'q-mx-md' : 'q-col-gutter-md'"
     >
       <div
+        v-scroll="onScroll"
         v-for="category in categories"
+        ref="itemsRefs"
         :key="category.id"
         class="col-12 col-md-6 col-lg-4"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center"
+            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 bg-white"
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
-            <q-img
-              :src="category.urlImage || '../src/assets/logo.jpg'"
-              width="340px"
-              height="200px"
-              fit="contain"
-              fetchpriority="high"
-            />
+            <div class="transparent q-px-lg">
+              <q-img
+                :src="`${url}/categories/${category.urlImage}`"
+                fit="contain"
+                style="border-radius: 15px important;"
+                fetchpriority="high"
+                :ratio="16/9"
+              />
+            </div>
             <div class="text-subtitle1 text-center  bg-dark text-white q-py-xs">
               {{ category.name }}
             </div>
@@ -33,22 +37,77 @@
 </template>
 
 <script lang="ts">
-import { Category } from 'src/components/models';
-import { defineComponent, ref, onMounted } from 'vue';
-import { useLifeStore } from '../stores/life';
+import { defineComponent, computed, ref } from 'vue';
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
-    const store = useLifeStore();
-    const categories = ref<Category[]>([]);
+    const $q = useQuasar()
+    const itemsRefs = ref([])
+    const limit = ref(4)
+    const url = process.env.IMAGES_URL
+    if ($q.platform.is.desktop) limit.value = 15
 
-    onMounted(async() => {
 
-      categories.value = await store.getCategories()
-    })
+    const { result, loading, fetchMore } = useQuery(gql`
+      query getAllCategories($limit: Int!, $skip: Int!) {
+        getAllCategories(limit: $limit, skip: $skip) {
+          id
+          urlImage
+          name
+        }
+      }
+    `, () => ({
+      limit: limit.value,
+      skip: 0,
+    }))
+    const categories = computed(() => result.value?.getAllCategories)
 
-    return { categories };
+    async function loadMore () {
+      fetchMore({
+        variables: {
+          skip: result.value.getAllCategories.length,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          // No new feed posts
+          if (!fetchMoreResult) {
+            return previousResult
+          }
+
+          // Revisar desactivar query sino hay mas productos
+          // if(result.value.getAllCategories.length === categories.value.length) {
+          // }
+
+          // Concat previous feed with new feed posts
+          return {
+            ...previousResult,
+            getAllCategories: [
+              ...previousResult.getAllCategories,
+              ...fetchMoreResult.getAllCategories,
+            ],
+          }
+        },
+      })
+    }
+
+
+    return {
+        onScroll: async() => {
+            const scrolledHeight = Math.round(window.scrollY + window.innerHeight);
+            const totalHeight = Math.round(document.documentElement.scrollHeight);
+
+            if (scrolledHeight === totalHeight && !loading.value) {
+              await loadMore();
+            }
+        },
+        categories,
+        loadMore,
+        itemsRefs,
+        url,
+    }
   },
-});
+})
 </script>

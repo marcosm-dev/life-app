@@ -3,7 +3,11 @@
     <h4 class="text-center text-bold">
       {{ $route.params.name }}
     </h4>
-    <div v-for="product in products" class="row justify-center" :key="product.id">
+    <div
+      v-for="product in products"
+      class="row justify-center"
+      :key="product.id"
+    >
       <article class="col-12 col-md-8 col-lg-6 q-px-sm">
         <ProductCard :product="product" />
       </article>
@@ -12,26 +16,36 @@
 </template>
 
 <script lang="ts">
-import { Product } from 'src/components/models';
-import { defineComponent, ref, onMounted } from 'vue';
-import { useLifeStore } from '../stores/life';
+import { computed, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 
-import ProductCard from 'components/ProductCard.vue'
+import ProductCard from 'components/ProductCard.vue';
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 
 export default defineComponent({
-  name: 'IndexPage',
+  name: 'CategoryPage',
   setup() {
     const route = useRoute();
-    const store = useLifeStore();
-    const products = ref<Product[]>([]);
+    const { categoryId } = route.query;
 
-    onMounted(async() => {
-      const { categoryId } = route.query;
-      products.value = await store.getCategoryProducts(Number(categoryId))
-    })
+     const { result } = useQuery(gql`
+      query getProductsByCategory($categoryId: ID!) {
+        getProductsByCategory(categoryId: $categoryId) {
+          id
+          urlImage
+          name
+          price
+          stock
+          description
+          accessories
+        }
+      }
+    `, () => ({
+      categoryId
+    }))
 
-    return { products };
+    return { products: computed(() => result.value?.getProductsByCategory) };
   },
   components: {
     ProductCard

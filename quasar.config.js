@@ -29,7 +29,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['bus', 'axios'],
+    boot: ['bus', 'axios', 'apollo'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['fonts.sass', 'app.scss', 'global.scss'],
@@ -68,10 +68,16 @@ module.exports = configure(function (ctx) {
         API_URL: ctx.dev
           ? 'http://localhost:3000'  // http://localhost:3000
           : process.env.API_URL,
+        APOLLO_URI: ctx.dev
+          ? process.env.APOLLO_URI
+          : process.env.APOLLO_URI,
           GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
           EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
           EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
           EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
+          IMAGES_URL: ctx.dev
+          ? process.env.IMAGES_URI
+          : process.env.IMAGES_URI
       },
       // rawDefine: {}
       // ignorePublicFolder: true,

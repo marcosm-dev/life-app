@@ -11,7 +11,7 @@
           class="col offset-2 col-lg-5"
           :class="$q.screen.width < 768 && 'full-width offset-1'"
         >
-            <GoogleMap :api-key="apiKey" style="width: 100%; height: 400px" :center="center" :zoom="15">
+            <GoogleMap :api-key="apiKey" style="width: 100%; height: calc(50vh)" :center="center" :zoom="15">
               <MapMarker :options="{ position: center }" />
             </GoogleMap>
         </div>
