@@ -16,12 +16,16 @@ export default defineComponent({
     const { result } = useQuery(gql`
       query me {
           me {
+            id
             name
             lastName
             VATIN
             phone
+            zipCode
+            city
             address
             email
+            uuid
           }
         }
     `)

@@ -3,13 +3,13 @@ import { useQuasar } from 'quasar';
 import { useCartStore } from 'src/stores/cart';
 import { reactive } from 'vue';
 
-import DialogComponent from 'components/DialogComponent.vue'
+import DialogComponent from 'components/DialogComponent.vue';
 
 const useCartDialog = () => {
   const $q = useQuasar();
   const state = reactive({
-    open: false,
-  })
+    open: false
+  });
   const store = useCartStore();
   const { cart, cartCount } = storeToRefs(store);
 
@@ -23,9 +23,8 @@ const useCartDialog = () => {
         component: DialogComponent,
         componentProps: {
           products: cart.value
-        },
-      })
-      .onDismiss(() => toggleCartDialog())
+        }
+      }).onDismiss(() => toggleCartDialog());
     }
   }
 
@@ -33,7 +32,7 @@ const useCartDialog = () => {
     cart,
     state,
     cartCount,
-    toggleCartDialog,
-  }
-}
+    toggleCartDialog
+  };
+};
 export default useCartDialog;

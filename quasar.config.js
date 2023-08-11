@@ -69,7 +69,7 @@ module.exports = configure(function (ctx) {
           ? 'http://localhost:3000'  // http://localhost:3000
           : process.env.API_URL,
         APOLLO_URI: ctx.dev
-          ? process.env.APOLLO_URI
+          ? 'http://localhost:4000/graphql'
           : process.env.APOLLO_URI,
           GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
           EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,

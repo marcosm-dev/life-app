@@ -75,6 +75,18 @@
           <q-input
             outlined
             clearable
+            v-model="newUser.zipCode"
+            label="Código Postal"
+          />
+          <q-input
+            outlined
+            clearable
+            v-model="newUser.city"
+            label="Ciudad"
+          />
+          <q-input
+            outlined
+            clearable
             type="text"
             v-model="newUser.email"
             :error="heandleEmailError"
@@ -260,8 +272,8 @@ export default defineComponent({
     const { register } = storeToRefs(store)
 
     const user: User = reactive({
-      email: process.env.DEV ? 'marcosa.mm@icloud.com' : '',
-      password: process.env.DEV ? '1234' : ''
+      email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
+      password: process.env.DEV ? '1111' : ''
     })
 
     const newUser: NewUser = reactive({
@@ -270,6 +282,8 @@ export default defineComponent({
       VATIN: '',
       phone: '',
       address: '',
+      zipCode: '',
+      city: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -284,6 +298,8 @@ export default defineComponent({
             email
             name
             lastName
+            zipCode,
+            city
             phone
             address
             VATIN
@@ -301,9 +317,12 @@ export default defineComponent({
             email
             name
             lastName
+            zipCode,
+            city
             phone
             address
             VATIN
+            uuid
           }
           token
         }
@@ -342,6 +361,7 @@ export default defineComponent({
         })
         try {
           const result = await loginMutation({ email: user.email, password: user.password })
+          console.log(result)
           if (result?.data?.loginUser?.token) {
             const { token, user } = result?.data.loginUser
             store.setUser({...user, token})

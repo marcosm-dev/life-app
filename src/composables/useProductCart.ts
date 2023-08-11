@@ -1,45 +1,46 @@
 import { storeToRefs } from 'pinia';
-import { Product } from 'src/components/models';
 import { useCartStore } from 'src/stores/cart';
-
+import { reactive, toRefs } from 'vue';
+import { Product } from '../components/models';
 import { uid } from 'quasar';
 
-const useProductCart = () => {
-
+const useProductCart = (product: Product) => {
+  const state = reactive({
+    ...product,
+    cartUid: uid(),
+    quantity: 1
+  });
   const store = useCartStore();
-  const { cart, cartCount, amount } = storeToRefs(store);
 
-  function addOrUpdateProduct(product: Product) {
-
-    const uuid = uid();
-    const amount = product.price * product.quantity;
-
-    product.amount = amount;
-
-    if (!product.uuid) product.uuid = uuid;
-
-    store.productQuantity = product.quantity;
-
-    store.addOrUpdateProduct({ ...product })
+  function increase() {
+    state.quantity++;
   }
 
-  function updateCart(products: Product[]){
-    store.updateCart(products);
+  function decrease() {
+    if (state.quantity !== 1) state.quantity--;
+  }
+
+  function addToCart() {
+    store.addProduct(state);
   }
 
   function resetCart() {
     store.$reset();
   }
 
-  return {
-    addOrUpdateProduct,
-    updateCart,
-    resetCart,
-    cartCount,
-    amount,
-    cart
+  function updateCartItem(uid: string, action: string) {
+    store.updateCartItem(uid, action);
   }
-
-}
+  return {
+    ...toRefs(state),
+    ...storeToRefs(store),
+    updateCartItem,
+    resetCart,
+    addToCart,
+    state,
+    increase,
+    decrease
+  };
+};
 
 export default useProductCart;

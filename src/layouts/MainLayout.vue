@@ -92,7 +92,7 @@
                 <img src="../assets/avatar.jpg">
               </q-avatar>
 
-              <div class="text-subtitle1 q-mt-md q-mb-xs">
+              <div class="text-subtitle q-mt-md q-mb-xs">
                 {{ store.user.name }}
               </div>
 

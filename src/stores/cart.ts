@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
-
 import { Product } from 'src/components/models';
 
 export const useCartStore = defineStore('cart', {
@@ -11,11 +10,24 @@ export const useCartStore = defineStore('cart', {
   }),
   getters: {
     amount() {
-      const amount: number = this.cart.reduce((acc, crr) => acc += crr.amount, 0);
+      const amount: number = this.cart.reduce(
+        (acc, crr) => (acc += crr.amount),
+        0
+      );
       return amount;
     },
-    cartCount():number {
+    cartCount(): number {
       return this.cart.length;
+    },
+    cartIds(): string[] {
+      const products: string[] = [];
+      this.cart.forEach((item: Product) => {
+        for (let i = 0; i < item.quantity; i++) {
+          products.push(item.id);
+        }
+      });
+
+      return products;
     }
   },
   actions: {
@@ -23,34 +35,34 @@ export const useCartStore = defineStore('cart', {
       if (val) this.loading = val;
       else this.loading = false;
     },
-    updateCart(products: Product[]) {
-      this.cart = products;
+    deleteProduct(uuid: string) {
+      this.cart = this.cart.filter((item) => item.cartUid !== uuid);
     },
-    addOrUpdateProduct(product: Product) {
-      const productIdx = this.cart.findIndex((p: Product) => p.uuid === product.uuid);
+    addProduct(product: Product) {
+      this.cart.push(product);
+    },
+    updateCartItem(uid: string, action: string) {
+      const index = this.cart.findIndex((item) => item.cartUid === uid);
 
-      if (product.quantity === -1) {
-        this.cart = this.cart.filter(p => p.uuid !== product.uuid)
-        console.log('entra')
-      }
+      if (index !== -1) {
+        const updatedItem: Product = { ...this.cart[index] };
+        // Realizar las modificaciones necesarias en updatedItem según la acción
+        if (action === '+' && updatedItem.quantity) {
+          updatedItem.quantity++;
+        } else if (
+          action === '-' &&
+          updatedItem.quantity &&
+          updatedItem.quantity > 1
+        ) {
+          updatedItem.quantity--;
+        }
 
-      if (productIdx !== -1) {
-        const productToUpdate: Product = this.cart[productIdx];
-        productToUpdate.amount = product.amount;
-        productToUpdate.quantity = product.quantity;
-      } else {
-        console.log('adios')
-        this.cart.push({...product, amount: product.price});
+        // Actualizar el elemento en el arreglo
+        this.cart[index] = updatedItem;
       }
-    },
-    addNewProductLine(product: Product) {
-      this.cart.push({...product, amount: product.price})
-    },
-    removeFromCart(uuid: string) {
-      this.cart = this.cart.filter(p => p.uuid !== uuid);
     }
   },
   persist: {
     enabled: true
-  },
+  }
 });

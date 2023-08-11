@@ -8,7 +8,7 @@
          <q-img
           class="col"
           style="max-height: 175px"
-          :src="product.urlImage ?? '../assets/logo.jpg'"
+          :src="`${url}/products/${product.urlImage.toLowerCase()}` ?? '../assets/logo.jpg'"
           fetchpriority="high"
           fit="scale-down"
           crossorigin="anonymous"
@@ -55,14 +55,13 @@
     >
 
       <ProductQuantity
-        @update-product="updateProductQuantity"
-        :quantity="quantity"
-        :price="product.price"
+        :product="state"
+        @update-item="(e) => e === '+' ? increase() : decrease()"
       />
 
       <q-btn
-        @click="addProduct(false)"
-        :label="checkIsAdded ? 'AÑADIDO' : 'AÑADIR'"
+        @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
+        :label="checkIsAdded ? 'AÑADIR OTRO+' : 'AÑADIR'"
         :color="checkIsAdded ? 'secondary' : 'dark'"
         padding="6px"
         class="full-width q-mt-md"
@@ -70,22 +69,21 @@
         unelevated
       >
           <div
-            :class="(!checkIsAdded || loading) && 'invisible'"
+            :class="(!true || loading) && 'invisible'"
             ref="countItemElement"
             class="product-count"
           >
-              {{ loading ? quantity : itemsAdded }}
+              {{ itemsAdded }}
           </div>
-          <!-- <div
+          <div
             :class="!checkIsAdded && 'invisible'"
             ref="countItemElement"
             class="product-count"
           >
-              {{ loading ? quantity : itemsAdded }}
-          </div> -->
+              {{ itemsAdded }}
+          </div>
       </q-btn>
       <q-btn
-        @click="addProduct(true)"
         label="PAGAR DIRECTAMENTE"
         padding="8px"
         class="full-width q-mt-xs text-bold"
@@ -106,59 +104,53 @@ import {
   inject,
   Ref,
 } from 'vue';
-import { Product } from './models';
 
 import ProductQuantity from 'components/ProductQuantity.vue';
 import useCartDialog from '../composables/useCartDialog'
-import useProductCart from 'src/composables/useProductCart';
 import useCartAnimation from 'src/composables/useCartAnimation';
 import { EventBus } from 'quasar';
+import useProductCart from '../composables/useProductCart';
+import { Product } from './models';
 
 export default defineComponent({
   name: 'ProductComponent',
   props: {
     product: {
-      type: Object,
-      required: true,
+      type: Object as () => Product,
+      default: () => ({ id: 0, name: '', price: 0, quantity: 0 })
     },
   },
   emits: ['product-to-cart'],
   setup(props) {
+    const {
+      cart,
+      quantity,
+      increase,
+      decrease,
+      state,
+      addToCart
+    } = useProductCart(props.product);
     const { toggle, loading } = useCartAnimation();
     const { toggleCartDialog } = useCartDialog();
-    const { addOrUpdateProduct, cart } = useProductCart();
     const countItemElement: Ref<HTMLDivElement | null> = ref(null);
     const bus = inject<EventBus>('bus', new EventBus());
 
     const morphGroupModel = ref('topleft')
 
-    const itemsAdded = computed(() => `${cart.value.reduce((acc, crr) => acc += (crr.id === props.product.id ? crr.quantity : 0), 0)}`);
-    const quantity = ref(1);
 
     return {
-      checkIsAdded: computed(() => cart.value.some(p => p.id === props.product.id)),
-      updateProductQuantity(action: string) {
-        if (action === '+') quantity.value += 1
-        else quantity.value -= 1
-      },
-      addProduct(open: boolean): void {
-        toggle(true)
-        bus.emit('product-to-cart', countItemElement.value)
-        if (open) {
-          toggleCartDialog();
-        }
-        addOrUpdateProduct ({ ...<Product>props.product, quantity: quantity.value })
-
-          setTimeout(()=> {
-            toggle(false)
-            quantity.value = 1;
-        }, 1500)
-      },
-      cart,
+      bus,
+      increase,
+      decrease,
+      addToCart,
+      state,
+      useProductCart,
+      itemsAdded: computed(() => `${cart.value.reduce((acc, crr) => acc += (crr.id === props.product.id ? crr.quantity : 0), 0)}`),
+      checkIsAdded: computed(() => cart.value.some((p: Product) => p.id === props.product.id)),
+      url: process.env.IMAGES_URL,
       loading,
       morphGroupModel,
       countItemElement,
-      itemsAdded,
       toggleCartDialog,
       quantity,
     };

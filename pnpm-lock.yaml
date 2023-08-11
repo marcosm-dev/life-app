@@ -12,7 +12,7 @@ dependencies:
     specifier: ^1.16.4
     version: 1.16.5
   '@vue/apollo-composable':
-    specifier: 4.0.0-beta.8
+    specifier: ^4.0.0-beta.8
     version: 4.0.0-beta.8(@apollo/client@3.7.17)(graphql@15.8.0)(typescript@4.9.5)(vue@3.3.4)
   '@vue/apollo-util':
     specifier: 4.0.0-beta.6

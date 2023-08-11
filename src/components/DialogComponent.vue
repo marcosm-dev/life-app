@@ -23,12 +23,10 @@
         <q-separator inset />
 
         <q-card-section class="no-padding">
-          <q-list v-for="product in props.products" :key="product.id">
+          <q-list v-for="product in cart" :key="product.id">
             <q-item
               v-if="cart.some(p => p.uuid === product.uuid)"
               class="q-my-sm"
-              clickable
-              v-ripple
               style="border-bottom: 1px inset #e5e9eb"
             >
               <q-item-section avatar>
@@ -54,9 +52,8 @@
               </q-item-section>
               <q-item-section side>
                 <ProductQuantity
-                  @update-product="(e) => updateProductInStore(product, e)"
-                  :quantity="product.quantity"
-                  :price="product.price"
+                  @update-item="(e) => updateCartItem(product.cartUid, e)"
+                  :product="product"
                   :dense="true"
                 />
               </q-item-section>
@@ -155,7 +152,7 @@
           <div class="text-h5 row jusify-evenly">
             <div class="knockout col-auto">TOTAL:</div>
             <div class="knockout col">
-              {{ igic ? finalPrice() : isNaN(amount) ? 0 : amount}} €
+              <!-- {{ igic ? finalPrice() : isNaN(amount) ? 0 : amount}} € -->
             </div>
             <div class="col-12">
               <div
@@ -184,20 +181,21 @@
             label="Generar pedido"
             @click="onOKClick"
             no-caps
+            :loading="sendLoading"
           />
-          <q-inner-loading :showing="visible" color="warning">
-            <q-spinner-gears
-              v-if="!showSimulatedReturnData"
-              size="100px"
-              color="dark"
-            />
-            <q-img
-              v-else
-              width="120px"
-              height="120px"
-              :src="`${url}/check.webp`"
-            />
-          </q-inner-loading>
+          <q-inner-loading :showing="sendLoading || success" color="warning">
+              <q-spinner-gears
+                v-if="!success"
+                size="100px"
+                color="dark"
+              />
+              <q-img
+                v-else
+                width="120px"
+                height="120px"
+                :src="`${url}/check.webp`"
+              />
+            </q-inner-loading>
         </q-card-actions>
       </q-card>
     </div>
@@ -209,6 +207,11 @@ import { ref } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
 import useProductCart from 'src/composables/useProductCart'
+import { useMutation } from '@vue/apollo-composable'
+import { useAuthStore } from '../stores/auth';
+import gql from 'graphql-tag';
+const order = ref(null)
+const success = ref(false)
 
 const props = defineProps({
   products: {
@@ -218,12 +221,13 @@ const props = defineProps({
 })
 const igic = ref(false)
 const step = ref(null)
-const loading = ref(false)
 const url = process.env.IMAGES_URL
-  const TAXES = {
-    igic: 7,
-    iva: 21,
-  }
+
+const TAXES = {
+  igic: 'S_IGIC_7',
+  iva: 'S_IVA_21',
+}
+
 
 defineEmits([
   // REQUIRED need to specify some events that your
@@ -231,66 +235,88 @@ defineEmits([
   ...useDialogPluginComponent.emits,
 ])
 
-const { addOrUpdateProduct, updateCart, cart, amount, resetCart } = useProductCart()
+const {
+    updateCartItem,
+    cart,
+    amount,
+    resetCart,
+    cartIds
+  } = useProductCart()
+const { user } = useAuthStore()
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 
-function updateProductInStore(product, action) {
-  if (product.quantity !== 0) {
-    const quantity = action === '-' ? (product.quantity -= 1) : (product.quantity += 1)
-    addOrUpdateProduct({ ...product, quantity })
-  } else {
-    if (action === '+') {
-      addOrUpdateProduct({ ...product, quantity: 1 })
-    } else {
-      const products = cart.value.filter(p => p.uuid !== product.uuid)
-      updateCart(products)
+
+const { mutate: createOrder, loading } = useMutation(gql`
+  mutation createOrder($products: [ID!]!, $userId: ID!) {
+    createOrder(input: {
+      userId: $userId
+      products: $products
+    }) {
+      id
+      amount
+      products {
+        amount
+        quantity
+        product {
+          id
+          uuid
+          price
+          description
+        }
+      }
+      status
     }
   }
-}
+`)
 
-function finalPrice() {
-  const taxe = TAXES['igic']
-  const porcentajeDecimal = taxe / 100
-  const igic = amount.value * porcentajeDecimal
-  return amount.value += igic
-}
-
-  const visible = ref(false)
-  const showSimulatedReturnData = ref(false)
-
-   function showTextLoading () {
-        visible.value = true
-        showSimulatedReturnData.value = false
-
-        setTimeout(() => {
-          // visible.value = false
-          showSimulatedReturnData.value = true
-        }, 3000)
-
-        setTimeout(() => {
-          visible.value = false
-          showSimulatedReturnData.value = false
-          step.value = null
-          dialogRef.value.hide()
-        }, 5000)
+const { mutate: sendFacturaDirectaOrder, loading: sendLoading } = useMutation(gql`
+  mutation sendFacturaDirectaOrder($lines: [OrderLines!]!, $orderId: ID!) {
+    sendFacturaDirectaOrder(input: {
+      orderId: $orderId
+      lines: $lines
+    })
   }
+`)
 
+function resetProcess() {
+    resetCart()
+    dialogRef.value.hide()
+    order.value = null
+    success.value = false
+    step.value = null
+}
+
+const getInvoceItems = products => {
+    return products.map((item) => {
+        const line = {
+            account: '700000',
+            document: item.product.uuid,
+            quantity: item.quantity,
+            unitPrice: item.product.price,
+            text: item.product.description,
+            tax: [TAXES['igic']],
+        }
+        return line
+  })
+}
 // this is part of our example (so not required)
-function onOKClick() {
+async function onOKClick() {
+  try {
+    if (!step.value) {
+     const { data } = await createOrder({ userId: user.id, products: cartIds.value })
+     order.value = data.createOrder
+     step.value = 1
 
-  if (!step.value) {
-    loading.value = true
-    setTimeout(() => {
-      loading.value = false
-      step.value = 1
-      igic.value = true
-    }, 1000)
-  } else if (step.value === 1) {
-    showTextLoading()
-  } else {
-    setTimeout(() => {
-      dialogRef.value.hide()
-    }, 5000)
+    } else if (step.value === 1) {
+      const { data } = await sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
+      success.value = true
+      setTimeout(() => {
+        resetProcess()
+      }, 2000)
+    }
+
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -300,6 +326,7 @@ function deleteCart() {
     dialogRef.value.hide()
   }, 500)
 }
+
 </script>
 
 <style lang="scss" scoped>
