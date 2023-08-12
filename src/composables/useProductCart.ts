@@ -28,12 +28,17 @@ const useProductCart = (product: Product) => {
     store.$reset();
   }
 
+  function deleteProduct(uuid: string) {
+    store.deleteProduct(uuid);
+  }
+
   function updateCartItem(uid: string, action: string) {
     store.updateCartItem(uid, action);
   }
   return {
     ...toRefs(state),
     ...storeToRefs(store),
+    deleteProduct,
     updateCartItem,
     resetCart,
     addToCart,

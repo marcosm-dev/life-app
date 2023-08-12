@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row bg-dark" elevated>
+    <q-header class="row header" elevated>
       <div class="col-auto">
         <div v-if="$route.query.categoryId" class="flex q-ma-xs back-btn">
           <q-btn
@@ -221,7 +221,7 @@ export default defineComponent({
                 classes: loading.value ? 'bg-transparent' : '',
                 tweenToOpacity: 100,
                 keepToClone: true,
-                easing: 'ease-in-out',
+                easing: 'ease-in',
                 waitFor: 'transitionend',
 
                 onEnd: end => {
@@ -250,6 +250,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+  .header {
+    background: #333b41F2;
+  }
   .header-tabs .q-tab, .q-tab__label {
     padding: 5px;
     font-size: 13px;

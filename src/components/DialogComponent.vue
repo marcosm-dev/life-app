@@ -29,11 +29,30 @@
               class="q-my-sm"
               style="border-bottom: 1px inset #e5e9eb"
             >
-              <q-item-section avatar>
+              <q-item-section  avatar>
                 <q-avatar color="primary" text-color="white" square>
                   <!-- <img :src="product.urlImage" /> -->
-                  <img src="../assets/logo.jpg" />
+                  <img
+                    style="aspect-ratio: 1;"
+                    src="../assets/logo.jpg"
+                  >
                 </q-avatar>
+                  <q-btn
+                    @click="deleteProduct(product.cartUid)"
+                    square
+                    size="14px"
+                    stretch
+                    unelevated
+                    dense
+                    color="negative"
+                    outline
+                  >
+                      <q-icon
+                        name="mdi-delete"
+                        color="negative"
+                        size="20px"
+                      />
+                  </q-btn>
                 <!-- <template v-slot:error>
                   <img src="../assets/logo.jpg" />
                 </template> -->
@@ -62,8 +81,8 @@
         </q-card-section>
 
         <q-card-section class="text-right">
-          <div class="text-h5 row jusify-evenly">
-            <div class="knockout col-auto">TOTAL:</div>
+          <div class="text-h5 row jusify-evenlys">
+            <div class="knockout col-auto">SUBTOTAL: </div>
             <div class="knockout col">{{ isNaN(amount) ? 0 : amount}} €</div>
           </div>
         </q-card-section>
@@ -152,14 +171,14 @@
           <div class="text-h5 row jusify-evenly">
             <div class="knockout col-auto">TOTAL:</div>
             <div class="knockout col">
-              <!-- {{ igic ? finalPrice() : isNaN(amount) ? 0 : amount}} € -->
+              {{ ((amount * 7) / 100) + amount }} €
             </div>
             <div class="col-12">
               <div
                 class="text-dark-page col-12 text-lowercase"
                 style="font-size: 10px; line-height: 1.5; color: rgb(0, 0, 0, 0.8)"
               >
-                {{ igic ? 'igic incluido' : 'sin igic'  }}
+                igic incluido
               </div>
               <q-separator />
             </div>
@@ -240,6 +259,7 @@ const {
     cart,
     amount,
     resetCart,
+    deleteProduct,
     cartIds
   } = useProductCart()
 const { user } = useAuthStore()
@@ -350,5 +370,9 @@ function deleteCart() {
 
 .product-description::first-letter {
   text-transform: uppercase;
+}
+.delete-icon {
+  position: absolute;
+  bottom: 0;
 }
 </style>

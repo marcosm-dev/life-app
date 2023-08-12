@@ -11,7 +11,7 @@ export const useCartStore = defineStore('cart', {
   getters: {
     amount() {
       const amount: number = this.cart.reduce(
-        (acc, crr) => (acc += crr.amount),
+        (acc, crr) => (acc += crr.price * crr.quantity),
         0
       );
       return amount;

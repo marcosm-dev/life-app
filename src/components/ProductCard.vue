@@ -59,33 +59,37 @@
         @update-item="(e) => e === '+' ? increase() : decrease()"
       />
 
+
       <q-btn
         @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
-        :label="checkIsAdded ? 'AÑADIR OTRO+' : 'AÑADIR'"
+        :label="checkIsAdded ? `Añadir ${quantity}+` : 'Añadir'"
         :color="checkIsAdded ? 'secondary' : 'dark'"
         padding="6px"
-        class="full-width q-mt-md"
+        no-caps
+        class="full-width q-mt-md transition-slow"
         square
         unelevated
       >
-          <div
-            :class="(!true || loading) && 'invisible'"
-            ref="countItemElement"
-            class="product-count"
-          >
-              {{ itemsAdded }}
-          </div>
-          <div
-            :class="!checkIsAdded && 'invisible'"
-            ref="countItemElement"
-            class="product-count"
-          >
-              {{ itemsAdded }}
-          </div>
+            <div
+              v-if="Number(itemsAdded) > 0"
+              ref="countItemElement"
+              class="product-count"
+            >
+                {{ itemsAdded }}
+            </div>
+            <div
+              :class="!checkIsAdded && 'invisible'"
+              ref="countItemElement"
+              class="product-count"
+            >
+                {{ itemsAdded }}
+            </div>
       </q-btn>
       <q-btn
-        label="PAGAR DIRECTAMENTE"
+        @click="addToCart(); toggleCartDialog()"
+        label="Pagar directamente"
         padding="8px"
+        no-caps
         class="full-width q-mt-xs text-bold"
         :class="$q.screen.width > 768 && 'q-mb-md'"
         color="warning"
@@ -145,6 +149,7 @@ export default defineComponent({
       addToCart,
       state,
       useProductCart,
+      toggle,
       itemsAdded: computed(() => `${cart.value.reduce((acc, crr) => acc += (crr.id === props.product.id ? crr.quantity : 0), 0)}`),
       checkIsAdded: computed(() => cart.value.some((p: Product) => p.id === props.product.id)),
       url: process.env.IMAGES_URL,
@@ -171,5 +176,9 @@ export default defineComponent({
     top: -6px;
     right: -6px;
     position: absolute;
+  }
+  .transition-slow {
+    transition-property: all;
+    transition-duration: 2s;
   }
 </style>
