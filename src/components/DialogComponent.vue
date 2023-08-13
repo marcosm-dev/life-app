@@ -329,7 +329,6 @@ async function onOKClick() {
     } else if (step.value === 1) {
       sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
         .then((res) => {
-          console.log(res)
           success.value = true
           setTimeout(() => {
             resetProcess()

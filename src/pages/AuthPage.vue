@@ -337,6 +337,7 @@ export default defineComponent({
           message: 'Registrando usuario ...'
         })
 
+        newUser.email = newUser.email.toLowerCase()
         delete newUser.confirmPassword
 
         try {
@@ -360,8 +361,7 @@ export default defineComponent({
           message: 'Espere ...'
         })
         try {
-          const result = await loginMutation({ email: user.email, password: user.password })
-          console.log(result)
+          const result = await loginMutation({ email: user.email.toLowerCase(), password: user.password })
           if (result?.data?.loginUser?.token) {
             const { token, user } = result?.data.loginUser
             store.setUser({...user, token})
