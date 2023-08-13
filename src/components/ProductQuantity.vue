@@ -1,53 +1,60 @@
 <template>
 
   <!-- ADAPTACIÓN PARA CARRITO -->
-  <div
+  <q-card-section
     v-if="dense"
-    class="row items-center jusify-between text-center full-width dense-cart-dialog"
+    class="row"
   >
-    <div
-      :class="$q.screen.width < 768 ? 'q-mb-sm' : 'q-mb-lg'"
-      class="col-12 text-center text-h5 card-item"
-    >
-      {{ product.quantity }}
-    </div>
-    <q-btn
-      aria-label="minus"
-      @click="$emit('update-item', '-')"
-      class="col col-sm-5 col-md-5"
-      :color="product.quantity === 0 ? 'negative' : 'dark-page'"
-      :text-color="product.quantity === 0 ? '' : 'dark'"
-      square
-      :outline="product.quantity === 0"
-      :icon="product.quantity === 0 ? 'mdi-delete-outline' : 'mdi-minus'"
-      unelevated
-    />
+      <q-btn
+        class="col-4"
+        aria-label="minus"
+        @click="$emit('update-item', '-')"
+        color="blue-grey-4"
+        square
+        outline
+        icon="mdi-minus"
+        unelevated
+        size="10px"
+        ripple
+      />
+      <div
+        :class="$q.screen.width < 768 ? 'q-mb-sm' : 'q-mb-lg'"
+        class="text-center text-black col q-my-auto"
+      >
+        {{ product.quantity }}
+      </div>
+      <q-btn
+        class="col-4"
+        aria-label="plus"
+        @click="$emit('update-item', '+')"
+        unelevated
+        color="blue-grey-4"
+        outline
+        square
+        size="10px"
+        icon="mdi-plus"
+        ripple
+        rounded
+      />
+  </q-card-section>
 
-    <q-btn
-      aria-label="plus"
-      @click="$emit('update-item', '+')"
-      unelevated
-      class="col col-sm-2 col-md-5 offset-2 text-black"
-      color="dark-page"
-      square
-      icon="mdi-plus"
-    />
-  </div>
 
   <!--  COMPONENTE COMÚN -->
 
-  <div v-else class="row items-center text-center full-width">
+  <q-card-section v-else class="row items-center text-center full-width">
     <div
       :class="$q.screen.width < 768 ? 'q-mt-lg' : 'q-mb-lg'"
-      class="col-12 text-center text-h5"
+      class="col-12 text-left text-h5 q-px-md q-pb-md"
     >
-      {{ product.price * (product.quantity ?? 1) }} €
+    {{ product.price.toFixed(2) }}<small class="text-blue-grey-14">€</small>
     </div>
     <q-btn
       @click="$emit('update-item', '-')"
       class="col col-sm-3 col-md-4 text-black"
-      color="dark-page"
+      color="blue-grey-4"
       square
+      size="10px"
+      outline
       icon="mdi-minus"
       unelevated
     />
@@ -57,12 +64,14 @@
     <q-btn
       @click="$emit('update-item', '+')"
       unelevated
+      outline
+      size="10px"
       class="col col-sm-3 col-md-4 text-black"
-      color="dark-page"
+      color="blue-grey-4"
       square
       icon="mdi-plus"
     />
-  </div>
+  </q-card-section>
 </template>
 
 <script lang="ts">

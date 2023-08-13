@@ -7,7 +7,6 @@ import { uid } from 'quasar';
 const useProductCart = (product: Product) => {
   const state = reactive({
     ...product,
-    cartUid: uid(),
     quantity: 1
   });
   const store = useCartStore();
@@ -21,7 +20,7 @@ const useProductCart = (product: Product) => {
   }
 
   function addToCart() {
-    store.addProduct(state);
+    store.addProduct({ ...state, cartUid: uid() });
   }
 
   function resetCart() {

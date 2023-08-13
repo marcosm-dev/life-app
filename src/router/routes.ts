@@ -9,13 +9,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/',
         component: () => import('pages/AuthPage.vue')
-      },
-    ],
+      }
+    ]
   },
   {
     path: '/home',
     meta: {
-      requiresAuth: true,
+      requiresAuth: true
     },
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -32,18 +32,22 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/IndexPage.vue')
       },
       {
+        path: '/orders',
+        component: () => import('pages/MyOrders.vue')
+      },
+      {
         path: '/category/:name',
         component: () => import('pages/CategoryPage.vue')
       }
-    ],
+    ]
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
-  },
+    component: () => import('pages/ErrorNotFound.vue')
+  }
 ];
 
 export default routes;

@@ -17,7 +17,7 @@ export const useCartStore = defineStore('cart', {
       return amount;
     },
     cartCount(): number {
-      return this.cart.length;
+      return this.cart.reduce((acc, crr) => (acc += crr.quantity), 0);
     },
     cartIds(): string[] {
       const products: string[] = [];

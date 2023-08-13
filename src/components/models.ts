@@ -53,3 +53,26 @@ export interface SignUp {
   user: NewUser;
   error: string;
 }
+
+export interface Orders {
+  [yearMonth: string]: Order[];
+}
+
+export interface Order {
+  id: string;
+  createdAt: string;
+  status: string;
+  products: Product[];
+}
+
+export interface Product {
+  amount: number;
+  product: Product2;
+}
+
+export interface Product2 {
+  id: string;
+  name: string;
+  price: number;
+  accessories: string;
+}

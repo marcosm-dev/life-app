@@ -49,27 +49,29 @@
           </div>
         </q-card-section>
         <q-separator size="1px" inset />
-    <q-card-actions
-      class="col items-end no-padding full-width"
-      :class="$q.screen.width > 768 && 'q-ma-xl'"
-    >
+        <q-card-actions
+          class="col items-end no-padding full-width"
+          :class="$q.screen.width > 768 && 'q-ma-xl'"
+        >
 
-      <ProductQuantity
-        :product="state"
-        @update-item="(e) => e === '+' ? increase() : decrease()"
-      />
+          <ProductQuantity
+            :product="state"
+            @update-item="(e) => e === '+' ? increase() : decrease()"
+          />
 
 
-      <q-btn
-        @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
-        :label="checkIsAdded ? `Añadir ${quantity}+` : 'Añadir'"
-        :color="checkIsAdded ? 'secondary' : 'dark'"
-        padding="6px"
-        no-caps
-        class="full-width q-mt-md transition-slow"
-        square
-        unelevated
-      >
+          <q-btn
+            @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
+            label="Añadir al carrito"
+            icon="mdi-cart-outline"
+            align="center"
+            color="blue-grey-13"
+            padding="6px"
+            no-caps
+            class="full-width q-mt-md transition-slow"
+            square
+            unelevated
+          >
             <div
               v-if="Number(itemsAdded) > 0"
               ref="countItemElement"
@@ -168,7 +170,9 @@ export default defineComponent({
 
 <style lang="scss">
   .product-count {
-    background-color: $info !important;
+    background-color: $light-blue-11 !important;
+    color: #fff;
+    font-size: 12px;
     border-radius: 50px;
     line-height: 24px;
     height: 24px;
@@ -181,4 +185,8 @@ export default defineComponent({
     transition-property: all;
     transition-duration: 2s;
   }
+  .mdi-cart-outline {
+    margin-right: 10px;
+  }
+
 </style>

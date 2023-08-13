@@ -15,7 +15,8 @@
         class="col-12 col-md-6 col-lg-4"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 bg-white"
+            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10"
+            style="background: rgb(255,255,255, 0.9);"
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
             <div class="transparent q-px-lg">

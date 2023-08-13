@@ -64,8 +64,8 @@
                 Menu de usuario
               </div>
               <q-separator horizontal class="q-mb-sm" />
-              <q-list dense >
-                <q-item clickable v-ripple>
+              <q-list dense>
+                <q-item clickable v-ripple to="/orders">
                   <q-item-section>
                     Pedidos
                   </q-item-section>
@@ -154,25 +154,14 @@
           @click="toggleCartDialog"
         >
             <div class="flex">
-            <!-- <transition
-              appear
-              enter-active-class="animated fadeIn"
-            > -->
-              <div ref="cartCount" class="cart-count">
-                {{ cartCount  }}
-              </div>
-                <!-- <div v-if="productQuantity">
-                  +{{ productQuantity }}
-                </div> -->
                 <q-icon
                   ref="cartItemElement"
                   name="mdi-cart-arrow-down"
-                  color="info"
+                  color="light-blue-11"
 s                 class="q-my-auto q-ml-xs"
                   :class="showCart ? 'animated headShake' : ''"
                   size="30px"
                 />
-            <!-- </transition> -->
             </div>
         </div>
       </transition>
@@ -202,7 +191,7 @@ export default defineComponent({
   name: 'MainLayout',
   setup() {
     const { productQuantity, loading } = useCartAnimation();
-    const { toggleCartDialog, cart, cartCount } = useCartDialog();
+    const { toggleCartDialog, cart } = useCartDialog();
     const bus = inject<EventBus>('bus', new EventBus());
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
@@ -240,7 +229,6 @@ export default defineComponent({
       showCart,
       productQuantity,
       cartItemElement,
-      cartCount,
       leftDrawerOpen,
       toggleCartDialog,
       tab: ref('categorias'),
