@@ -157,7 +157,7 @@
                 <q-icon
                   ref="cartItemElement"
                   name="mdi-cart-arrow-down"
-                  color="light-blue-11"
+                  color="blue-grey-1"
 s                 class="q-my-auto q-ml-xs"
                   :class="showCart ? 'animated headShake' : ''"
                   size="30px"
@@ -197,27 +197,29 @@ export default defineComponent({
     const leftDrawerOpen = ref(null);
     const cartItemElement: Ref<HTMLElement | null> = ref(null);
     const showCart = ref(false);
+    const animationMotion = ref(false);
 
       // Incio animación de producto hacia el carrito
       bus.on('product-to-cart', (from: HTMLDivElement) => {
+        // Cancelar animación al añadir un item si ya existe una en curso
+        if (animationMotion.value) return
+
+        animationMotion.value = true
         if (cartItemElement.value)
           morph({
                 from,
                 to: cartItemElement.value.$el,
-                duration: 2000,
-                delay: 300,
+                duration: 1800,
+                delay: 200,
                 tweenFromOpacity: 0,
                 classes: loading.value ? 'bg-transparent' : '',
-                tweenToOpacity: 100,
+                tweenToOpacity: 50,
                 keepToClone: true,
                 easing: 'ease-in',
                 waitFor: 'transitionend',
 
                 onEnd: end => {
-                  showCart.value = true;
-                  setTimeout(() => {
-                    showCart.value = false;
-                  }, 3000);
+                  animationMotion.value = false
                 }
           })
       })
