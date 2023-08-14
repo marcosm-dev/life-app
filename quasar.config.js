@@ -14,6 +14,7 @@ require('dotenv').config().parsed
 
 module.exports = configure(function (ctx) {
   return {
+    supportTS: true,
     eslint: {
       fix: true,
       // include: [],
@@ -166,6 +167,12 @@ module.exports = configure(function (ctx) {
       // extendInjectManifestOptions (cfg) {},
       // extendManifestJson (json) {}
       // extendPWACustomSWConf (esbuildConf) {}
+    },
+
+    sourceFiles: {
+      pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
+      pwaServiceWorker: 'src-pwa/custom-service-worker',
+      pwaManifestFile: 'src-pwa/manifest.json',
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova

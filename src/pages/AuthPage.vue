@@ -344,14 +344,13 @@ export default defineComponent({
           const { confirmPassword, ...userClean } = newUser
           const data = await mutate({ input: userClean })
 
-          console.log(data)
           const signUp = data?.data.signUp
           if (signUp.error) {
             errors.value.push(signUp.error)
           }
           else store.setUser(signUp.user)
           registerSuccess.value = true
-        } catch (error) {
+        } catch (error: any) {
           errors.value.push(useHandleGraphqlErrors(error))
         }
         $q.loading.hide()
