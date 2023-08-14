@@ -1,24 +1,24 @@
 <template>
   <q-page padding>
     <q-card-section>
-              <!-- @click="dialogRef.hide(); success = false" -->
-            <q-btn
-              no-caps
-              padding="10px 20px"
-              text-color="positive"
-              style="background: rgb(0,0,0,.3)"
-              flat
-              square
-              ripple
-            >
-                  <div class="text-body1 knockout">
-                      {{ $q.lang.label.close }}
-                      <div class="text-body text-dark-page knockout" style="color: rgb(255,255,255,.75)">
-                          {{ 0 }}
-                      </div>
+          <!-- @click="dialogRef.hide(); success = false" -->
+        <q-btn
+          no-caps
+          padding="10px 20px"
+          text-color="positive"
+          style="background: rgb(0,0,0,.3)"
+          flat
+          square
+          ripple
+        >
+              <div class="text-body1 knockout">
+                  {{ $q.lang.label.close }}
+                  <div class="text-body text-dark-page knockout" style="color: rgb(255,255,255,.75)">
+                      {{ 0 }}
                   </div>
-            </q-btn>
-              </q-card-section>
+              </div>
+        </q-btn>
+    </q-card-section>
     <q-list v-for="(order, i) in Object.keys(orders)[0]?.split('/')" bordered class="rounded-borders" :key="i">
       <q-expansion-item
         expand-separator

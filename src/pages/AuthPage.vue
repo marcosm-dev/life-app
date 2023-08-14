@@ -338,10 +338,13 @@ export default defineComponent({
         })
 
         newUser.email = newUser.email.toLowerCase()
-        delete newUser.confirmPassword
 
         try {
-          const data = await mutate({ input: newUser })
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { confirmPassword, ...userClean } = newUser
+          const data = await mutate({ input: userClean })
+
+          console.log(data)
           const signUp = data?.data.signUp
           if (signUp.error) {
             errors.value.push(signUp.error)
@@ -349,7 +352,7 @@ export default defineComponent({
           else store.setUser(signUp.user)
           registerSuccess.value = true
         } catch (error) {
-          console.log(error)
+          errors.value.push(useHandleGraphqlErrors(error))
         }
         $q.loading.hide()
       },

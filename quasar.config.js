@@ -15,7 +15,7 @@ require('dotenv').config().parsed
 module.exports = configure(function (ctx) {
   return {
     eslint: {
-      fix: false,
+      fix: true,
       // include: [],
       exclude: ['/src/css/*.scss'],
       // rawOptions: {},
@@ -101,14 +101,7 @@ module.exports = configure(function (ctx) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      i18n: {
-        locale: 'es-es', // Configura el idioma en español
-        fallbackLocale: 'en-us', // Configura el idioma de respaldo
-        // ...
-      },
-      config: {
-        lang: 'es-ES', // Quasar language pack
-      },
+      lang: 'es',
       iconSet: 'mdi-v7', // Quasar icon set
       // For special cases outside of where the auto-import strategy can have an impact
       // (like functional components as one of the examples),

@@ -12,7 +12,6 @@ export default defineComponent({
   name: 'App',
   setup() {
     const authStore = useAuthStore()
-
     const { result } = useQuery(gql`
       query me {
           me {
