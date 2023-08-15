@@ -41,10 +41,10 @@
               <div class="col-auto knockout text-h6  q-ml-md q-pt-xs">SERPICA CANARIAS
               <span class="text-capitalize text-body2 knockout">S.L.</span></div>
               <div class="col q-pa-sm" :class="!$q.screen.gt.sm ? 'q-gutter-x-sm' : 'q-gutter-x-xl'">
-                <a href="https://www.instagram.com/serpica.sa">
+                <a target="_blank" href="https://www.instagram.com/serpica.sa">
                 <q-icon size="30px" name="mdi-instagram" />
                 </a>
-                <a href="https://www.homelife.it/es/download">
+                <a target="_blank" href="https://www.homelife.it/es/download">
                   <q-icon size="30px" name="mdi-web" />
                 </a>
                 <q-icon
