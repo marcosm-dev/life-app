@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pb-xl">
+  <q-page padding class="q-pb-xl">
     <h5 class="text-bold q-mx-auto text-center text-h6">
       ¿Qué tipo de producto buscas?
     </h5>
@@ -15,22 +15,25 @@
         class="col-12 col-md-6 col-lg-4"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10"
+            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 q-mx-lg"
             style="background: rgb(255,255,255, 0.9);"
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
-            <div class="transparent q-px-lg">
+            <q-card-section class="transparent q-px-lg">
               <q-img
+                class="rounded-borders bg-dark-page"
                 :src="`${url}/categories/${category.urlImage}`"
                 fit="contain"
                 style="border-radius: 15px important;"
                 fetchpriority="high"
                 :ratio="16/9"
               />
-            </div>
-            <div class="text-subtitle1 text-center  bg-dark text-white q-py-xs">
-              {{ category.name }}
-            </div>
+            </q-card-section>
+            <q-card-actions class="justify-center q-pb-lg">
+               <action-button
+                  :label="category.name"
+                />
+            </q-card-actions>
           </q-card>
       </div>
     </div>
@@ -53,7 +56,7 @@ export default defineComponent({
     if ($q.platform.is.desktop) limit.value = 15
 
 
-    const { result, loading, fetchMore } = useQuery(gql`
+    const { result, loading, fetchMore } = useQuery(gql`
       query getAllCategories($limit: Int!, $skip: Int!) {
         getAllCategories(limit: $limit, skip: $skip) {
           id

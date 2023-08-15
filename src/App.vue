@@ -5,10 +5,11 @@
 <script lang="ts">
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { defineComponent, watchEffect, onMounted, ref } from 'vue';
+import { defineComponent, watchEffect, onMounted, ref } from 'vue'
 import { useAuthStore, NewUser } from './stores/auth'
 import { ionDownloadOutline } from '@quasar/extras/ionicons-v7'
-import { BeforeInstallPromptEvent } from './components/models';
+import { BeforeInstallPromptEvent } from './components/models'
+
 
 export default defineComponent({
   name: 'App',
@@ -55,7 +56,6 @@ export default defineComponent({
         authStore.setUser(user)
       }
     })
-
     return {
       ionDownloadOutline,
       showAppInstallBanner

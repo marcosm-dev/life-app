@@ -1,10 +1,11 @@
 import { boot } from 'quasar/wrappers';
-/* @vite-ignore */
+
 interface GlobalComponents {
   [componentName: string]: any;
 }
 
-const globalComponentNames = ['action-button'];
+const globalComponentNames = ['action-button', 'banner-install-app'];
+
 const globalComponents: GlobalComponents = {};
 
 async function toPascalCase(str: string) {
@@ -13,16 +14,23 @@ async function toPascalCase(str: string) {
     .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
 }
+
 export default boot(async ({ app }) => {
-  await Promise.all(
-    globalComponentNames.map(async (componentName) => {
-      const pascalCaseName = toPascalCase(componentName);
-      const module = await import('components/common/ActionButton.vue');
+  globalComponentNames.map(async (componentName) => {
+    const pascalCaseName = await toPascalCase(componentName);
 
-      globalComponents[componentName] = module.default;
-      app.component(componentName, module.default);
-    })
-  );
+    let module;
 
-  console.log(globalComponents); // Verificar que los componentes se hayan agregado correctamente
+    const importUrl = `../components/common/${pascalCaseName}.vue`;
+
+    if (pascalCaseName) module = await import(importUrl);
+
+    globalComponents[componentName] = module.default;
+
+    app.component(componentName, module.default);
+  });
+
+  console.log(globalComponents);
+
+  // Verificar que los componentes se hayan agregado correctamente
 });

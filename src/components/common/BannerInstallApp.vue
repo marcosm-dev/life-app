@@ -1,10 +1,16 @@
-<template>
-  <router-view />
+<template v-if="!showAppInstallBanner">
+    <action-button
+      v-if="menu"
+      @click="installApp"
+      class="q-mt-md"
+      label="Instala nuestra app"
+      :icon-right="ionDownloadOutline"
+    />
     <q-banner
+      v-else-if="signUp"
       :class="top && 'absolute-top'"
-      v-if="!showAppInstallBanner"
-      class="z-top q-py-md q-pl-none animated fadeIn"
-      style="background: #0267b6F7; animation-delay: 0.2s;"
+      class="z-top q-py-md q-pl-none animated fadeIn banner-signup"
+      style="animation-delay: 0.2s;"
       dense
     >
       <div class="row">
@@ -13,8 +19,9 @@
           color="positive"
           icon="mdi-close"
           size="18px"
+          v-close-popup
         />
-        <div class="col q-gutter-y-sm text-positive">
+        <div class="col q-gutter-y-sm text-indigo-2">
           <div class="text-bold text-subtitle1">
             Serpica life
           </div>
@@ -22,12 +29,6 @@
               Instala nuestra <strong>app</strong> de forma rápida, sencilla y sin ocupar espacio en tu dispositivo.
           </div>
         </div>
-        <!-- <q-img
-          src="src/assets/logo.jpg"
-          class="rounded-borders col"
-          height="50px"
-          width="50px"
-        /> -->
         <q-icon
           @click="installApp"
           class="col-auto q-my-auto q-px-sm q-py-sm rounded-borders animated fadeIn"
@@ -45,11 +46,22 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar'
 import { ionDownloadOutline } from '@quasar/extras/ionicons-v7'
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from 'stores/auth';
 
 export default defineComponent({
   name: 'App',
-  props: ['top'],
+  props: {
+    dense: {
+      type: Boolean,
+      default: false
+    },
+    top: {
+      type: Boolean,
+      default: false,
+    },
+    menu: Boolean,
+    signUp: Boolean,
+  },
   setup() {
     const $q = useQuasar()
     const { deferredPrompt } = useAuthStore()
@@ -74,16 +86,16 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      let neverShowAppInstallBanner = $q.localStorage?.getItem('neverShowAppInstallBanner')
+      // let neverShowAppInstallBanner = $q.localStorage?.getItem('neverShowAppInstallBanner')
 
-      if (!neverShowAppInstallBanner) {
-        window.addEventListener('beforeinstallprompt', (e) => {
-          console.log(e)
-          deferredPrompt.value = e
-          showAppInstallBanner.value = true
-        })
-      }
+      // if (!neverShowAppInstallBanner) {
+      //   window.addEventListener('beforeinstallprompt', (e) => {
+      //     deferredPrompt.value = e
+      //     showAppInstallBanner.value = true
+      //   })
+      // }
     })
+
 
     return {
       installApp,
@@ -93,3 +105,11 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+
+.banner-signup {
+  border-top: 5px solid $dark;
+  background: rgb(2,103,182);
+}
+</style>

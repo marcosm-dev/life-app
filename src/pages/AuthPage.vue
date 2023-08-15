@@ -10,22 +10,21 @@
           En menos de 24 horas revisaremos tu solicitud. Recibirás una
           notificación por correo electrónico cuando esté aprobada.
         </q-card-section>
-        <q-card-actions class="col q-pb-lg">
-          <q-btn
+        <q-card-actions class="col q-pb-lg justify-center">
+          <action-button
             @click="reset"
-            label="Iniciar sesión"
-            rounded
-            color="primary q-mx-auto"
+            :label="'Iniciar sesión'"
+            outline
           />
         </q-card-actions>
         <q-card-section class="no-padding col">
-          <banner-install-app  />
+          <banner-install-app sign-up />
         </q-card-section>
       </q-card>
     </q-dialog>
 
     <!-- LOGIN Y REGISTRO DE USUARIO -->
-    <q-form class="q-px-md col" v-show="!registerSuccess" style="max-width: 450px">
+    <q-form class="q-px-md col q-pt-xl" v-show="!registerSuccess" style="max-width: 450px">
        <q-card class="row text-center justify-center q-px-none q-py-md z-max text-dark shadow-15">
        <q-card-section>
           <q-img
@@ -39,13 +38,13 @@
           />
           <div class="q-my-lg text-body1 knockout col-12">
             <template v-if="!register">
-                Inicia sesión con tu cuenta en Serpica life o create una y pulsando
+                Inicia sesión con tu cuenta en {{ name }} o create una y pulsando
               <span class="text-body1 knockout" @click="store.toggleRegister">
                 aquí, <u class="cursor-pointer text-body1 text-bold knockout">registrarse</u>.
               </span>
             </template>
             <template v-else>
-                Crea una cuenta en Serpica Life
+                Crea una cuenta en {{ name }}
             </template>
           </div>
        </q-card-section>
@@ -81,6 +80,7 @@
             label="Teléfono"
           />
           <q-input
+            type="text"
             outlined
             clearable
             v-model="newUser.address"
@@ -208,6 +208,7 @@
 </template>
 
 <script lang="ts">
+
 import {
   defineComponent,
   reactive,
@@ -220,23 +221,25 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+// En tu componente Vue o archivo TypeScript
+import * as manifest from '../../src-pwa/manifest.json'
 
-import useHandleGraphqlErrors from '../composables/useHandleError';
-import useNotifyError from '../composables/useNotifyError';
-import BannerInstallApp from 'src/components/BannerInstallApp.vue';
+import useHandleGraphqlErrors from '../composables/useHandleError'
+// import useNotifyError from '../composables/useNotifyError'
 
 export default defineComponent({
   name: 'AuthPage',
   setup() {
     const router = useRouter()
     const store = useAuthStore()
-    const { notifyError } = useNotifyError();
+    // const { notifyError } = useNotifyError()
     const $q = useQuasar()
     const errors = ref<string[]>([])
     const revealPassword = ref(false)
     const registerSuccess = ref(false)
     const { register } = storeToRefs(store)
-
+    const { name } = manifest
+    const addressRef = ref(null)
 
     const user: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
@@ -358,6 +361,9 @@ export default defineComponent({
         }
         return false
       }),
+      apiKey: process.env.GOOGLE_MAPS_API_KEY,
+      addressRef,
+      name,
       loading,
       loginLoading,
       registerSuccess,
@@ -369,6 +375,5 @@ export default defineComponent({
       store
     }
   },
-  components: { BannerInstallApp }
 })
 </script>

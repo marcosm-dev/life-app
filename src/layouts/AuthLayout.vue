@@ -27,7 +27,7 @@
         <aside class="col-12">
           <div class="row items-center">
             <q-separator class="col" size="6px" color="light-blue-1" />
-            <div class="col-auto q-px-sm text-body2 knockout">
+            <div class="col-auto q-px-sm text-body2 knockout text-white">
               INFORMACIÓN Y CONTACTO
             </div>
             <q-separator
@@ -38,19 +38,19 @@
             />
             </div>
             <div id="social-network" class="row justify-around">
-              <div class="col-auto knockout text-h6  q-ml-md q-pt-xs">SERPICA CANARIAS
+              <div class="col-auto knockout text-h5 q-ml-md q-pt-xs text-white">SERPICA CANARIAS
               <span class="text-capitalize text-body2 knockout">S.L.</span></div>
-              <div class="col q-pa-sm" :class="!$q.screen.gt.sm ? 'q-gutter-x-sm' : 'q-gutter-x-xl'">
+              <div class="col q-pa-sm q-mr-sm" :class="!$q.screen.gt.sm ? 'q-gutter-x-sm' : 'q-gutter-x-xl'">
                 <a target="_blank" href="https://www.instagram.com/serpica.sa">
-                <q-icon size="30px" name="mdi-instagram" />
+                <q-icon size="28px" name="mdi-instagram" />
                 </a>
                 <a target="_blank" href="https://www.homelife.it/es/download">
-                  <q-icon size="30px" name="mdi-web" />
+                  <q-icon size="28px" name="mdi-web" />
                 </a>
                 <q-icon
                   tag="a"
                   href="https://api.whatsapp.com/send?phone=657422136"
-                  size="40px"
+                  size="35px"
                   color="light-green-13"
                   name="mdi-whatsapp"
                 />

@@ -2,14 +2,15 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="row header" elevated>
       <div class="col-auto">
-        <div v-if="$route.query.categoryId" class="flex q-ma-xs back-btn">
+        <div v-if="$route.query.categoryId" class="flex q-ma-xs">
           <q-btn
             @click="$router.back()"
-            size="23px"
-            class="q-mt-auto"
+            size="15px"
+            class="q-ma-sm"
+            rounded
             icon="mdi-arrow-left"
-            color="dark"
-            flat
+            color="blue-grey-1"
+            text-color="blue-grey-14"
           />
         </div>
         <q-img
@@ -55,13 +56,14 @@
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
           cover
+          transition-show="slide-left"
           class="full-auto"
           style="border-top-left-radius: 0;"
         >
           <div class="row no-wrap q-pa-md text-dark">
             <div class="column">
-              <div class="text-subtitle1 q-mb-md text-bold">
-                Menu de usuario
+              <div class="text-subtitle1 q-mb-md text-bold text-blue-grey-13">
+                Mi cuenta
               </div>
               <q-separator horizontal class="q-mb-sm" />
               <q-list dense>
@@ -71,16 +73,19 @@
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable disable v-ripple>
+                <!-- <q-item clickable disable v-ripple>
                   <q-item-section no-wrap>
                     Pago
                   </q-item-section>
-                </q-item>
+                </q-item> -->
 
                 <q-item clickable disable v-ripple>
                   <q-item-section>
                     Reclamaciones
                   </q-item-section>
+                </q-item>
+                <q-item v-if="store.user.uuid" clickable disable v-ripple >
+                  <banner-install-app dense menu />
                 </q-item>
               </q-list>
             </div>
@@ -92,14 +97,15 @@
                 <img src="../assets/avatar.jpg">
               </q-avatar>
 
-              <div class="text-subtitle q-mt-md q-mb-xs">
-                {{ store.user.name }}
+              <div class="text-subtitle q-mt-md q-mb-xs knockout text-blue-grey-13">
+                Hola <span class="text-blue-grey-13"></span>{{ store.user.name }}
               </div>
 
               <q-btn
-                color="negative"
+                outline
+                text-color="accent"
                 dense
-                class="full-width"
+                class="full-width q-mt-auto"
                 label="Salir"
                 @click="store.logout()"
                 size="md"
@@ -180,22 +186,22 @@ s                 class="q-my-auto q-ml-xs"
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, Ref } from 'vue';
-import { useAuthStore } from '../stores/auth';
-import { EventBus, morph } from 'quasar';
+import { defineComponent, ref, inject, Ref } from 'vue'
+import { useAuthStore } from '../stores/auth'
+import { EventBus, morph } from 'quasar'
 
-import useCartDialog from 'src/composables/useCartDialog';
-import useCartAnimation from '../composables/useCartAnimation';
+import useCartDialog from 'src/composables/useCartDialog'
+import useCartAnimation from '../composables/useCartAnimation'
 
 export default defineComponent({
   name: 'MainLayout',
   setup() {
-    const { productQuantity, loading } = useCartAnimation();
-    const { toggleCartDialog, cart } = useCartDialog();
-    const bus = inject<EventBus>('bus', new EventBus());
+    const { productQuantity, loading } = useCartAnimation()
+    const { toggleCartDialog, cart } = useCartDialog()
+    const bus = inject<EventBus>('bus', new EventBus())
     const store = useAuthStore();
     const leftDrawerOpen = ref(null);
-    const cartItemElement: Ref<HTMLElement | null> = ref(null);
+    const cartItemElement: Ref<HTMLElement | null> = ref(null)
     const showCart = ref(false);
     const animationMotion = ref(false);
 
@@ -234,7 +240,7 @@ export default defineComponent({
       leftDrawerOpen,
       toggleCartDialog,
       tab: ref('categorias'),
-    };
+    }
   },
 });
 </script>
@@ -297,9 +303,4 @@ export default defineComponent({
     animation-duration: 2s;
   }
 
-  .back-btn {
-    min-width: 84px;
-    background: rgb(255,255,255,0.8);
-    border-radius: 50px;
-  }
 </style>

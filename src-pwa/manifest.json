@@ -1,4 +1,9 @@
 {
+  "name": "Serpica Life",
+  "dir": "ltr",
+  "lang": "es",
+  "short_name": "LIFE",
+  "description": "E-commerce para Serpica Canarias",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#027be3",

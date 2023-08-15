@@ -20,12 +20,13 @@ export interface NewUser {
   password: string;
   confirmPassword?: string;
   token?: string;
+  uuid?: string | null;
 }
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
-    deferredPrompt: {},
+    deferredPrompt: <BeforeInstallPromptEvent>{},
     user: <NewUser>{}
   }),
   getters: {
