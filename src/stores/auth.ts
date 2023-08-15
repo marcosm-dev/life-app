@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
 import { LocalStorage } from 'quasar';
+import { BeforeInstallPromptEvent } from '../components/models';
 
 export interface User {
   email: string;
@@ -24,12 +25,17 @@ export interface NewUser {
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
+    deferredPrompt: {},
     user: <NewUser>{}
   }),
   getters: {
     authenticated: (state) => !!Object.keys(state.user).length
   },
   actions: {
+    setDeferredPrompt(deferredPrompt: BeforeInstallPromptEvent) {
+      console.log(deferredPrompt);
+      this.deferredPrompt = deferredPrompt;
+    },
     toggleRegister() {
       this.register = !this.register;
     },

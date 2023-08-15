@@ -76,3 +76,12 @@ export interface Product2 {
   price: number;
   accessories: string;
 }
+
+export interface BeforeInstallPromptEvent extends Event {
+  platforms: string[];
+  userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}

@@ -1,27 +1,27 @@
 <template>
   <q-page
-    v-show="!registerSuccess"
-    class="justify-center items-center q-px-md q-mx-auto row bg-white"
-    style="max-width: 450px"
-  >
+    v-show="!registerSuccess" style="max-width: 450px">
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
     <q-dialog v-model="registerSuccess" @hide="registerSuccess = false">
-      <q-card>
-        <q-card-section class="text-h6 text-center">
+      <q-card class="column">
+        <q-card-section class="text-h6 text-center col">
           Gracias por registrarte
         </q-card-section>
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-pt-none col">
           En menos de 24 horas revisaremos tu solicitud. Recibirás una
           notificación por correo electrónico cuando esté aprobada.
         </q-card-section>
-        <q-card-actions>
+        <q-card-actions class="col q-pb-lg">
           <q-btn
             @click="reset"
-            label="IR A PÁGINA DE INICIO"
-            flat
+            label="Iniciar sesión"
+            rounded
             color="primary q-mx-auto"
           />
         </q-card-actions>
+        <q-card-section class="no-padding col">
+          <banner-install-app  />
+        </q-card-section>
       </q-card>
     </q-dialog>
     <!-- REGISTRO DE USUARIO -->
@@ -164,12 +164,27 @@
     <!-- FIN REGISTRO DE USUARIO -->
 
     <!-- LOGIN DE USUARIO -->
-    <q-form v-else-if="!register && !registerSuccess" @submit="onSubmit">
+    <q-form v-else-if="!register && !registerSuccess" @submit="onSubmit" class="q-px-md absolute-center full-width">
       <q-card
-        class="row text-center justify-center q-px-none z-max text-dark"
-        bordered
+        class="row text-center justify-center q-px-none q-py-md z-max text-dark shadow-15"
       >
-        <h5 class="q-my-lg">Acceder</h5>
+       <q-card-section>
+          <q-img
+            class="col-12"
+            src="~assets/logo.jpg"
+            fetchpriority="high"
+            width="200px"
+            height="70px"
+            alt="serpica life logo"
+            loading="lazy"
+          />
+          <div class="q-my-lg text-body1 knockout col-12">
+            Inicia sesión con tu cuenta en Serpica life o create una y pulsando
+            <span class="text-body1 text-bold knockout" @click="store.toggleRegister">
+              aquí, <u class="text-body1 text-bold knockout">registrarse</u>.
+            </span>
+          </div>
+       </q-card-section>
         <q-card-section class="col-12 q-gutter-y-md q-pt-none">
           <q-input
             outlined
@@ -193,54 +208,19 @@
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
         </q-card-section>
-        <q-card-actions class="col-12 justify-around">
-          <q-btn
-            @click.prevent="store.toggleRegister"
-            label="Registrar"
-            color="primary text-bold"
-            flat
-          />
+        <q-card-actions class="col-12 justify-around q-pa-lg">
           <q-btn
             type="submit"
-            label="Acceder"
-            color="secondary text-bold"
-            flat
-            :loading="loading || loginLoading"
+            no-caps
+            padding="5px 20px"
+            text-color="blue-grey-13"
+            label="Acceder como usuario"
+            outline
+            dense
+            class="text-subtitle1"
+            :loading="loading || loginLoading"
           />
         </q-card-actions>
-        <q-card-section class="col-12 q-pt-none">
-          <div class="row items-center">
-            <q-separator class="col" size="2px" />
-            <div class="col-auto q-px-sm text-no-wrap">
-              INFORMACIÓN Y CONTACTO
-            </div>
-            <q-separator class="col" size="2px" />
-          </div>
-          <aside id="social-network" class="q-gutter-x-md full-width q-py-sm">
-            <a href="https://www.instagram.com/serpica.sa">
-              <q-icon size="25px" name="mdi-instagram" color="dark" />
-            </a>
-            <a href="https://www.homelife.it/es/download">
-              <q-icon size="25px" name="mdi-web" color="dark" />
-            </a>
-            <q-icon
-              tag="a"
-              href="https://api.whatsapp.com/send?phone=657422136"
-              size="26px"
-              name="mdi-whatsapp"
-              color="secondary cursor-pointer"
-            />
-          </aside>
-          <q-card-section v-show="errors.length" class="text-negative">
-            <q-list dense bordered padding class="rounded-borders">
-              <q-item v-for="error in errors" clickable v-ripple :key="error">
-                <q-item-section>
-                  {{ error }}
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card-section>
       </q-card>
     </q-form>
 
@@ -258,7 +238,7 @@ import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
 import useHandleGraphqlErrors from '../composables/useHandleError';
-
+import BannerInstallApp from 'src/components/BannerInstallApp.vue';
 
 export default defineComponent({
   name: 'AuthPage',
@@ -398,6 +378,7 @@ export default defineComponent({
       user,
       store
     }
-  }
+  },
+  components: { BannerInstallApp }
 })
 </script>
