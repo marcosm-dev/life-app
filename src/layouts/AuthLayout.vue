@@ -1,8 +1,9 @@
 <template>
-  <q-layout view="hHh Lpr fff">
+  <q-layout
+    view="hHh Lpr fff"
+  >
    <q-header>
       <q-img
-        v-if="store.register"
         class="absolute-top"
         height="100vh"
         src="~assets/backgrounds/registerbackground-min.webp"
@@ -22,49 +23,40 @@
           SERPICA
       </a> -->
       </div>
-      <q-footer class="row text-right bg-white">
-        <aside class="col-12 text-black">
+      <q-footer class="row text-right fixed-bottom footer-background">
+        <aside class="col-12">
           <div class="row items-center">
-            <q-separator class="col" size="2px" />
-            <div class="col-auto q-px-sm text-body2 knockout text-blue-grey-13">
+            <q-separator class="col" size="6px" color="light-blue-1" />
+            <div class="col-auto q-px-sm text-body2 knockout">
               INFORMACIÓN Y CONTACTO
             </div>
-            <q-separator class="col-auto" style="width: 110px;" size="2px" />
+            <q-separator
+              class="col-auto"
+              size="6px"
+              color="light-blue-1"
+              :style="!$q.screen.gt.sm ? 'width: 5px;' : 'width: 230px;'"
+            />
             </div>
             <div id="social-network" class="row justify-around">
-              <div class="col-auto knockout text-h6 text-blue-grey-10 q-ml-md q-pt-xs">SERPICA CANARIAS
+              <div class="col-auto knockout text-h6  q-ml-md q-pt-xs">SERPICA CANARIAS
               <span class="text-capitalize text-body2 knockout">S.L.</span></div>
-              <div class="col q-gutter-x-sm q-pa-sm">
+              <div class="col q-pa-sm" :class="!$q.screen.gt.sm ? 'q-gutter-x-sm' : 'q-gutter-x-xl'">
                 <a href="https://www.instagram.com/serpica.sa">
-                <q-icon size="25px" name="mdi-instagram" color="dark" />
+                <q-icon size="30px" name="mdi-instagram" />
                 </a>
                 <a href="https://www.homelife.it/es/download">
-                  <q-icon size="25px" name="mdi-web" color="dark" />
+                  <q-icon size="30px" name="mdi-web" />
                 </a>
                 <q-icon
                   tag="a"
                   href="https://api.whatsapp.com/send?phone=657422136"
-                  size="26px"
+                  size="40px"
+                  color="light-green-13"
                   name="mdi-whatsapp"
-                  color="secondary cursor-pointer"
                 />
               </div>
           </div>
-          <!-- <q-card-section v-show="errors.length" class="text-negative">
-            <q-list dense bordered padding class="rounded-borders">
-              <q-item v-for="error in errors" clickable v-ripple :key="error">
-                <q-item-section>
-                  {{ error }}
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section> -->
           </aside>
-          <div class="col flag-green" />
-          <div class="col flag-white text-dark text-center text-bold text-dark">
-            <p>MADE IN ITALY</p>
-          </div>
-          <div class="col flag-red" />
       </q-footer>
   </q-layout>
 </template>
@@ -84,6 +76,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+  .footer-background {
+    color: $light-blue-1 !important;
+    padding: 78px 0px;
+    background: transparent;
+    background-position-y: 100px;
+    background: linear-gradient( rgb(0,0,0,0.5) 505%,  rgb(0,0,0,0.5) 100%);
+  }
+
   .serpica {
     margin: 0 auto;
     bottom: 15%;

@@ -1,6 +1,5 @@
 <template>
-  <q-page
-    v-show="!registerSuccess" style="max-width: 450px">
+  <q-page class="row justify-center items-center">
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
     <q-dialog v-model="registerSuccess" @hide="registerSuccess = false">
       <q-card class="column">
@@ -24,18 +23,33 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <!-- REGISTRO DE USUARIO -->
-    <q-form
-      v-if="register && !registerSuccess"
-      class="col"
-      @submit="onSignupSubmit"
-    >
-      <q-card
-        class="row text-center justify-center q-px-none z-max text-dark"
-        bordered
-      >
-        <h5 class="q-my-lg">Registrar</h5>
-        <q-card-section class="col-12 q-gutter-y-md q-pt-none">
+
+    <!-- LOGIN Y REGISTRO DE USUARIO -->
+    <q-form class="q-px-md col" v-show="!registerSuccess" style="max-width: 450px">
+       <q-card class="row text-center justify-center q-px-none q-py-md z-max text-dark shadow-15">
+       <q-card-section>
+          <q-img
+            class="col-12"
+            src="~assets/logo.jpg"
+            fetchpriority="high"
+            width="180px"
+            height="70px"
+            alt="serpica life logo"
+            loading="lazy"
+          />
+          <div class="q-my-lg text-body1 knockout col-12">
+            <template v-if="!register">
+                Inicia sesión con tu cuenta en Serpica life o create una y pulsando
+              <span class="text-body1 text-bold knockout" @click="store.toggleRegister">
+                aquí, <u class="cursor-pointer text-body1 text-bold knockout">registrarse</u>.
+              </span>
+            </template>
+            <template v-else>
+                Crea una cuenta en Serpica Life
+            </template>
+          </div>
+       </q-card-section>
+        <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
           <q-input
             outlined
             clearable
@@ -132,60 +146,7 @@
             </template>
           </q-input>
         </q-card-section>
-        <q-card-section class="col-12 q-px-none q-pb-none">
-          <q-separator size="2px" />
-        </q-card-section>
-        <q-card-section v-show="errors.length" class="text-negative">
-          <q-list dense bordered padding class="rounded-borders">
-            <q-item v-for="error in errors" clickable v-ripple :key="error">
-              <q-item-section>
-                {{ error }}
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-        <q-card-actions class="col-12 justify-between">
-          <q-btn
-            @click.prevent="store.toggleRegister"
-            label="Volver atrás"
-            color="primary text-bold"
-            flat
-          />
-          <q-btn
-            type="submit"
-            label="GUARDAR"
-            color="secondary text-bold"
-            flat
-          />
-        </q-card-actions>
-      </q-card>
-    </q-form>
-
-    <!-- FIN REGISTRO DE USUARIO -->
-
-    <!-- LOGIN DE USUARIO -->
-    <q-form v-else-if="!register && !registerSuccess" @submit="onSubmit" class="q-px-md absolute-center full-width">
-      <q-card
-        class="row text-center justify-center q-px-none q-py-md z-max text-dark shadow-15"
-      >
-       <q-card-section>
-          <q-img
-            class="col-12"
-            src="~assets/logo.jpg"
-            fetchpriority="high"
-            width="200px"
-            height="70px"
-            alt="serpica life logo"
-            loading="lazy"
-          />
-          <div class="q-my-lg text-body1 knockout col-12">
-            Inicia sesión con tu cuenta en Serpica life o create una y pulsando
-            <span class="text-body1 text-bold knockout" @click="store.toggleRegister">
-              aquí, <u class="text-body1 text-bold knockout">registrarse</u>.
-            </span>
-          </div>
-       </q-card-section>
-        <q-card-section class="col-12 q-gutter-y-md q-pt-none">
+        <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
           <q-input
             outlined
             clearable
@@ -208,18 +169,36 @@
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
         </q-card-section>
+        <q-card-section v-show="errors.length" class="text-negative">
+          <q-list dense bordered padding class="rounded-borders">
+            <q-item v-for="error in errors" clickable v-ripple :key="error">
+              <q-item-section>
+                {{ error }}
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
         <q-card-actions class="col-12 justify-around q-pa-lg">
-          <q-btn
-            type="submit"
-            no-caps
-            padding="5px 20px"
-            text-color="blue-grey-13"
-            label="Acceder como usuario"
-            outline
-            dense
-            class="text-subtitle1"
-            :loading="loading || loginLoading"
+          <action-button
+            v-if="!register"
+            @click="onSubmit"
+            :label="'Acceder como usuario'"
           />
+
+          <template v-else>
+            <q-btn
+              @click="store.toggleRegister"
+              label="Iniciar sesión"
+              flat
+              no-caps
+            />
+            <action-button
+              @click="onSignupSubmit"
+              :label="'Guardar'"
+              icon-right="mdi-content-save"
+              flat
+            />
+          </template>
         </q-card-actions>
       </q-card>
     </q-form>
@@ -229,7 +208,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  ref,
+  computed,
+} from 'vue'
 import { useAuthStore, User, NewUser } from '../stores/auth';
 import { useQuasar, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router'
@@ -238,6 +222,7 @@ import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
 import useHandleGraphqlErrors from '../composables/useHandleError';
+import useNotifyError from '../composables/useNotifyError';
 import BannerInstallApp from 'src/components/BannerInstallApp.vue';
 
 export default defineComponent({
@@ -245,11 +230,13 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const store = useAuthStore()
+    const { notifyError } = useNotifyError();
     const $q = useQuasar()
     const errors = ref<string[]>([])
     const revealPassword = ref(false)
     const registerSuccess = ref(false)
     const { register } = storeToRefs(store)
+
 
     const user: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
@@ -310,6 +297,7 @@ export default defineComponent({
 
     return {
       async onSignupSubmit() {
+        if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
         errors.value = []
         $q.loading.show({
           spinner: QSpinnerGears,
@@ -336,6 +324,8 @@ export default defineComponent({
         $q.loading.hide()
       },
       async onSubmit() {
+        console.log(user)
+        if (Object.values(user).includes('') || Object.values(user).includes(null)) return
         errors.value = []
         $q.loading.show({
           spinner: QSpinnerGears,

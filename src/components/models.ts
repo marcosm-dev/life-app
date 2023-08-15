@@ -85,3 +85,8 @@ export interface BeforeInstallPromptEvent extends Event {
   }>;
   prompt(): Promise<void>;
 }
+
+export interface NotifyError {
+  message: string;
+  html?: boolean;
+}
