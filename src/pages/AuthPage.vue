@@ -40,7 +40,7 @@
           <div class="q-my-lg text-body1 knockout col-12">
             <template v-if="!register">
                 Inicia sesión con tu cuenta en Serpica life o create una y pulsando
-              <span class="text-body1 text-bold knockout" @click="store.toggleRegister">
+              <span class="text-body1 knockout" @click="store.toggleRegister">
                 aquí, <u class="cursor-pointer text-body1 text-bold knockout">registrarse</u>.
               </span>
             </template>
