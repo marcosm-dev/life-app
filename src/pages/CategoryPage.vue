@@ -8,8 +8,8 @@
       class="row justify-center"
       :key="product.id"
     >
-      <article class="col-12 col-md-8 col-lg-6 q-px-sm">
-        <ProductCard :product="product" />
+      <article class="col-12 q-px-sm">
+        <ProductCard :product="product" class="q-mx-auto" />
       </article>
     </div>
   </q-page>

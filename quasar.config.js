@@ -121,7 +121,7 @@ module.exports = configure(function (ctx) {
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: ['headShake', 'fadeIn', 'fadeOut'],
+    animations: ['headShake', 'fadeIn', 'fadeOut', 'flipInX'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {

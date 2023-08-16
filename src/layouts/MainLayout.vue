@@ -106,7 +106,7 @@
                 text-color="accent"
                 dense
                 class="full-width q-mt-auto"
-                label="Salir"
+                label="Cerrar sesión"
                 @click="store.logout()"
                 size="md"
                 no-caps
@@ -163,8 +163,8 @@
                 <q-icon
                   ref="cartItemElement"
                   name="mdi-cart-arrow-down"
-                  color="blue-grey-1"
-s                 class="q-my-auto q-ml-xs"
+                  color="light-blue-2"
+                  class="q-my-auto q-ml-xs bg-transparent"
                   :class="showCart ? 'animated headShake' : ''"
                   size="30px"
                 />
@@ -212,11 +212,12 @@ export default defineComponent({
 
         animationMotion.value = true
         if (cartItemElement.value)
+
           morph({
                 from,
                 to: cartItemElement.value.$el,
                 duration: 1800,
-                delay: 200,
+                delay: 500,
                 tweenFromOpacity: 0,
                 classes: loading.value ? 'bg-transparent' : '',
                 tweenToOpacity: 50,
@@ -225,9 +226,15 @@ export default defineComponent({
                 waitFor: 'transitionend',
 
                 onEnd: end => {
+                  showCart.value = true;
                   animationMotion.value = false
+
+                  setTimeout(() => {
+                    showCart.value = false;
+                  }, 1500)
                 }
           })
+          animationMotion.value = false;
       })
 
     return {

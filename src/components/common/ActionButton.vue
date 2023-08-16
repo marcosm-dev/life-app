@@ -1,15 +1,21 @@
 <template>
    <q-btn
       type="submit"
-      padding="5px 20px"
       :text-color="textColor ?? 'black'"
       :label="label"
       no-caps
       outline
       dense
+      padding="20px"
       :color="color ?? ''"
       :loading="loading"
-    />
+    >
+       <transition
+          enter-active-class="animated flipInX"
+        >
+        <slot name="badge" />
+        </transition>
+    </q-btn>
 </template>
 
 <script lang="ts">

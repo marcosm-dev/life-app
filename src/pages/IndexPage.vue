@@ -12,16 +12,16 @@
         v-for="category in categories"
         ref="itemsRefs"
         :key="category.id"
-        class="col-12 col-md-6 col-lg-4"
+        class="col-12 col-md-4 col-lg-4"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 q-mx-lg"
-            style="background: rgb(255,255,255, 0.9);"
+            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 q-mx-auto"
+            style="background: rgb(255,255,255, 0.9); max-width: 300px;"
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
             <q-card-section class="transparent q-px-lg">
               <q-img
-                class="rounded-borders bg-dark-page"
+                class="rounded-borders bg-blue-grey-3"
                 :src="`${url}/categories/${category.urlImage}`"
                 fit="contain"
                 style="border-radius: 15px important;"
@@ -30,9 +30,7 @@
               />
             </q-card-section>
             <q-card-actions class="justify-center q-pb-lg">
-               <action-button
-                  :label="category.name"
-                />
+               <action-button :label="category.name" style="width: 80%;" />
             </q-card-actions>
           </q-card>
       </div>

@@ -23,14 +23,14 @@
         <q-separator inset />
 
 
-        <transition-group
+        <!-- <transition-group
           appear
           :enter-active-class="!loading && 'animated fadeOut'"
-        >
+        > -->
 
         <q-card-section class="no-padding">
-          <q-list v-for="product in products" :key="product.id">
-              <q-item v-if="!step" class="q-my-sm row" >
+          <q-list v-for="product in cart" :key="product.cartUid">
+              <q-item v-if="!step" class="q-my-sm row">
                 <q-item-section class="col-auto" avatar>
                   <q-avatar color="primary" text-color="white" square>
                     <!-- <img :src="product.urlImage" /> -->
@@ -108,7 +108,7 @@
                   </div>
                 </q-item-section>
               </q-item>
-            <q-separator v-if="product.cartUid !== products.at(-1).cartUid" inset />
+            <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
           </q-list>
         </q-card-section>
 
@@ -139,14 +139,14 @@
             </div>
         </q-card-section>
 
-        </transition-group>
+        <!-- </transition-group> -->
 
         <q-card-actions class="row q-col-gutter-x-lg  justify-evenly q-px-md q-py-lg">
           <q-btn
-            class="col"
+            class="col q-mr-xl"
             :text-color="step ? 'blue-grey-13' : 'blue-grey-14'"
-            :label="!step && 'Vaciar carrito'"
-            :icon="step === 1 && 'mdi-arrow-left'"
+            :label="!step ? 'Vaciar carrito' : ''"
+            :icon="step === 1 ? 'mdi-arrow-left' : ''"
             @click="!step ? deleteCart() : step--"
             no-caps
             flat
@@ -203,7 +203,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, nextTick } from 'vue';
 import { useDialogPluginComponent } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
 import useProductCart from 'src/composables/useProductCart'
@@ -216,7 +216,8 @@ const {
     resetCart,
     deleteProduct,
     cartIds,
-    cartCount
+    cartCount,
+    cart,
   } = useProductCart()
 const { user } = useAuthStore()
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
@@ -227,14 +228,10 @@ const success = ref(false)
 const step = ref(0)
 const url = process.env.IMAGES_URL
 const count = ref(4)
-const props = defineProps({
-  products: {
-    type: Array,
-    default: () => []
-  }
-})
+
 
 watchEffect(() => {
+
   if (count.value === 0) {
     setTimeout(() => {
       dialogRef.value.hide()
@@ -348,6 +345,7 @@ function deleteCart() {
     dialogRef.value.hide()
   }, 500)
 }
+
 
 </script>
 

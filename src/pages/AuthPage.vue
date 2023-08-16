@@ -159,7 +159,7 @@
           <q-input
             outlined
             clearable
-            type="text"
+            type="password"
             error-message="Por favor, ingresa bien tu contraseña"
             v-model="user.password"
             :error="errorHandler"
@@ -182,23 +182,28 @@
           <action-button
             v-if="!register"
             @click="onSubmit"
-            :label="'Acceder como usuario'"
+            :label="'Acceder'"
           />
 
-          <template v-else>
-            <q-btn
+          <div class="row justify-between" v-else>
+            <q-checkbox
+              v-model="check"
+              class="q-mb-xl text-body2 no-padding text-left text-no-wrap ellipsis"
+            >
+              He leído y acepto la <u>política de privacidad</u>.
+            </q-checkbox>
+            <action-button
               @click="store.toggleRegister"
               label="Iniciar sesión"
               flat
-              no-caps
             />
             <action-button
               @click="onSignupSubmit"
               :label="'Guardar'"
+              :textColor="'secondary'"
               icon-right="mdi-content-save"
-              flat
             />
-          </template>
+          </div>
         </q-card-actions>
       </q-card>
     </q-form>
@@ -216,7 +221,7 @@ import {
   computed,
 } from 'vue'
 import { useAuthStore, User, NewUser } from '../stores/auth';
-import { useQuasar, QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears, LocalStorage } from 'quasar';
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useMutation } from '@vue/apollo-composable'
@@ -239,6 +244,7 @@ export default defineComponent({
     const registerSuccess = ref(false)
     const { register } = storeToRefs(store)
     const { name } = manifest
+    const check = ref(false)
     const addressRef = ref(null)
 
     const user: User = reactive({
@@ -300,6 +306,11 @@ export default defineComponent({
 
     return {
       async onSignupSubmit() {
+        errors.value = []
+        if (!check.value) {
+          errors.value.push('Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.')
+          return
+        }
         if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
         errors.value = []
         $q.loading.show({
@@ -327,7 +338,11 @@ export default defineComponent({
         $q.loading.hide()
       },
       async onSubmit() {
-        console.log(user)
+        const length = LocalStorage.getLength()
+        console.log(length)
+        if (length) {
+          LocalStorage.clear()
+        }
         if (Object.values(user).includes('') || Object.values(user).includes(null)) return
         errors.value = []
         $q.loading.show({
@@ -363,6 +378,7 @@ export default defineComponent({
       }),
       apiKey: process.env.GOOGLE_MAPS_API_KEY,
       addressRef,
+      check,
       name,
       loading,
       loginLoading,

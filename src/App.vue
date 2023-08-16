@@ -42,6 +42,8 @@ export default defineComponent({
         if ((e as BeforeInstallPromptEvent).platforms) {
           const beforeInstallPromptEvent = e as BeforeInstallPromptEvent
 
+          console.log(beforeInstallPromptEvent)
+
           // Por ejemplo, si quisieras mostrar la solicitud de instalación manualmente:
           setDeferredPrompt(beforeInstallPromptEvent)
         }

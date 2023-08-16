@@ -2,6 +2,7 @@
   <q-card
     class="q-mb-lg shadow-12 rounded-borders"
     :class="$q.screen.width < 768 ? 'column' : 'row'"
+    style="max-width: 600px;"
   >
     <q-card-section class="q-py-sm col-12 col-sm-8">
        <div :class="$q.screen.width < 768 ? 'column' : 'row items-end'">
@@ -59,47 +60,33 @@
             @update-item="(e) => e === '+' ? increase() : decrease()"
           />
 
-
-          <q-btn
+        </q-card-actions>
+        <q-card-actions class="row">
+          <action-button
             @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
             label="Añadir al carrito"
+            class="transition-slow col-auto"
             icon="mdi-cart-outline"
-            align="center"
-            color="blue-grey-13"
-            padding="6px"
-            no-caps
-            class="full-width q-mt-md transition-slow"
-            square
-            unelevated
           >
-            <div
-              v-if="Number(itemsAdded) > 0"
-              ref="countItemElement"
-              class="product-count"
-            >
-                {{ itemsAdded }}
-            </div>
-            <div
-              :class="!checkIsAdded && 'invisible'"
-              ref="countItemElement"
-              class="product-count"
-            >
-                {{ itemsAdded }}
-            </div>
-      </q-btn>
-      <q-btn
-        @click="addToCart(); toggleCartDialog()"
-        label="Pagar directamente"
-        padding="8px"
-        no-caps
-        class="full-width q-mt-xs text-bold"
-        :class="$q.screen.width > 768 && 'q-mb-md'"
-        color="warning"
-        unelevated
-        style="border-top-left-radius: 0; border-top-right-radius: 0;"
-      />
-    </q-card-actions>
-  </q-card>
+              <template #badge>
+                <div
+                  v-if="Number(itemsAdded) > 0"
+                  :key="itemsAdded"
+                  ref="countItemElement"
+                  class="product-count"
+                >
+                    {{ itemsAdded }}
+                </div>
+              </template>
+          </action-button>
+          <action-button
+            :textColor="'light-blue-13'"
+            @click="addToCart(); toggleCartDialog()"
+            class="transition-slow col"
+            label="Pagar directamente"
+          />
+        </q-card-actions>
+    </q-card>
 </template>
 
 <script lang="ts">
@@ -172,14 +159,15 @@ export default defineComponent({
   .product-count {
     background-color: $light-blue-11 !important;
     color: #fff;
-    font-size: 12px;
-    border-radius: 50px;
-    line-height: 24px;
-    height: 24px;
-    width: 24px;
+    font-size: 10px;
+    font-family: 'Knockout';
+    border-radius: 2px;
+    line-height: 20px;
+    height: 20px;
+    width: 20px;
     top: -6px;
     right: -6px;
-    position: absolute;
+    position: absolute !important;
   }
   .transition-slow {
     transition-property: all;
