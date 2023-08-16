@@ -11,6 +11,7 @@
             rounded
             outline
             icon="mdi-arrow-left"
+            grossy
             color="blue-grey-13"
           />
           <q-img
@@ -134,7 +135,12 @@
       </q-list>
     </q-drawer> -->
     <q-page-container class="container">
+      <transition
+        appear
+        :enter-active-class="isParent ? 'animated slideInLeft' : 'animated slideInRight'"
+      >
       <router-view />
+      </transition>
     </q-page-container>
     <q-footer
       reveal
@@ -200,6 +206,7 @@ import { EventBus, morph } from 'quasar'
 
 import useCartDialog from 'src/composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -207,11 +214,24 @@ export default defineComponent({
     const { productQuantity, loading } = useCartAnimation()
     const { toggleCartDialog, cart } = useCartDialog()
     const bus = inject<EventBus>('bus', new EventBus())
-    const store = useAuthStore();
-    const leftDrawerOpen = ref(null);
+    const store = useAuthStore()
+    const leftDrawerOpen = ref(null)
     const cartItemElement: Ref<HTMLElement | null> = ref(null)
-    const showCart = ref(false);
-    const animationMotion = ref(false);
+    const showCart = ref(false)
+    const animationMotion = ref(false)
+    const isParent = ref(false)
+
+    onBeforeRouteUpdate((to, from) => {
+      const toSplit = to.path.split('/')
+      const fromSplit = from.path.split('/')
+
+      if(toSplit.includes('home')) {
+        console.log('hola')
+        isParent.value = true
+      } else {
+        isParent.value = false
+      }
+    })
 
       // Incio animación de producto hacia el carrito
       bus.on('product-to-cart', (from: HTMLDivElement) => {
@@ -246,6 +266,7 @@ export default defineComponent({
       })
 
     return {
+      isParent,
       store,
       cart,
       loading,

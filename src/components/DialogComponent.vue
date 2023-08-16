@@ -185,6 +185,8 @@
 
         <!-- </transition-group> -->
 
+        <!-- Step 1 -->
+
         <q-card-actions class="row q-col-gutter-x-lg  justify-evenly q-px-md q-py-lg">
           <q-btn
             v-if="!step"
@@ -205,20 +207,20 @@
               direction="up"
             >
               <q-fab-action
-                outline
-                class="bg-white"
-                @click="deleteCart()"
-                color="bg-light-blue-10"
-                icon="mdi-delete"
-                glossy
-              />
-              <q-fab-action
                 @click="fabDeleteCart = !fabDeleteCart"
                 outline
                 glossy
                 class="bg-white"
                 color="bg-light-blue-10"
                 icon="mdi-close"
+              />
+              <q-fab-action
+                outline
+                class="bg-white"
+                @click="deleteCart()"
+                color="bg-light-blue-10"
+                icon="mdi-delete"
+                glossy
               />
             </q-fab>
           </q-btn>
@@ -242,7 +244,12 @@
             :loading="loading"
           />
         </q-card-actions>
+
+        <!-- Fin -->
       </q-card>
+
+      <!-- Fin de la compra -->
+
       <!-- <q-inner-loading :showing="true" color="warning"> -->
       <q-inner-loading :showing="sendLoading || success" color="warning">
           <q-spinner-gears
@@ -279,6 +286,8 @@
             </q-card-actions>
           </q-card>
       </q-inner-loading>
+
+      <!-- Fin -->
   </q-dialog>
 </template>
 
