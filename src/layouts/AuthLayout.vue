@@ -1,7 +1,7 @@
 <template>
   <q-layout
     view="hHh Lpr fff"
-    class="auth-background"
+    class="header-background"
   >
     <q-page-container>
       <router-view />
@@ -53,38 +53,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import { useAuthStore } from '../stores/auth';
-import { BeforeInstallPromptEvent } from '../components/models';
 
 export default defineComponent({
   name: 'MainLayout',
   setup() {
-    const store = useAuthStore()
-    const { setDeferredPrompt } = useAuthStore()
-      const beforeInstallHandler = (e: Event) => {
-
-      // Verificar si el evento es realmente un BeforeInstallPromptEvent
-      if ((e as BeforeInstallPromptEvent).platforms) {
-        const beforeInstallPromptEvent = e as BeforeInstallPromptEvent
-        console.log(beforeInstallPromptEvent)
-        // Por ejemplo, si quisieras mostrar la solicitud de instalación manualmente:
-        setDeferredPrompt(beforeInstallPromptEvent)
-      }
-    }
-
-    onMounted(() => {
-      window.addEventListener('beforeinstallprompt', beforeInstallHandler)
-    })
+    const store = useAuthStore();
 
     return { store }
   }
 });
 </script>
 
-<style lang="scss" scoped>
-  .auth-background {
-    background-image: url('./src/assets/backgrounds/registerbackground-min.webp');
+<style lang="scss">
+  .header-background {
+    background-image: url('src/assets/backgrounds/registerbackground-min.webp');
     background-size: contain;
   }
   .footer-background {

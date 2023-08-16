@@ -36,6 +36,23 @@ export default defineComponent({
         }
     `, null, { enabled: !!LocalStorage.getItem('token')})
 
+    const beforeInstallHandler = (e: Event) => {
+
+      // Verificar si el evento es realmente un BeforeInstallPromptEvent
+      if ((e as BeforeInstallPromptEvent).platforms) {
+        const beforeInstallPromptEvent = e as BeforeInstallPromptEvent
+        console.log(beforeInstallPromptEvent)
+        // Por ejemplo, si quisieras mostrar la solicitud de instalación manualmente:
+        setDeferredPrompt(beforeInstallPromptEvent)
+      }
+    }
+
+    onMounted(() => {
+      const neverShowAppInstallBanner = LocalStorage.getItem('neverShowAppInstallBanner')
+      if (!neverShowAppInstallBanner) {
+        window.addEventListener('beforeinstallprompt', beforeInstallHandler)
+      }
+    })
 
     watchEffect(() => {
       if(result.value) {
