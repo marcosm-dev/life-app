@@ -73,7 +73,7 @@
               </div>
               <q-separator horizontal class="q-mb-sm" />
               <q-list dense>
-                <q-item clickable v-ripple to="/orders">
+                <q-item clickable v-ripple to="/orders" disable>
                   <q-item-section>
                     Pedidos
                   </q-item-section>
@@ -90,8 +90,15 @@
                     Reclamaciones
                   </q-item-section>
                 </q-item>
+                 <q-item
+                  @click="store.logout()"
+                  v-ripple
+                  class="text-color-blue-grey-7 q-mt-sm"
+                  clickable
+                >
+                  Cerrar sesión
+                 </q-item>
               </q-list>
-              <banner-install-app v-if="store.user.uuid" menu />
             </div>
 
             <q-separator vertical inset class="q-mx-lg" />
@@ -104,23 +111,11 @@
               <div class="text-subtitle q-mt-md q-mb-xs text-blue-grey-13 knockout" style="letter-spacing: 1px;">
                 Hola <span class="text-blue-grey-13"></span>{{ store.user.name }}
               </div>
-
-              <q-btn
-                dense
-                class="full-width q-mt-auto text-no-wrap"
-                text-color="blue-grey-7"
-                label="Cerrar sesión"
-                @click="store.logout()"
-                flat
-                size="md"
-                no-caps
-                uneleveated
-              />
-
             </div>
           </div>
+          <banner-install-app v-if="store.user.uuid" menu />
         </q-menu>
-          <q-icon name="mdi-account" size="35px" color="blue-grey-14" />
+        <q-icon name="mdi-account" size="30px" color="blue-grey-14" />
       </q-avatar>
 
     </q-header>

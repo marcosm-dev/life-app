@@ -4,7 +4,7 @@
       ¿Qué tipo de producto buscas?
     </h5>
     <div
-      class="row q-mx-md"
+      class="row justify-center q-mx-md"
       :class="$q.screen.width < 768 ? 'q-mx-md' : 'q-col-gutter-md'"
     >
       <div
@@ -12,7 +12,7 @@
         v-for="category in categories"
         ref="itemsRefs"
         :key="category.id"
-        class="col-12 col-md-4 col-lg-4"
+        class="col-12 col-md-4 col-lg-2"
       >
           <q-card
             class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto"
@@ -46,6 +46,7 @@
                 :ratio="1"
               /> -->
             </q-card-section>
+
           </q-card>
       </div>
     </div>
@@ -63,7 +64,7 @@ export default defineComponent({
   setup() {
     const $q = useQuasar()
     const itemsRefs = ref([])
-    const limit = ref(4)
+    const limit = ref($q.screen.gt.sm ? 4 : 8)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
 

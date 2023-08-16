@@ -70,6 +70,9 @@ export default defineComponent({
   .header-background {
     background-image: url('src/assets/backgrounds/registerbackground-min.webp');
     background-size: contain;
+    background-position: center;
+    background-color: $blue-grey-10;
+    background-repeat: no-repeat;
   }
   .footer-background {
     color: $light-blue-1 !important;

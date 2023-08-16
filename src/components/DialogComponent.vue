@@ -243,38 +243,41 @@
           />
         </q-card-actions>
       </q-card>
+      <!-- <q-inner-loading :showing="true" color="warning"> -->
       <q-inner-loading :showing="sendLoading || success" color="warning">
           <q-spinner-gears
             v-if="sendLoading && !success"
             size="100px"
             color="dark"
           />
-          <div v-else-if="!sendLoading && success">
-            <q-img
-              v-if="!invoice"
-              width="120px"
-              height="120px"
-              :src="`${url}/check.webp`"
-            />
-            <action-button
-              v-else
-              @click="success = false; dialogRef.hide()"
-              no-caps
-              padding="10px 20px"
-              text-color="positive"
-              style="background: rgb(0,0,0,.3)"
-              flat
-              rounded
-              ripple
-            >
-                <div class="text-body1 knockout">
-                    {{ $q.lang.label.close }}
-                    <div class="text-body text-dark-page knockout" style="color: rgb(255,255,255,.75)">
-                        {{ count }}
-                    </div>
-                </div>
-            </action-button>
-          </div>
+          <!-- <div v-else-if="!sendLoading && success"> -->
+          <q-card v-if="success" class="text-caption q-py-xl">
+            <q-card-section class="text-caption text-blue-grey-13 row justify-center">
+              ¡Pedido generado con Éxito!
+              <q-img
+                v-if="invoice"
+                width="20px"
+                height="20px"
+                class="q-ml-xs "
+                src="~assets/check.gif"
+              />
+              <p>Te enviaremos la factura por correo electrónico. ¡Gracias por tu compra!</p>
+             <action-button
+                @click="success = false; dialogRef.hide()"
+                no-caps
+                :label="count"
+                padding="10px 20px"
+                text-color="light-blue-1"
+                flat
+                class="bg-blue-grey-14 q-mx-auto q-mt-lg"
+                rounded
+                ripple
+              />
+            </q-card-section>
+            <q-card-actions class="row bg-blue-grey-9 justify-center">
+            <banner-install-app class="z-top" />
+            </q-card-actions>
+          </q-card>
       </q-inner-loading>
   </q-dialog>
 </template>
@@ -306,18 +309,17 @@ const fabDelete = ref(false)
 const fabDeleteCart = ref(false)
 const step = ref(0)
 const url = process.env.IMAGES_URL
-const count = ref(4)
+const count = ref(8)
 
 const selectedFab = ref(null)
 
 watchEffect(() => {
-
   if (count.value === 0) {
     setTimeout(() => {
       dialogRef.value.hide()
       success.value = false;
-      count.value = 4;
-    }, 500)
+      count.value = 8;
+    }, 400)
   }
 })
 
@@ -375,11 +377,14 @@ function startCount(countValue) {
 }
 
 function resetProcess() {
-    resetCart()
     order.value = null
     step.value = null
 
     startCount(count.value)
+
+    setTimeout(() => {
+      resetCart()
+    }, 8000)
 }
 
 const getInvoceItems = products => {
@@ -404,14 +409,14 @@ async function onOKClick() {
      step.value = 1
 
     } else if (step.value === 1) {
-      sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
-        .then((res) => {
+      // sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
+      //   .then((res) => {
           success.value = true
           setTimeout(() => {
             resetProcess()
             invoice.value = res
           }, 2750)
-        })
+        // })
     }
 
   } catch (error) {
