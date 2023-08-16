@@ -16,23 +16,22 @@ async function toPascalCase(str: string) {
 }
 
 export default boot(async ({ app }) => {
-  Promise.allSettled([
+  await Promise.all(
     globalComponentNames.map(async (componentName) => {
       const pascalCaseName = await toPascalCase(componentName);
 
-      let module;
+      const importUrl = `../../src/components/common/${pascalCaseName}.vue`;
 
-      const importUrl = `../components/common/${pascalCaseName}.vue`;
-
-      if (pascalCaseName) module = await import(importUrl);
+      /* @vite-ignore */
+      const module = await import(
+        '../../src/components/common/ActionButton.vue'
+      );
 
       globalComponents[componentName] = module.default;
 
       app.component(componentName, module.default);
     })
-  ]);
+  );
 
-  console.log(globalComponents);
-
-  // Verificar que los componentes se hayan agregado correctamente
+  console.log(globalComponents); // Verificar que los componentes se hayan agregado correctamente
 });
