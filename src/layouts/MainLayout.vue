@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row header" elevated>
+    <q-header class="row header shadow-10" elevated>
       <div class="col-auto">
         <div class=" q-ma-xs">
           <q-btn
@@ -120,13 +120,8 @@
             </div>
           </div>
         </q-menu>
-          <img
-            width="45px"
-            height="45px"
-            src="../assets/avatar.jpg"
-            alt="imagen de usuario"
-          />
-        </q-avatar>
+          <q-icon name="mdi-account" size="35px" color="blue-grey-14" />
+      </q-avatar>
 
     </q-header>
     <!-- <q-drawer
@@ -150,36 +145,50 @@
       reveal
       class="main-footer row justify-between q-px-md"
     >
-      <a href="https://www.serpica.org" class="col-auto text-warning serpica-title">
-        SERPICA
-      </a>
+    <div class="column">
       <transition
         appear
         enter-active-class="animated fadeIn"
         :duration="5000"
       >
         <div
-          :class="!cart.length ? 'hidden' : 'animated fadeIn'"
-          class="col q-ml-md cursor-pointer cart-container"
+          :class="!cart.length ? 'invisible' : 'animated fadeIn'"
+          class="q-mr-auto cursor-pointer cart"
           @click="toggleCartDialog"
         >
-            <div class="flex">
-                <q-icon
-                  ref="cartItemElement"
-                  name="mdi-cart-arrow-down"
-                  color="light-blue-2"
-                  class="q-my-auto q-ml-xs bg-transparent"
-                  :class="showCart ? 'animated headShake' : ''"
-                  size="30px"
-                />
-            </div>
+          <div class="flex q-mb-lg">
+              <small class="block full-width q-mb-sm">
+                Mi carrito:
+              </small>
+              <div class="knockout cart-count">
+                {{ cart.length }}
+              </div>
+              <q-icon
+                v-ripple.center
+                ref="cartItemElement"
+                name="mdi-cart-outline"
+                color="white"
+                class="q-ml-xs bg-transparent"
+                :class="showCart ? 'animated headShake' : ''"
+                size="28px"
+              />
+          </div>
         </div>
       </transition>
-      <div class="column q-col-gutter-y-md text-caption items-end text-bold" style="line-height: 0.5;">
-        <router-link class="q-mb-xs" to="/contacto">Contacto</router-link>
-        <a href="#">Política de privacidad</a>
-        <a href="#">Protección de datos</a>
-        <div class="row full-width main-footer-italy">
+      <a
+        class="col text-blue-grey-1 serpica-title"
+        target="_blank"
+        href="https://www.serpica.org"
+        style="letter-spacing: 1px;"
+      >
+        SERPICA CANARIAS S.L.
+      </a>
+    </div>
+      <div class="column q-col-gutter-y-md items-end text-bold">
+        <q-btn class="no-padding" dense flat no-caps to="/contacto" label="Contacto" />
+        <q-btn class="no-padding" dense flat no-caps label="Política de privacidad" />
+        <q-btn class="no-padding" dense flat no-caps label="Protección de datos" />
+        <div class="row q-mt-sm items-end full-width main-footer-italy">
           <div class="col flag-green" />
           <div class="col flag-white text-dark text-center text-bold text-dark" />
           <div class="col flag-red" />
@@ -275,13 +284,13 @@ export default defineComponent({
   .main-footer {
     background-position: center;
     background-size: contain;
-    height: 100px;
-    background-color: rgb(20, 20, 20,0.96);
+    background-color: rgba($color: #0000, $alpha: 0.9);
     align-items: center;
     display: flex;
-    color: $positive;
+    color: $blue-grey-1;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
+    padding: 1.5em 1em;
   }
 
   .main-footer-italy .col {
@@ -289,11 +298,11 @@ export default defineComponent({
   }
 
   .cart-icon:hover {
-    font-size: 45px !important;
-    color: #fff !important;
+    font-size: 45px;
+    color: #fff;
   }
   .animated-cart {
-    transition-duration: 2s !important;
+    transition-duration: 2s;
   }
 
   .cart-count {
@@ -307,7 +316,7 @@ export default defineComponent({
     font-size: 16px;
     text-align: center;
     align-items: center;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 
   .headShake {

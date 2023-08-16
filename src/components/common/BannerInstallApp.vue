@@ -72,13 +72,16 @@ export default defineComponent({
 
     function installApp() {
       showAppInstallBanner.value = false
-      deferredPrompt.prompt()
 
-      deferredPrompt.userChoise.then((chouseResult: any) => {
-          if (chouseResult.outcome === 'accepted') {
-            console.log(chouseResult)
-            neverShowINstallBanner()
-          }
+      if (!Object.values(deferredPrompt).length) return
+
+
+      deferredPrompt.prompt()
+      deferredPrompt?.userChoise.then((chouseResult: any) => {
+      if (chouseResult.outcome === 'accepted') {
+        console.log(chouseResult)
+        neverShowINstallBanner()
+      }
       })
 
     }

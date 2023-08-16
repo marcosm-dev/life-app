@@ -5,51 +5,53 @@
     style="max-width: 600px;"
   >
     <q-card-section class="q-py-sm col-12 col-sm-8">
-       <div :class="$q.screen.width < 768 ? 'column' : 'row items-end'">
-         <q-img
-          class="col"
-          style="max-height: 175px"
-          :src="`${url}/products/${product.urlImage.toLowerCase()}` ?? '../assets/logo.jpg'"
-          fetchpriority="high"
-          fit="scale-down"
-          crossorigin="anonymous"
-          :ratio="1"
-        >
-          <template #error>
-              <q-img
-                class="col"
-                src="../assets/logo.jpg"
-                width="170px"
-                height="70px"
-              />
-          </template>
-        </q-img>
-        <span class="text-bold text-h6 q-mx-sm col">
-          {{ product.name }}
-        </span>
-          <a
-            href="https://www.homelife.it/es/producto/vis"
-            class="text-info cursor-pointer col-auto"
-            :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
+       <div :class="$q.screen.width < 768 ? 'column' : ''">
+          <q-img
+            class="col"
+            style="max-height: 100px"
+            :src="`${url}/products/${product.urlImage.toLowerCase()}` ?? '../assets/logo.jpg'"
+            fetchpriority="high"
+            fit="scale-down"
+            crossorigin="anonymous"
+            :ratio="1"
           >
-            Mas información
-          </a>
+            <template #error>
+                <q-img
+                  class="col"
+                  src="../assets/logo.jpg"
+                  width="170px"
+                  height="70px"
+                />
+            </template>
+          </q-img>
+          <div class="text-bold col full-height flex">
+            <div class="text-h5 text-blue-grey-10">
+              {{ product.name }}
+            </div>
+            <a
+              target="_blank"
+              href="https://www.homelife.it/es/producto/vis"
+              class="text-info cursor-pointer col-auto text-caption q-mt-auto q-ml-auto"
+              :class="$q.screen.width < 768 ? '' : ''"
+            >
+              Mas información
+            </a>
+          </div>
           <div class="col-12">
-            <q-separator size="1px" spaced="5px" />
-              <p class="text-caption">{{ product.description }}</p>
+            <q-separator size="1px" spaced="10px" />
+                <p class="description text-lowercase text-blue-grey-13" style="line-height: 1.2; letter-spacing: 0px;">
+                  {{ product.description }}
+                </p>
                 <div class="text-caption row">
                   <div v-if="product.accessories" class="col-12">Incluye:</div>
                   <div class="col-auto text-bold">
                     {{ product.accessories }}
                   </div>
-                  <div class="col text-right text-warning">
-                    {{ product.stock }} en stock
-                  </div>
                 </div>
             </div>
           </div>
         </q-card-section>
-        <q-separator size="1px" inset />
+        <q-separator size="1px" spaced="5px" inset />
         <q-card-actions
           class="col items-end no-padding full-width"
           :class="$q.screen.width > 768 && 'q-ma-xl'"
@@ -58,17 +60,31 @@
           <ProductQuantity
             :product="state"
             @update-item="(e) => e === '+' ? increase() : decrease()"
-          />
+          >
+            <template #extraInfo>
+               <p class="text-body2 text-blue-grey-10 q-my-auto knockout">
+                  Quedan {{ product.stock }}uds.
+                </p>
+            </template>
+          </ProductQuantity>
 
         </q-card-actions>
         <q-card-actions class="row justify-between full-width q-pa-md">
           <action-button
             @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
-            label="Al carrito"
+            :label="$q.screen.width < 300 ? 'Añadir' : 'Al carrito'"
             neutro
             class="transition-slow col"
-            icon="mdi-cart-outline"
           >
+              <template #icon>
+              <q-icon
+                v-if="$q.screen.width > 315"
+                size="20px"
+                name="mdi-cart-arrow-down"
+                color="blue-grey-14"
+                class="q-ml-sm"
+              />
+              </template>
               <template #badge>
                 <div
                   v-if="Number(itemsAdded) > 0"
@@ -99,12 +115,12 @@ import {
   Ref,
 } from 'vue';
 
-import ProductQuantity from 'components/ProductQuantity.vue';
+import ProductQuantity from 'components/ProductQuantity.vue'
 import useCartDialog from '../composables/useCartDialog'
-import useCartAnimation from 'src/composables/useCartAnimation';
-import { EventBus } from 'quasar';
-import useProductCart from '../composables/useProductCart';
-import { Product } from './models';
+import useCartAnimation from 'src/composables/useCartAnimation'
+import { EventBus } from 'quasar'
+import useProductCart from '../composables/useProductCart'
+import { Product } from './models'
 
 export default defineComponent({
   name: 'ProductComponent',
@@ -177,5 +193,7 @@ export default defineComponent({
   .mdi-cart-outline {
     margin-right: 10px;
   }
-
+  .description::first-letter {
+    text-transform: uppercase;
+  }
 </style>

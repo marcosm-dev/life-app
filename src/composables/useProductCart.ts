@@ -1,10 +1,9 @@
 import { storeToRefs } from 'pinia';
 import { useCartStore } from 'src/stores/cart';
 import { reactive, toRefs } from 'vue';
-import { Product } from '../components/models';
 import { uid } from 'quasar';
 
-const useProductCart = (product: Product) => {
+const useProductCart = (product: any) => {
   const state = reactive({
     ...product,
     quantity: 1
@@ -20,14 +19,14 @@ const useProductCart = (product: Product) => {
   }
 
   function addToCart() {
-    store.addProduct({ ...state, cartUid: uid() });
+    if (product) store.addProduct({ ...state, cartUid: uid() });
   }
 
   function resetCart() {
     store.$reset();
   }
 
-  function deleteProduct(uuid: string) {
+  function deleteProduct(uuid: any) {
     store.deleteProduct(uuid);
   }
 

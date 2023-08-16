@@ -40,12 +40,15 @@
 
   <!--  COMPONENTE COMÚN -->
 
-  <q-card-section v-else class="row items-center text-center full-width">
+  <q-card-section v-else class="row q-py-none items-center text-center full-width">
     <div
       :class="$q.screen.width < 768 ? 'q-mt-lg' : 'q-mb-lg'"
-      class="col-12 text-left text-h5 q-px-md q-pb-md"
+      class="col-12 text-right justify-between items-center flex"
     >
-    {{ product.price.toFixed(2) }}<small class="text-blue-grey-14">€</small>
+      <slot name="extraInfo" />
+      <div class="knockout text-h6 text-blue-grey-14">
+        {{ product.price.toFixed(2) }}<small class="text-blue-grey-13">€</small>
+      </div>
     </div>
     <q-btn
       @click="$emit('update-item', '-')"

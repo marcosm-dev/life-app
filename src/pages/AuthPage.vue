@@ -15,6 +15,7 @@
             @click="reset"
             :label="'Iniciar sesión'"
             outline
+            neutro
           />
         </q-card-actions>
         <q-card-section class="no-padding col">
@@ -24,8 +25,8 @@
     </q-dialog>
 
     <!-- LOGIN Y REGISTRO DE USUARIO -->
-    <q-form class="q-px-md col q-pt-xl" v-show="!registerSuccess" style="max-width: 450px">
-       <q-card class="row text-center justify-center q-px-none q-py-md z-max text-dark shadow-15">
+    <q-form @submit="register ? onSignupSubmit : onSubmit" class="q-px-md col q-pt-xl" style="max-width: 450px;">
+       <q-card class="row text-center justify-center q-px-none q-py-md text-dark shadow-15">
        <q-card-section>
           <q-img
             class="col-12"
@@ -169,10 +170,10 @@
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
         </q-card-section>
-        <q-card-section v-show="errors.length" class="text-negative">
-          <q-list dense bordered padding class="rounded-borders">
-            <q-item v-for="error in errors" clickable v-ripple :key="error">
-              <q-item-section>
+        <q-card-section v-show="errors.length" class="text-accent">
+          <q-list dense bordered padding style="border-radius: 26px;">
+            <q-item v-for="error in errors" :key="error">
+              <q-item-section class="text-caption">
                 {{ error }}
               </q-item-section>
             </q-item>
@@ -183,6 +184,8 @@
             v-if="!register"
             @click="onSubmit"
             label="Acceder"
+            type="submit"
+            neutro
           />
 
           <div class="row justify-between" v-else>
@@ -199,7 +202,7 @@
               neutro
             />
             <action-button
-              @click="onSignupSubmit"
+              type="submit"
               label="Guardar"
               icon-right="mdi-content-save"
             />
@@ -339,7 +342,6 @@ export default defineComponent({
       },
       async onSubmit() {
         const length = LocalStorage.getLength()
-        console.log(length)
         if (length) {
           LocalStorage.clear()
         }
@@ -369,6 +371,7 @@ export default defineComponent({
       reset: () => {
         router.push(`/?${Date.now()}`)
         store.toggleRegister()
+        register.value = false
       },
       heandleEmailError: computed(() => {
         for (const error of errors.value) {

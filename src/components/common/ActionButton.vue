@@ -1,6 +1,5 @@
 <template>
    <q-btn
-      type="submit"
       :text-color="neutro ? 'blue-grey-14' : 'light-blue-14'"
       :label="label"
       no-caps
@@ -15,6 +14,7 @@
         >
         <slot name="badge" />
         </transition>
+        <slot name="icon" />
     </q-btn>
 </template>
 

@@ -6,7 +6,7 @@
         v-close-popup
         class="close-icon"
         name="mdi-close"
-        color="white"
+        color="blue-grey-14"
         size="40px"
       />
       <q-card class="full-width">
@@ -17,8 +17,12 @@
           color="dark block q-ml-auto"
           size="40px"
         />
-        <q-card-section class="text-weight-light knockout text-body" style="letter-spacing: 0.5px">
-          {{ !step ? 'MI CARRITO' : 'RESUMEN DE TU PEDIDO:' }}
+        <q-card-section
+          class="text-weight-light knockout text-body1"
+          style="letter-spacing: 0.5px"
+          :class="!$q.screen.gt.xs ? '' : 'q-py-none'"
+        >
+          {{ !step ? 'Mi carrito' : 'Resumen' }}
         </q-card-section>
         <q-separator inset />
 
@@ -29,86 +33,127 @@
         > -->
 
         <q-card-section class="no-padding">
-          <q-list v-for="product in cart" :key="product.cartUid">
-              <q-item v-if="!step" class="q-my-sm row">
-                <q-item-section class="col-auto" avatar>
-                  <q-avatar color="primary" text-color="white" square>
-                    <!-- <img :src="product.urlImage" /> -->
-                    <img
-                      style="aspect-ratio: 1;"
-                      src="../assets/logo.jpg"
-                    >
-                  </q-avatar>
-                    <q-btn
-                      @click="deleteProduct(product.cartUid)"
-                      size="14px"
-                      unelevated
-                      color="blue-grey-2"
-                      outline
-                      padding="10"
-                      rounded
-                    >
-                        <q-icon
-                          name="mdi-delete"
-                          color="blue-grey-14"
-                          size="18px"
-                        />
-                    </q-btn>
-                  <!-- <template v-slot:error>
-                    <img src="../assets/logo.jpg" />
-                  </template> -->
-                </q-item-section>
-              <q-item-section >
-                <q-item-label class="knockout">{{ product.name }}</q-item-label>
-                <q-item-label caption class="knockout description" lines="2">
-                  {{ product.description }}
-                </q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label class="text-body knockout text-blue-grey-13">
-                  {{ product.price.toFixed(2) }}<small>€</small>
-                </q-item-label>
-                <ProductQuantity
-                  class="q-px-none"
-                  @update-item="(e) => updateCartItem(product.cartUid, e)"
-                  :product="product"
-                  :dense="true"
-                />
-              </q-item-section>
-              </q-item>
-               <q-item
-                v-else-if="step === 1"
-                class="q-my-sm"
-                clickable
-                v-ripple
-              >
-                <q-item-section avatar>
-                  <q-avatar color="primary" text-color="white" square>
-                    <!-- <img :src="product.urlImage" /> -->
-                    <img src="../assets/logo.jpg" />
-                  </q-avatar>
-                  <!-- <template v-slot:error>
-                    <img src="../assets/logo.jpg" />
-                  </template> -->
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label caption class="text-dark">{{ product.name }}</q-item-label>
-                  <q-item-label caption class="text-h6" lines="1">
-                    {{ product.accessories }}
+          <transition-group
+            appear
+            :duration="200"
+            leave-active-class="animated fadeOut"
+          >
+            <q-list v-for="product in cart" :key="product.cartUid" style="transition-duration: all;">
+                <q-item v-if="!step" class="q-my-sm row bg-white">
+                  <q-item-section class="col-auto" avatar>
+                    <q-avatar color="primary" text-color="white" square>
+                      <!-- <img :src="product.urlImage" /> -->
+                      <img
+                        style="aspect-ratio: 1;"
+                        src="../assets/logo.jpg"
+                      >
+                    </q-avatar>
+                      <q-btn
+                        @click="selectedFab = product.cartUid"
+                        :disabled="selectedFab !== product.cartUid"
+                        size="14px"
+                        unelevated
+                        outline
+                        dense
+                        rounded
+                        padding="0px 10px"
+                      >
+                          <q-fab
+                            v-if="selectedFab === product.cartUid"
+                            v-model="fabDelete"
+                            label-position="top"
+                            flat
+                            color="blue-grey-14"
+                            padding="5px"
+                            icon="mdi-delete"
+                          >
+                            <q-fab-action
+                              outline
+                              glossy
+                              class="bg-white"
+                              @click="deleteProduct(product.cartUid)"
+                              icon="mdi-delete"
+                            />
+                          </q-fab>
+
+                          <!-- Sckeleton -->
+                          <q-fab
+                            v-else
+                            label-position="right"
+                            flat
+                            padding="5px"
+                            icon="mdi-delete"
+                          >
+                            <q-fab-action
+                              outline
+                              glossy
+                              class="bg-white"
+                              @click="deleteProduct(product.cartUid)"
+                              icon="mdi-delete"
+                            />
+                          </q-fab>
+                          <!-- <q-icon
+                            name="mdi-delete"
+                            color="blue-grey-14"
+                            size="18px"
+                          /> -->
+                      </q-btn>
+                    <!-- <template v-slot:error>
+                      <img src="../assets/logo.jpg" />
+                    </template> -->
+                  </q-item-section>
+                <q-item-section >
+                  <q-item-label class="knockout">{{ product.name }}</q-item-label>
+                  <q-item-label class="knockout description text-caption text-blue-grey-13" lines="3">
+                    {{ product.description }}
                   </q-item-label>
                 </q-item-section>
-                <q-separator vertical />
-                <q-item-section class="text-dark-page" side>
-                  <q-item-label caption class="knockout">
-                    {{  product.quantity  }} {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
+                <q-item-section class="no-padding" side>
+                  <q-item-label class="text-body knockout text-blue-grey-13">
+                    {{ product.price.toFixed(2) }}<small>€</small>
                   </q-item-label>
-                  <div class="knockout">
-                    {{ (product.price * product.quantity).toFixed(2) }}
-                  </div>
+                  <ProductQuantity
+                    class="q-px-none"
+                    @update-item="(e) => updateCartItem(product.cartUid, e)"
+                    :product="product"
+                    :dense="true"
+                  />
                 </q-item-section>
-              </q-item>
-            <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
-          </q-list>
+                </q-item>
+                <q-item
+                  v-else-if="step === 1"
+                  class="q-my-sm"
+                  clickable
+                  v-ripple
+                >
+                  <q-item-section avatar>
+                    <q-avatar color="primary" text-color="white" square>
+                      <!-- <img :src="product.urlImage" /> -->
+                      <img src="../assets/logo.jpg" />
+                    </q-avatar>
+                    <!-- <template v-slot:error>
+                      <img src="../assets/logo.jpg" />
+                    </template> -->
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label caption class="text-dark">{{ product.name }}</q-item-label>
+                    <q-item-label caption class="text-h6" lines="1">
+                      {{ product.accessories ?? product.description }}
+                    </q-item-label>
+                  </q-item-section>
+                  <q-separator vertical />
+                  <q-item-section class="text-dark-page" side>
+                    <q-item-label caption class="knockout">
+                      {{  product.quantity  }} {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
+                    </q-item-label>
+                    <div class="knockout">
+                      {{ (product.price * product.quantity).toFixed(2) }}
+                    </div>
+                  </q-item-section>
+                </q-item>
+              <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
+            </q-list>
+          </transition-group>
         </q-card-section>
 
         <q-separator class="col-12" size="1px" />
@@ -142,23 +187,56 @@
 
         <q-card-actions class="row q-col-gutter-x-lg  justify-evenly q-px-md q-py-lg">
           <q-btn
-            class="col q-mr-xl"
-            :text-color="step ? 'blue-grey-13' : 'blue-grey-14'"
+            v-if="!step"
+            class="col"
+            @click="fabDeleteCart = !fabDeleteCart"
+            text-color="blue-grey-13"
             :label="!step ? 'Vaciar carrito' : ''"
-            :icon="step === 1 ? 'mdi-arrow-left' : ''"
-            @click="!step ? deleteCart() : step--"
             no-caps
+            :ripple="false"
             flat
+          >
+            <q-fab
+              v-model="fabDeleteCart"
+              label-position="top"
+              flat
+              padding="5px"
+              hide-icon
+              direction="up"
+            >
+              <q-fab-action
+                outline
+                class="bg-white"
+                @click="deleteCart()"
+                color="bg-light-blue-10"
+                icon="mdi-delete"
+                glossy
+              />
+              <q-fab-action
+                @click="fabDeleteCart = !fabDeleteCart"
+                outline
+                glossy
+                class="bg-white"
+                color="bg-light-blue-10"
+                icon="mdi-close"
+              />
+            </q-fab>
+          </q-btn>
+           <q-btn
+              v-else
+              icon="mdi-arrow-left"
+              flat
+              color="blue-grey-13 col"
+              @click="step--"
           />
-          <q-btn
+          <action-button
             :disable="amount === 0"
             outline
-            square
             class="text-bold text-body col"
             padding="10px 20px"
             dense
-            :color="!step ? 'light-blue-9' : 'blue-grey-13'"
-            :label="!step ? 'Ver resumen' : 'Realizar pedido'"
+            :neutro="!!!step"
+            :label="!step ? 'Guardar y ver resumen' : 'Realizar pedido'"
             @click="onOKClick"
             no-caps
             :loading="loading"
@@ -178,7 +256,7 @@
               height="120px"
               :src="`${url}/check.webp`"
             />
-            <q-btn
+            <action-button
               v-else
               @click="success = false; dialogRef.hide()"
               no-caps
@@ -186,7 +264,7 @@
               text-color="positive"
               style="background: rgb(0,0,0,.3)"
               flat
-              square
+              rounded
               ripple
             >
                 <div class="text-body1 knockout">
@@ -195,20 +273,20 @@
                         {{ count }}
                     </div>
                 </div>
-            </q-btn>
+            </action-button>
           </div>
       </q-inner-loading>
   </q-dialog>
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
 import useProductCart from 'src/composables/useProductCart'
 import { useMutation } from '@vue/apollo-composable'
-import { useAuthStore } from '../stores/auth';
-import gql from 'graphql-tag';
+import { useAuthStore } from '../stores/auth'
+import gql from 'graphql-tag'
 const {
     updateCartItem,
     amount,
@@ -224,10 +302,13 @@ const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const order = ref(null)
 const invoice = ref(null)
 const success = ref(false)
-const step = ref(1)
+const fabDelete = ref(false)
+const fabDeleteCart = ref(false)
+const step = ref(0)
 const url = process.env.IMAGES_URL
 const count = ref(4)
 
+const selectedFab = ref(null)
 
 watchEffect(() => {
 
