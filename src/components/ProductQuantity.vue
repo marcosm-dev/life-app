@@ -10,10 +10,10 @@
         aria-label="minus"
         @click="$emit('update-item', '-')"
         color="blue-grey-4"
-        square
         outline
         icon="mdi-minus"
         unelevated
+        rounded
         size="10px"
         ripple
       />
@@ -30,7 +30,6 @@
         unelevated
         color="blue-grey-4"
         outline
-        square
         size="10px"
         icon="mdi-plus"
         ripple
@@ -52,8 +51,8 @@
       @click="$emit('update-item', '-')"
       class="col col-sm-3 col-md-4 text-black"
       color="blue-grey-4"
-      square
       size="10px"
+      rounded
       outline
       icon="mdi-minus"
       unelevated
@@ -64,11 +63,11 @@
     <q-btn
       @click="$emit('update-item', '+')"
       unelevated
+      rounded
       outline
       size="10px"
       class="col col-sm-3 col-md-4 text-black"
       color="blue-grey-4"
-      square
       icon="mdi-plus"
     />
   </q-card-section>

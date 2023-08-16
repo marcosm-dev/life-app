@@ -42,17 +42,16 @@
                     <q-btn
                       @click="deleteProduct(product.cartUid)"
                       size="14px"
-                      stretch
                       unelevated
-                      dense
                       color="blue-grey-2"
                       outline
+                      padding="10"
                       rounded
                     >
                         <q-icon
                           name="mdi-delete"
                           color="blue-grey-14"
-                          size="20px"
+                          size="18px"
                         />
                     </q-btn>
                   <!-- <template v-slot:error>
@@ -60,8 +59,8 @@
                   </template> -->
                 </q-item-section>
               <q-item-section >
-                <q-item-label>{{ product.name }}</q-item-label>
-                <q-item-label caption class="text-h6" lines="2">
+                <q-item-label class="knockout">{{ product.name }}</q-item-label>
+                <q-item-label caption class="knockout description" lines="2">
                   {{ product.description }}
                 </q-item-label>
               </q-item-section>
@@ -100,8 +99,8 @@
                 </q-item-section>
                 <q-separator vertical />
                 <q-item-section class="text-dark-page" side>
-                  <q-item-label caption>
-                    {{ product.quantity }} uds.
+                  <q-item-label caption class="knockout">
+                    {{  product.quantity  }} {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
                   </q-item-label>
                   <div class="knockout">
                     {{ (product.price * product.quantity).toFixed(2) }}
@@ -203,7 +202,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, nextTick } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useDialogPluginComponent } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
 import useProductCart from 'src/composables/useProductCart'
@@ -225,7 +224,7 @@ const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const order = ref(null)
 const invoice = ref(null)
 const success = ref(false)
-const step = ref(0)
+const step = ref(1)
 const url = process.env.IMAGES_URL
 const count = ref(4)
 
@@ -378,7 +377,4 @@ function deleteCart() {
   bottom: 0;
 }
 
-.mdi-cube-send  {
-  margin-left: 16px !important;
-}
 </style>

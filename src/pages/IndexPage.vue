@@ -15,23 +15,37 @@
         class="col-12 col-md-4 col-lg-4"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center shadow-10 q-mx-auto"
-            style="background: rgb(255,255,255, 0.9); max-width: 300px;"
+            class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto"
+            bordered
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
-            <q-card-section class="transparent q-px-lg">
+            <q-card-section class="transparent q-pa-xs">
               <q-img
-                class="rounded-borders bg-blue-grey-3"
+                style="rgb(155.155.155,0.1)"
                 :src="`${url}/categories/${category.urlImage}`"
+                height="200px"
+                fit="fill"
+              >
+                <div class="absolute-bottom flex justify-between">
+                  <div class="text-h6 text-light-blue-1">
+                    {{ category.name }}
+                  </div>
+                  <q-icon
+                    color="light-blue-1"
+                    size="30px"
+                    name="mdi-arrow-right"
+                  />
+                </div>
+              </q-img>
+              <!-- <q-img
+                class="bg-blue-grey-3"
+                :src="`${url}/categories/${category.urlImage}`"
+                style="max-height: 160px !important; border: 2px double rgb(0,0,0,0.3)"
                 fit="contain"
-                style="border-radius: 15px important;"
                 fetchpriority="high"
-                :ratio="16/9"
-              />
+                :ratio="1"
+              /> -->
             </q-card-section>
-            <q-card-actions class="justify-center q-pb-lg">
-               <action-button :label="category.name" style="width: 80%;" />
-            </q-card-actions>
           </q-card>
       </div>
     </div>

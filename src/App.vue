@@ -9,6 +9,7 @@ import { defineComponent, watchEffect, onMounted, ref } from 'vue'
 import { useAuthStore, NewUser } from './stores/auth'
 import { ionDownloadOutline } from '@quasar/extras/ionicons-v7'
 import { BeforeInstallPromptEvent } from './components/models'
+import { LocalStorage } from 'quasar'
 
 
 export default defineComponent({
@@ -34,7 +35,7 @@ export default defineComponent({
             uuid
           }
         }
-    `)
+    `, null, { enabled: !!LocalStorage.getItem('token')})
 
     onMounted(() => {
       const beforeInstallHandler = (e: Event) => {

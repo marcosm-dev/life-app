@@ -182,7 +182,7 @@
           <action-button
             v-if="!register"
             @click="onSubmit"
-            :label="'Acceder'"
+            label="Acceder"
           />
 
           <div class="row justify-between" v-else>
@@ -196,11 +196,11 @@
               @click="store.toggleRegister"
               label="Iniciar sesión"
               flat
+              neutro
             />
             <action-button
               @click="onSignupSubmit"
-              :label="'Guardar'"
-              :textColor="'secondary'"
+              label="Guardar"
               icon-right="mdi-content-save"
             />
           </div>

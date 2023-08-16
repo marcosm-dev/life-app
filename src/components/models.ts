@@ -11,7 +11,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  accesories: string;
+  accessories: string;
   urlMoreInfo: string;
   stock: number;
   uuid: string;

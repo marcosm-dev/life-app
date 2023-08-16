@@ -31,3 +31,7 @@ html,body {
 .text-red {
   background-color: red !important;
 }
+
+.text-caption::first-letter {
+  text-transform: uppercase !important;
+}

@@ -27,24 +27,24 @@
         <span class="text-bold text-h6 q-mx-sm col">
           {{ product.name }}
         </span>
+          <a
+            href="https://www.homelife.it/es/producto/vis"
+            class="text-info cursor-pointer col-auto"
+            :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
+          >
+            Mas información
+          </a>
           <div class="col-12">
-            <q-separator size="1px" class="q-mx-sm" spaced="5px" />
-              <p class="q-pa-md text-caption">{{ product.description }}</p>
-                <div class="text-caption row q-px-md">
-                  <div v-if="product.accesories" class="col-12">Incluye:</div>
+            <q-separator size="1px" spaced="5px" />
+              <p class="text-caption">{{ product.description }}</p>
+                <div class="text-caption row">
+                  <div v-if="product.accessories" class="col-12">Incluye:</div>
                   <div class="col-auto text-bold">
-                    {{ product.accesories }}
+                    {{ product.accessories }}
                   </div>
-                  <div class="col text-warning">
+                  <div class="col text-right text-warning">
                     {{ product.stock }} en stock
                   </div>
-                  <a
-                    href="https://www.homelife.it/es/producto/vis"
-                    class="text-info cursor-pointer col-auto"
-                    :class="$q.screen.width < 768 ? 'q-ml-auto' : 'q-mt-md q-ml-auto'"
-                  >
-                    Mas información
-                  </a>
                 </div>
             </div>
           </div>
@@ -61,11 +61,12 @@
           />
 
         </q-card-actions>
-        <q-card-actions class="row">
+        <q-card-actions class="row justify-between full-width q-pa-md">
           <action-button
             @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
-            label="Añadir al carrito"
-            class="transition-slow col-auto"
+            label="Al carrito"
+            neutro
+            class="transition-slow col"
             icon="mdi-cart-outline"
           >
               <template #badge>
@@ -80,10 +81,10 @@
               </template>
           </action-button>
           <action-button
-            :textColor="'light-blue-13'"
             @click="addToCart(); toggleCartDialog()"
             class="transition-slow col"
-            label="Pagar directamente"
+            label="Pagar"
+            style="min-width: 130.8px;"
           />
         </q-card-actions>
     </q-card>
@@ -159,12 +160,12 @@ export default defineComponent({
   .product-count {
     background-color: $light-blue-11 !important;
     color: #fff;
-    font-size: 10px;
+    font-size: 14px;
     font-family: 'Knockout';
-    border-radius: 2px;
-    line-height: 20px;
-    height: 20px;
-    width: 20px;
+    border-radius: 28px;
+    line-height: 30px;
+    height: 30px;
+    width: 30px;
     top: -6px;
     right: -6px;
     position: absolute !important;

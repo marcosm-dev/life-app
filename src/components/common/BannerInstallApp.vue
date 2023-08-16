@@ -2,7 +2,10 @@
     <action-button
       v-if="menu"
       @click="installApp"
-      class="q-mt-md"
+      class="q-mt-md text-caption"
+      text-color="light-blue-10"
+      padding="10px"
+      dense
       label="Instala nuestra app"
       :icon-right="ionDownloadOutline"
     />
@@ -33,7 +36,7 @@
           @click="installApp"
           class="col-auto q-my-auto q-px-sm q-py-sm rounded-borders animated fadeIn"
           style="animation-delay: ,2s;"
-          color="positive"
+          color="light-blue-1"
           size="40px"
           v-ripple.center
           :name="ionDownloadOutline"

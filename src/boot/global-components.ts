@@ -20,11 +20,9 @@ export default boot(async ({ app }) => {
     globalComponentNames.map(async (componentName) => {
       const pascalCaseName = await toPascalCase(componentName);
 
-      const importUrl = `../../src/components/common/${pascalCaseName}.vue`;
-
       /* @vite-ignore */
       const module = await import(
-        '../../src/components/common/ActionButton.vue'
+        `../../src/components/common/${pascalCaseName}.vue`
       );
 
       globalComponents[componentName] = module.default;
@@ -32,6 +30,4 @@ export default boot(async ({ app }) => {
       app.component(componentName, module.default);
     })
   );
-
-  console.log(globalComponents); // Verificar que los componentes se hayan agregado correctamente
 });

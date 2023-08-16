@@ -1,13 +1,13 @@
 <template>
    <q-btn
       type="submit"
-      :text-color="textColor ?? 'black'"
+      :text-color="neutro ? 'blue-grey-14' : 'light-blue-14'"
       :label="label"
       no-caps
       outline
       dense
+      rounded
       padding="20px"
-      :color="color ?? ''"
       :loading="loading"
     >
        <transition
@@ -22,7 +22,19 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  props: ['loading', 'label', 'color', 'textColor'],
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    neutro: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+    }
+  },
   name: 'ActionButton',
   setup() {
     return {}

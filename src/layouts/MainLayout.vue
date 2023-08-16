@@ -2,49 +2,56 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="row header" elevated>
       <div class="col-auto">
-        <div v-if="$route.query.categoryId" class="flex q-ma-xs">
+        <div class=" q-ma-xs">
           <q-btn
+            v-if="$route.query.categoryId"
             @click="$router.back()"
             size="15px"
             class="q-ma-sm"
             rounded
+            outline
             icon="mdi-arrow-left"
-            color="blue-grey-1"
-            text-color="blue-grey-14"
+            color="blue-grey-13"
+          />
+          <q-img
+            v-else
+            height="38.58px"
+            width="57.72px"
+            :ratio="1"
+            fit="contain"
+            @click="$router.push('/home')"
+            class="rounded-borders q-ma-sm"
+            src="../assets/logo-removebg.png"
           />
         </div>
-        <q-img
-          v-else
-          @click="$router.push('/home')"
-          class="rounded-borders q-ma-xs"
-          width="84px"
-          src="../assets/logo.jpg"
-        />
       </div>
       <q-tabs
         v-model="tab"
         inline-label
         dense
-        indicator-color="warning"
-        active-color="dark"
-        active-class="bg-dark-page text-subtitle1"
-        class="col header-tabs"
+        v-ripple.center
+        indicator-color="light-blue-1"
+        active-class="text-blue-grey-10 text-body1"
+        class="col header-tabs text-blue-grey-13 knockout active-tabs"
       >
         <q-route-tab
           name="inicio"
           label="Inicio"
+          v-ripple.center
           no-caps
           :disable="true"
           exact
         />
         <q-route-tab
           name="categorias"
+          v-ripple.center
           label="Categorías"
           to="/home"
           no-caps
           exact
          />
         <q-route-tab
+          v-ripple.center
           name="manuales"
           label="Manuales"
           no-caps
@@ -57,8 +64,7 @@
         <q-menu
           cover
           transition-show="slide-left"
-          class="full-auto"
-          style="border-top-left-radius: 0;"
+          style="border-radius: 26px 0px 0px 26px;"
         >
           <div class="row no-wrap q-pa-md text-dark">
             <div class="column">
@@ -84,10 +90,8 @@
                     Reclamaciones
                   </q-item-section>
                 </q-item>
-                <q-item v-if="store.user.uuid" clickable disable v-ripple >
-                  <banner-install-app dense menu />
-                </q-item>
               </q-list>
+              <banner-install-app v-if="store.user.uuid" menu />
             </div>
 
             <q-separator vertical inset class="q-mx-lg" />
@@ -97,17 +101,17 @@
                 <img src="../assets/avatar.jpg">
               </q-avatar>
 
-              <div class="text-subtitle q-mt-md q-mb-xs knockout text-blue-grey-13">
+              <div class="text-subtitle q-mt-md q-mb-xs text-blue-grey-13 knockout" style="letter-spacing: 1px;">
                 Hola <span class="text-blue-grey-13"></span>{{ store.user.name }}
               </div>
 
               <q-btn
-                outline
-                text-color="accent"
                 dense
-                class="full-width q-mt-auto"
+                class="full-width q-mt-auto text-no-wrap"
+                text-color="blue-grey-7"
                 label="Cerrar sesión"
                 @click="store.logout()"
+                flat
                 size="md"
                 no-caps
                 uneleveated
@@ -254,7 +258,7 @@ export default defineComponent({
 
 <style lang="scss">
   .header {
-    background: #333b41F2;
+    background-color: rgb(255, 255, 255,.5);
   }
   .header-tabs .q-tab, .q-tab__label {
     padding: 5px;
@@ -309,5 +313,11 @@ export default defineComponent({
   .headShake {
     animation-duration: 2s;
   }
-
+  .active-tabs {
+    /* background: $blue-grey-14; */
+    /* color: #fff !important; */
+  }
+  .active-tabs a {
+    border-radius: 26px;
+  }
 </style>
