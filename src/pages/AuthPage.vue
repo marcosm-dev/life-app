@@ -55,10 +55,12 @@
             clearable
             v-model="newUser.name"
             label="Nombre"
+            rounded
             lazy-rules
           />
           <q-input
             outlined
+            rounded
             clearable
             type="text"
             v-model="newUser.lastName"
@@ -66,6 +68,7 @@
           />
           <q-input
             outlined
+            rounded
             clearable
             v-model="newUser.VATIN"
             label="CIF o DNI"
@@ -73,6 +76,7 @@
           />
           <q-input
             outlined
+            rounded
             clearable
             type="text"
             v-model="newUser.phone"
@@ -81,25 +85,29 @@
             label="Teléfono"
           />
           <q-input
-            type="text"
+            rounded
             outlined
+            type="text"
             clearable
             v-model="newUser.address"
             label="Dirección"
           />
           <q-input
+            rounded
             outlined
             clearable
             v-model="newUser.zipCode"
             label="Código Postal"
           />
           <q-input
+            rounded
             outlined
             clearable
             v-model="newUser.city"
             label="Ciudad"
           />
           <q-input
+            rounded
             outlined
             clearable
             type="text"
@@ -112,6 +120,7 @@
             lazy-rules
           />
           <q-input
+            rounded
             outlined
             clearable
             v-model="newUser.password"
@@ -129,6 +138,7 @@
             </template>
           </q-input>
           <q-input
+             rounded
             :type="revealPassword ? 'text' : 'password'"
             label="Confirmar contraseña"
             outlined
@@ -153,13 +163,17 @@
             clearable
             v-model="user.email"
             label="Email"
+            rounded
             lazy-rules
-            error-message="Por favor, ingresa con un email de usuario válido"
+            item-aligned
+            error-message="Por favor ingresa un email válido."
             :rules="[(val) => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(val)]"
           />
           <q-input
             outlined
             clearable
+            item-aligned
+            rounded
             :type="revealPassword ? 'text' : 'password'"
             error-message="Por favor, ingresa bien tu contraseña"
             v-model="user.password"
@@ -239,12 +253,14 @@ import gql from 'graphql-tag'
 // En tu componente Vue o archivo TypeScript
 import * as manifest from '../../src-pwa/manifest.json'
 
-import useHandleGraphqlErrors from '../composables/useHandleError'
+import useHandleGraphQLErrors from '../composables/useHandleError'
+import useAuth from '../composables/useAuth';
 // import useNotifyError from '../composables/useNotifyError'
 
 export default defineComponent({
   name: 'AuthPage',
   setup() {
+    const { logout } = useAuth()
     const router = useRouter()
     const store = useAuthStore()
     // const { notifyError } = useNotifyError()
@@ -334,7 +350,7 @@ export default defineComponent({
             router.push('/home')
           }
         } catch (error: any) {
-          errors.value.push(useHandleGraphqlErrors(error))
+          errors.value.push(useHandleGraphQLErrors(error))
           console.log(error)
         }
         $q.loading.hide()
@@ -368,7 +384,7 @@ export default defineComponent({
         else store.setUser(signUp.user)
         registerSuccess.value = true
       } catch (error: any) {
-        errors.value.push(useHandleGraphqlErrors(error))
+        errors.value.push(useHandleGraphQLErrors(error))
       }
       $q.loading.hide()
     }
@@ -394,6 +410,7 @@ export default defineComponent({
         return false
       }),
       apiKey: process.env.GOOGLE_MAPS_API_KEY,
+      logout,
       addressRef,
       check,
       name,

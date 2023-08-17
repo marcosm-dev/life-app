@@ -6,7 +6,7 @@
         v-close-popup
         class="close-icon"
         name="mdi-close"
-        color="blue-grey-14"
+        color="white"
         size="40px"
       />
       <q-card class="full-width">
@@ -476,6 +476,9 @@ function deleteCart() {
   bottom: 0;
 }
 
+.description {
+  font-size: 12px;
+}
 .description::first-letter {
   text-transform: capitalize !important;
 }

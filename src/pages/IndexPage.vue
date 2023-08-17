@@ -27,14 +27,21 @@
                 fit="fill"
               >
                 <div class="absolute-bottom flex justify-between">
-                  <div class="text-h6 text-light-blue-1">
+                  <div class="text-h6 text-white">
                     {{ category.name }}
                   </div>
+                 <transition
+                    name="arrow-left"
+                    appear
+                    appear-active-class="animated slideInLeft"
+                  >
                   <q-icon
-                    color="light-blue-1"
+                    class="transition-arrow"
+                    color="white"
                     size="30px"
                     name="mdi-arrow-right"
                   />
+                 </transition>
                 </div>
               </q-img>
               <!-- <q-img

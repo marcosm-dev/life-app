@@ -4,7 +4,10 @@ interface GlobalComponents {
   [componentName: string]: any;
 }
 
-const globalComponentNames = ['action-button', 'banner-install-app'];
+const globalComponentNames = [
+  'action-button',
+  'banner-install-app',
+];
 
 const globalComponents: GlobalComponents = {};
 
@@ -18,11 +21,19 @@ async function toPascalCase(str: string) {
 export default boot(async ({ app }) => {
   await Promise.all(
     globalComponentNames.map(async (componentName) => {
-      const pascalCaseName = await toPascalCase(componentName);
+      const pascalCaseName = await toPascalCase(componentName)
+      let componentsPath = '../../src/components'
+
+      if (componentName.includes('page')) {
+        componentsPath += '/Page'
+      } else {
+        componentsPath += '/common'
+      }
+
 
       /* @vite-ignore */
       const module = await import(
-        `../../src/components/common/${pascalCaseName}.vue`
+        `${componentsPath}/${pascalCaseName}.vue`
       );
 
       globalComponents[componentName] = module.default;

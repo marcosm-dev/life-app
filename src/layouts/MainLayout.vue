@@ -33,7 +33,7 @@
         dense
         v-ripple.center
         indicator-color="light-blue-1"
-        active-class="text-blue-grey-10 text-body1"
+        active-class="text-blue-grey-10"
         class="col header-tabs text-blue-grey-13 knockout active-tabs"
       >
         <q-route-tab
@@ -92,16 +92,16 @@
                     Reclamaciones
                   </q-item-section>
                 </q-item>
-                 <q-item
-                    @click="store.logout()"
+                  <action-button
+                    neutro
+                    @click="logoutUser"
                     v-ripple
-                    class="text-color-blue-grey-7 q-mt-sm full-width q-pr-none"
+                    label="Cerrar sesión"
+                    padding="5px 10px"
                     clickable
-                  >
-                  <q-item-section>
-                      Cerrár sesión
-                  </q-item-section>
-                 </q-item>
+                    class="q-mx-auto block q-mt-md"
+                    :loading="mutateLoading"
+                 />
               </q-list>
             </div>
 
@@ -138,12 +138,16 @@
       </q-list>
     </q-drawer> -->
     <q-page-container class="container">
-      <transition
-        appear
-        :enter-active-class="isParent ? 'animated slideInLeft' : 'animated slideInRight'"
-      >
-      <router-view />
-      </transition>
+      <router-view v-slot="{ Component, route }">
+        <transition
+          :name="route.meta.transition || 'fade'"
+          :enter-active-class="`animated ${route.meta.transition}`"
+        >
+          <keep-alive>
+            <component :is="Component" :key="route.path" />
+          </keep-alive>
+        </transition>
+      </router-view>
     </q-page-container>
     <q-footer
       reveal
@@ -209,6 +213,7 @@ import { EventBus, morph } from 'quasar'
 
 import useCartDialog from 'src/composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
+import useAuth from '../composables/useAuth';
 import { onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
@@ -216,6 +221,7 @@ export default defineComponent({
   setup() {
     const { productQuantity, loading } = useCartAnimation()
     const { toggleCartDialog, cart } = useCartDialog()
+    const { logoutUser, loading: mutateLoading } = useAuth()
     const bus = inject<EventBus>('bus', new EventBus())
     const store = useAuthStore()
     const leftDrawerOpen = ref(null)
@@ -272,7 +278,9 @@ export default defineComponent({
       isParent,
       store,
       cart,
+      logoutUser,
       loading,
+      mutateLoading,
       showCart,
       productQuantity,
       cartItemElement,
@@ -287,10 +295,6 @@ export default defineComponent({
 <style lang="scss">
   .header {
     background-color: rgb(255, 255, 255,.5);
-  }
-  .header-tabs .q-tab, .q-tab__label {
-    padding: 5px;
-    font-size: 13px;
   }
   @media (min-width: 768px) {
     .header-tabs .q-tab, .q-tab__label {

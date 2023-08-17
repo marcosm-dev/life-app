@@ -1,8 +1,15 @@
 .bg-dark-page {
-  background-color: $dark-page;
+	background-color: $dark-page;
 }
 
 .container {
-  background: linear-gradient(360deg, hsla(206, 12%, 23%, 1) 0%, hsla(200, 13%, 91%, 1) 10%);
+	background: linear-gradient(360deg, hsla(206, 12%, 23%, 1) 0%, hsla(200, 13%, 91%, 1) 10%);
 }
 
+.q-page {
+	z-index: 2000;
+}
+
+.q-field__native, .q-field__label {
+	margin: 0px 16px !important;
+}

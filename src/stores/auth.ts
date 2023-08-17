@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineStore } from 'pinia';
-import { LocalStorage } from 'quasar';
-import { BeforeInstallPromptEvent } from '../components/models';
+import { defineStore } from 'pinia'
+import { LocalStorage } from 'quasar'
+import { BeforeInstallPromptEvent } from '../components/models'
 
 export interface User {
   email: string;
@@ -39,11 +39,6 @@ export const useAuthStore = defineStore('auth', {
     },
     toggleRegister() {
       this.register = !this.register;
-    },
-    logout() {
-      this.router.push('/');
-      LocalStorage.clear();
-      this.$reset();
     },
     setUser(user: NewUser) {
       this.user = user;

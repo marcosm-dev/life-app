@@ -10,15 +10,16 @@ import routes from './routes';
 import { useAuthStore } from 'src/stores/auth';
 
 /*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
+* If not building with SSR mode, you can
+* directly export the Router instantiation;
+*
+* The function below can be async too; either use
+* async/await or return a Promise which resolves
  * with the Router instance.
- */
+*/
 
 export default route(function () {
+  const store = useAuthStore()
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -30,7 +31,7 @@ export default route(function () {
       if (savedPosition) {
         return savedPosition;
       } else {
-        return { left: 0, top: 0 };
+        return { left: 0, top: 0 }
       }
     },
     routes,
@@ -42,21 +43,16 @@ export default route(function () {
   });
 
   Router.beforeEach((to, from, next) => {
-    const store = useAuthStore();
+      const isAuthenticated = to.matched.some((record) => record.meta.requiresAuth) && store.authenticated
 
-    if (
-      to.matched.some(
-        (record) => record.meta.requiresAuth && !store.authenticated
-      )
-    ) {
-      if (process.env.DEV) {
-        next();
-      } else {
-        next('/');
-      }
-    } else {
-      next();
-    }
+      // if (to.name !== 'AuthPage' && !isAuthenticated) next({ name: 'AuthPage' })
+      next()
+
+
+
+
+
+
   });
 
   return Router;

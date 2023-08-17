@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <h4 class="text-center text-bold">
+    <h4 class="q-px-md">
       {{ $route.params.name }}
     </h4>
     <div
@@ -16,18 +16,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 
-import ProductCard from 'components/ProductCard.vue';
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
+import ProductCard from 'components/ProductCard.vue'
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
 
 export default defineComponent({
   name: 'CategoryPage',
   setup() {
-    const route = useRoute();
-    const { categoryId } = route.query;
+    const route = useRoute()
+    const { categoryId } = route.query
 
      const { result } = useQuery(gql`
       query getProductsByCategory($categoryId: ID!) {
@@ -45,10 +45,13 @@ export default defineComponent({
       categoryId
     }))
 
+    console.log('HOlA DESDE HOME')
+
+
     return { products: computed(() => result.value?.getProductsByCategory) };
   },
   components: {
     ProductCard
   }
-});
+})
 </script>
