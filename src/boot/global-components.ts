@@ -4,39 +4,23 @@ interface GlobalComponents {
   [componentName: string]: any
 }
 
-const globalComponentNames = [
-  'action-button',
-  'banner-install-app',
-]
-
-const globalComponents: GlobalComponents = {}
-
-async function toPascalCase(str: string) {
-  return str
-    .split('-')
-    .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('')
+const globalComponentNames: GlobalComponents = {
+  'action-button': await import('components/common/ActionButton.vue'),
+  'banner-install-app': await import('components/common/BannerInstallApp.vue'),
 }
 
+
+// async function toPascalCase(str: string) {
+//   return str
+//     .split('-')
+//     .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
+//     .join('')
+// }
+
 export default boot(async ({ app }) => {
-  await Promise.all(
-    globalComponentNames.map(async (componentName) => {
-      const pascalCaseName = await toPascalCase(componentName)
-      let componentsPath = '../../src/components'
 
-      if (componentName.includes('page')) {
-        componentsPath += '/Page'
-      } else {
-        componentsPath += '/common'
-      }
+  for (const component in globalComponentNames) {
+    app.component(component, globalComponentNames[component].default)
+  }
 
-      const module = await import(
-        `${componentsPath}/${pascalCaseName}.vue`
-      )
-
-      globalComponents[componentName] = module.default
-
-      app.component(componentName, module.default)
-    })
-  )
 })

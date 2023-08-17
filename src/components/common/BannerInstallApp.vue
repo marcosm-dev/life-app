@@ -113,10 +113,10 @@ export default defineComponent({
 
       deferredPrompt.prompt()
       deferredPrompt?.userChoise.then((chouseResult: any) => {
-      if (chouseResult.outcome === 'accepted') {
-        console.log(chouseResult)
-        neverShowINstallBanner()
-      }
+        if (chouseResult.outcome === 'accepted') {
+          console.log(chouseResult)
+          neverShowINstallBanner()
+        }
       })
 
     }
