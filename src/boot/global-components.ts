@@ -1,21 +1,21 @@
-import { boot } from 'quasar/wrappers';
+import { boot } from 'quasar/wrappers'
 
 interface GlobalComponents {
-  [componentName: string]: any;
+  [componentName: string]: any
 }
 
 const globalComponentNames = [
   'action-button',
   'banner-install-app',
-];
+]
 
-const globalComponents: GlobalComponents = {};
+const globalComponents: GlobalComponents = {}
 
 async function toPascalCase(str: string) {
   return str
     .split('-')
     .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('');
+    .join('')
 }
 
 export default boot(async ({ app }) => {
@@ -30,15 +30,13 @@ export default boot(async ({ app }) => {
         componentsPath += '/common'
       }
 
-
-      /* @vite-ignore */
       const module = await import(
         `${componentsPath}/${pascalCaseName}.vue`
-      );
+      )
 
-      globalComponents[componentName] = module.default;
+      globalComponents[componentName] = module.default
 
-      app.component(componentName, module.default);
+      app.component(componentName, module.default)
     })
-  );
-});
+  )
+})
