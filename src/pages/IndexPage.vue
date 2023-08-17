@@ -12,7 +12,7 @@
         v-for="category in categories"
         ref="itemsRefs"
         :key="category.id"
-        class="col-12 col-md-4 col-lg-2"
+        class="col-12 col-md-4 col-sm-6 col-lg-2"
       >
           <q-card
             class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto"

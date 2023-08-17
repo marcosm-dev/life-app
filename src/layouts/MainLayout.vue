@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row header shadow-10" elevated>
+    <q-header class="row header shadow-5" elevated>
       <div class="col-auto">
         <div class=" q-ma-xs">
           <q-btn
@@ -23,6 +23,7 @@
             @click="$router.push('/home')"
             class="rounded-borders q-ma-sm"
             src="../assets/logo-removebg.png"
+            no-spinner
           />
         </div>
       </div>
@@ -67,9 +68,9 @@
           transition-show="slide-left"
           style="border-radius: 26px 0px 0px 26px;"
         >
-          <div class="row no-wrap q-pa-md text-dark">
+          <div class="row no-wrap q-pa-md text-dark text-left">
             <div class="column">
-              <div class="text-subtitle1 q-mb-md text-bold text-blue-grey-13">
+              <div class="text-subtitle1 q-mb-md text-blue-grey-13">
                 Mi cuenta
               </div>
               <q-separator horizontal class="q-mb-sm" />
@@ -92,31 +93,33 @@
                   </q-item-section>
                 </q-item>
                  <q-item
-                  @click="store.logout()"
-                  v-ripple
-                  class="text-color-blue-grey-7 q-mt-sm"
-                  clickable
-                >
-                  Cerrar sesión
+                    @click="store.logout()"
+                    v-ripple
+                    class="text-color-blue-grey-7 q-mt-sm full-width q-pr-none"
+                    clickable
+                  >
+                  <q-item-section>
+                      Cerrár sesión
+                  </q-item-section>
                  </q-item>
               </q-list>
             </div>
 
-            <q-separator vertical inset class="q-mx-lg" />
+            <q-separator vertical inset class="q-mx-md" />
 
             <div class="column items-center">
-              <q-avatar size="72px">
+              <q-avatar size="50px">
                 <img src="../assets/avatar.jpg">
               </q-avatar>
 
-              <div class="text-subtitle q-mt-md q-mb-xs text-blue-grey-13 knockout" style="letter-spacing: 1px;">
-                Hola <span class="text-blue-grey-13"></span>{{ store.user.name }}
+              <div class="text-caption q-mt-md q-mb-xs text-blue-grey-14" style="letter-spacing: -.5px;">
+                {{ store.user.name }}
               </div>
             </div>
           </div>
           <banner-install-app v-if="store.user.uuid" menu />
         </q-menu>
-        <q-icon name="mdi-account" size="30px" color="blue-grey-14" />
+        <q-icon name="mdi-account-wrench" size="28px" color="blue-grey-14" />
       </q-avatar>
 
     </q-header>
@@ -146,50 +149,50 @@
       reveal
       class="main-footer row justify-between q-px-md"
     >
-    <div class="column">
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        :duration="5000"
-      >
-        <div
-          :class="!cart.length ? 'invisible' : 'animated fadeIn'"
-          class="q-mr-auto cursor-pointer cart"
-          @click="toggleCartDialog"
+      <div class="column">
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+          :duration="5000"
         >
-          <div class="flex q-mb-lg">
-              <small class="block full-width q-mb-sm">
-                Mi carrito:
-              </small>
-              <div class="knockout cart-count">
-                {{ cart.length }}
-              </div>
-              <q-icon
-                v-ripple.center
-                ref="cartItemElement"
-                name="mdi-cart-outline"
-                color="white"
-                class="q-ml-xs bg-transparent"
-                :class="showCart ? 'animated headShake' : ''"
-                size="28px"
-              />
+          <div
+            :class="!cart.length ? 'invisible' : 'animated fadeIn'"
+            class="q-mr-auto cursor-pointer cart col"
+            @click="toggleCartDialog"
+          >
+            <div class="flex q-mb-lg">
+                <small class="block full-width q-mb-sm">
+                  Mi carrito:
+                </small>
+                <div class="knockout cart-count">
+                  {{ cart.length }}
+                </div>
+                <q-icon
+                  v-ripple.center
+                  ref="cartItemElement"
+                  name="mdi-cart-outline"
+                  color="white"
+                  class="q-ml-xs bg-transparent"
+                  :class="showCart ? 'animated headShake' : ''"
+                  size="28px"
+                />
+            </div>
           </div>
-        </div>
-      </transition>
-      <a
-        class="col text-blue-grey-1 serpica-title"
-        target="_blank"
-        href="https://www.serpica.org"
-        style="letter-spacing: 1px;"
-      >
-        SERPICA CANARIAS S.L.
-      </a>
-    </div>
-      <div class="column q-col-gutter-y-md items-end text-bold">
-        <q-btn class="no-padding" dense flat no-caps to="/contacto" label="Contacto" />
-        <q-btn class="no-padding" dense flat no-caps label="Política de privacidad" />
-        <q-btn class="no-padding" dense flat no-caps label="Protección de datos" />
-        <div class="row q-mt-sm items-end full-width main-footer-italy">
+        </transition>
+        <a
+          class="text-blue-grey-1 serpica-title col"
+          target="_blank"
+          href="https://www.serpica.org"
+          style="letter-spacing: 1px;"
+        >
+          SERPICA CANARIAS S.L.
+        </a>
+      </div>
+      <div class="column items-end text-caption">
+        <router-link to="/contacto">Contacto</router-link>
+        <router-link to="/home">Política de privacidad</router-link>
+        <router-link to="/home">Protección de datos</router-link>
+        <div class="row q-mt-sm full-width main-footer-italy q-mt-lg">
           <div class="col flag-green" />
           <div class="col flag-white text-dark text-center text-bold text-dark" />
           <div class="col flag-red" />
@@ -206,7 +209,7 @@ import { EventBus, morph } from 'quasar'
 
 import useCartDialog from 'src/composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -223,7 +226,7 @@ export default defineComponent({
 
     onBeforeRouteUpdate((to, from) => {
       const toSplit = to.path.split('/')
-      const fromSplit = from.path.split('/')
+      // const fromSplit = from.path.split('/')
 
       if(toSplit.includes('home')) {
         console.log('hola')
@@ -288,7 +291,6 @@ export default defineComponent({
   .header-tabs .q-tab, .q-tab__label {
     padding: 5px;
     font-size: 13px;
-    font-weight: 600;
   }
   @media (min-width: 768px) {
     .header-tabs .q-tab, .q-tab__label {
@@ -304,7 +306,6 @@ export default defineComponent({
     align-items: center;
     display: flex;
     color: $blue-grey-1;
-    font-weight: 600;
     font-size: 18px;
     padding: 1.5em 1em;
   }

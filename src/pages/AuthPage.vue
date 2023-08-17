@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center items-center">
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
-    <q-dialog v-model="registerSuccess" @hide="registerSuccess = false">
+    <q-dialog v-model="registerSuccess" @hide="register = false">
       <q-card class="column">
         <q-card-section class="text-h6 text-center col">
           Gracias por registrarte
@@ -25,7 +25,7 @@
     </q-dialog>
 
     <!-- LOGIN Y REGISTRO DE USUARIO -->
-    <q-form @submit="register ? onSignupSubmit : onSubmit" class="q-px-md col q-pt-xl" style="max-width: 450px;">
+    <q-form @submit="onSubmit" class="q-px-md col q-pt-xl" style="max-width: 450px;">
        <q-card class="row text-center justify-center q-px-none q-py-md text-dark shadow-15">
        <q-card-section>
           <q-img
@@ -160,12 +160,20 @@
           <q-input
             outlined
             clearable
-            type="password"
+            :type="revealPassword ? 'text' : 'password'"
             error-message="Por favor, ingresa bien tu contraseña"
             v-model="user.password"
             :error="errorHandler"
             label="Contraseña"
-          />
+          >
+             <template #append>
+                <q-icon
+                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                  class="cursor-pointer"
+                  @click="revealPassword = !revealPassword"
+                />
+            </template>
+          </q-input>
         </q-card-section>
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
@@ -182,7 +190,6 @@
         <q-card-actions class="col-12 justify-around q-pa-lg">
           <action-button
             v-if="!register"
-            @click="onSubmit"
             label="Acceder"
             type="submit"
             neutro
@@ -223,8 +230,8 @@ import {
   ref,
   computed,
 } from 'vue'
-import { useAuthStore, User, NewUser } from '../stores/auth';
-import { useQuasar, QSpinnerGears, LocalStorage } from 'quasar';
+import { useAuthStore, User, NewUser } from '../stores/auth'
+import { useQuasar, QSpinnerGears, LocalStorage } from 'quasar'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useMutation } from '@vue/apollo-composable'
@@ -307,40 +314,7 @@ export default defineComponent({
         }
       }`)
 
-    return {
-      async onSignupSubmit() {
-        errors.value = []
-        if (!check.value) {
-          errors.value.push('Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.')
-          return
-        }
-        if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
-        errors.value = []
-        $q.loading.show({
-          spinner: QSpinnerGears,
-          spinnerColor: 'positive',
-          message: 'Registrando usuario ...'
-        })
-
-        newUser.email = newUser.email.toLowerCase()
-
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { confirmPassword, ...userClean } = newUser
-          const data = await mutate({ input: userClean })
-
-          const signUp = data?.data.signUp
-          if (signUp.error) {
-            errors.value.push(signUp.error)
-          }
-          else store.setUser(signUp.user)
-          registerSuccess.value = true
-        } catch (error: any) {
-          errors.value.push(useHandleGraphqlErrors(error))
-        }
-        $q.loading.hide()
-      },
-      async onSubmit() {
+    async function login() {
         const length = LocalStorage.getLength()
         if (length) {
           LocalStorage.clear()
@@ -364,7 +338,47 @@ export default defineComponent({
           console.log(error)
         }
         $q.loading.hide()
+      }
+
+    async function signUp() {
+      errors.value = []
+      if (!check.value) {
+        errors.value.push('Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.')
+        return
+      }
+      if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
+      errors.value = []
+      $q.loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'positive',
+        message: 'Registrando usuario ...'
+      })
+
+      newUser.email = newUser.email.toLowerCase()
+
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { confirmPassword, ...userClean } = newUser
+        const data = await mutate({ input: userClean })
+
+        const signUp = data?.data.signUp
+        if (signUp.error) {
+          errors.value.push(signUp.error)
+        }
+        else store.setUser(signUp.user)
+        registerSuccess.value = true
+      } catch (error: any) {
+        errors.value.push(useHandleGraphqlErrors(error))
+      }
+      $q.loading.hide()
+    }
+
+    return {
+      async onSubmit() {
+        if (register.value) await signUp()
+        else await login()
       },
+
       errorHandler: computed(() =>
         errors.value.some((err) => err.includes('Contraseña'))
       ),

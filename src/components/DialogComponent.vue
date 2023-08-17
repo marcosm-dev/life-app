@@ -104,13 +104,13 @@
                   </q-item-section>
                 <q-item-section >
                   <q-item-label class="knockout">{{ product.name }}</q-item-label>
-                  <q-item-label class="knockout description text-caption text-blue-grey-13" lines="3">
-                    {{ product.description }}
+                  <q-item-label class="inter text-lowercase text-blue-grey-13" lines="3">
+                    <div class="description">{{ product.description }}</div>
                   </q-item-label>
                 </q-item-section>
                 <q-item-section class="no-padding" side>
                   <q-item-label class="text-body knockout text-blue-grey-13">
-                    {{ product.price.toFixed(2) }}<small>€</small>
+                    {{ product.price.toFixed(2) }}
                   </q-item-label>
                   <ProductQuantity
                     class="q-px-none"
@@ -137,9 +137,9 @@
                   </q-item-section>
                   <q-item-section>
                     <q-item-label caption class="text-dark">{{ product.name }}</q-item-label>
-                    <q-item-label caption class="text-h6" lines="1">
-                      {{ product.accessories ?? product.description }}
-                    </q-item-label>
+                    <q-item-label class="inter text-lowercase text-blue-grey-13" lines="3">
+                      <div class="description">{{ product.accessories ?? product.description }}</div>
+                  </q-item-label>
                   </q-item-section>
                   <q-separator vertical />
                   <q-item-section class="text-dark-page" side>
@@ -159,7 +159,7 @@
         <q-separator class="col-12" size="1px" />
         <q-card-section class="row text-h6">
             <div class="col-12 flex justify-between">
-              <div class="knockout text-subtitle1 text-capitalize text-blue-grey-13">
+              <div class="inter text-subtitle1 text-capitalize text-blue-grey-13">
                 Unidades:
               </div>
               <div class="knockout text-subtitle1 text-blue-grey-13">
@@ -167,7 +167,7 @@
               </div>
             </div>
             <div class="col-12 flex justify-between">
-              <div class="text-subtitle1 knockout">
+              <div class="knockout">
                 {{ !step ? 'Subtotal:' : 'TOTAL:' }}
                 <span
                   v-if="step === 1"
@@ -176,7 +176,7 @@
                   (Impuestos incluidos)
               </span>
               </div>
-              <div class="knockout text-medium" :class="!step ? 'text-h5' : 'text-h4'">
+              <div class="knockout text-medium" :class="!step ? 'text-h5' : 'text-h4'" style="letter-spacing: -.9px;">
                 {{ (isNaN(amount) ? 0 : (!step ? amount : ((amount * 7) / 100) + amount)).toFixed(2).replace('.', ',') }}
                 <small>€</small>
               </div>
@@ -234,7 +234,7 @@
           <action-button
             :disable="amount === 0"
             outline
-            class="text-bold text-body col"
+            class="col"
             padding="10px 20px"
             dense
             :neutro="!!!step"
@@ -309,7 +309,7 @@ const {
     cart,
   } = useProductCart()
 const { user } = useAuthStore()
-const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
+const { dialogRef, onDialogHide } = useDialogPluginComponent()
 
 const order = ref(null)
 const invoice = ref(null)
@@ -317,7 +317,7 @@ const success = ref(false)
 const fabDelete = ref(false)
 const fabDeleteCart = ref(false)
 const step = ref(0)
-const url = process.env.IMAGES_URL
+// const url = process.env.IMAGES_URL
 const count = ref(8)
 
 const selectedFab = ref(null)
@@ -393,7 +393,7 @@ function resetProcess() {
 
     setTimeout(() => {
       resetCart()
-    }, 8000)
+    }, 9000)
 }
 
 const getInvoceItems = products => {
@@ -418,17 +418,21 @@ async function onOKClick() {
      step.value = 1
 
     } else if (step.value === 1) {
-      // sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
-      //   .then((res) => {
+      sendFacturaDirectaOrder({ orderId: order.value.id, lines: getInvoceItems(order.value?.products)})
+        .then((res) => {
           success.value = true
           setTimeout(() => {
             resetProcess()
             invoice.value = res
           }, 2750)
-        // })
+        })
     }
 
   } catch (error) {
+    setTimeout(() => {
+      resetProcess()
+      invoice.value = res
+    }, 2750)
     console.log(error)
   }
 }
@@ -470,6 +474,10 @@ function deleteCart() {
 .delete-icon {
   position: absolute;
   bottom: 0;
+}
+
+.description::first-letter {
+  text-transform: capitalize !important;
 }
 
 </style>

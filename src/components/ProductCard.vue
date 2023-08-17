@@ -43,8 +43,8 @@
                   {{ product.description }}
                 </p>
                 <div class="text-caption row">
-                  <div v-if="product.accessories" class="col-12">Incluye:</div>
-                  <div class="col-auto text-bold">
+                  <div v-if="product.accessories" class="col-12 text-blue-grey-10">Incluye:</div>
+                  <div class="col-auto text-lowercase text-blue-grey-13">
                     {{ product.accessories }}
                   </div>
                 </div>
@@ -53,7 +53,7 @@
         </q-card-section>
         <q-separator size="1px" spaced="5px" inset />
         <q-card-actions
-          class="col items-end no-padding full-width"
+          class="col items-end no-padding text-no-wrap full-width"
           :class="$q.screen.width > 768 && 'q-ma-xl'"
         >
 
@@ -62,8 +62,8 @@
             @update-item="(e) => e === '+' ? increase() : decrease()"
           >
             <template #extraInfo>
-               <p class="text-body2 text-blue-grey-10 q-my-auto knockout">
-                  Quedan {{ product.stock }}uds.
+               <p v-if="product.stock < 20" class="text-body2 text-blue-grey-10 q-my-auto knockout full-width">
+                  Quedan {{ product.stock }} uds.
                 </p>
             </template>
           </ProductQuantity>
