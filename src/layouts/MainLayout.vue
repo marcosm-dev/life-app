@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row header shadow-5" elevated>
+    <q-header class="row header shadow-5 z-max" elevated>
       <div class="col-auto">
         <div class=" q-ma-xs">
           <q-btn
@@ -65,6 +65,7 @@
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
           cover
+          class="z-max"
           transition-show="slide-left"
           style="border-radius: 26px 0px 0px 26px;"
         >
@@ -100,7 +101,7 @@
                     padding="5px 10px"
                     clickable
                     class="q-mx-auto block q-mt-md"
-                    :loading="mutateLoading"
+                    :loading="logoutLoading"
                  />
               </q-list>
             </div>
@@ -175,7 +176,7 @@
                   v-ripple.center
                   ref="cartItemElement"
                   name="mdi-cart-outline"
-                  color="white"
+                  color="blue-2"
                   class="q-ml-xs bg-transparent"
                   :class="showCart ? 'animated headShake' : ''"
                   size="28px"
@@ -221,7 +222,7 @@ export default defineComponent({
   setup() {
     const { productQuantity, loading } = useCartAnimation()
     const { toggleCartDialog, cart } = useCartDialog()
-    const { logoutUser, loading: mutateLoading } = useAuth()
+    const { logoutUser, logoutLoading } = useAuth()
     const bus = inject<EventBus>('bus', new EventBus())
     const store = useAuthStore()
     const leftDrawerOpen = ref(null)
@@ -280,7 +281,7 @@ export default defineComponent({
       cart,
       logoutUser,
       loading,
-      mutateLoading,
+      logoutLoading,
       showCart,
       productQuantity,
       cartItemElement,

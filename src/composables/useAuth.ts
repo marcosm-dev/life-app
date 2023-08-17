@@ -16,7 +16,7 @@ const useAuth = () => {
     error: null,
   })
 
-  const { mutate: logout, loading } = useMutation(gql`
+  const { mutate: logout, loading: logoutLoading } = useMutation(gql`
     mutation {
       logoutUser
     }
@@ -39,13 +39,54 @@ const useAuth = () => {
     }
   }
 
-  state.loading = loading.value
+  const { mutate: loginMutation, loading: loginLoading } = useMutation(gql`
+    mutation loginUser($email: String!, $password: String!) {
+      loginUser(email: $email, password: $password) {
+        user {
+          id
+          email
+          name
+          lastName
+          zipCode,
+          city
+          phone
+          address
+          VATIN
+          uuid
+        }
+        token
+      }
+  }`)
 
+
+    const { mutate: signUpMutation, loading: signUpLoading } = useMutation(gql`
+      mutation signUp($input: UserInput!) {
+        signUp(input: $input) {
+          error
+          user {
+            id
+            email
+            name
+            lastName
+            zipCode,
+            city
+            phone
+            address
+            VATIN
+          }
+          token
+        }
+      }
+  `)
 
   return {
     ...toRefs(state),
+    loginMutation,
     logoutUser,
-    loading,
+    signUpMutation,
+    logoutLoading,
+    loginLoading,
+    signUpLoading,
   }
 }
 

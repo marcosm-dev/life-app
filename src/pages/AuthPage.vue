@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center items-center">
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
-    <q-dialog v-model="registerSuccess" @hide="register = false">
+    <q-dialog v-model="registerSuccess">
       <q-card class="column">
         <q-card-section class="text-h6 text-center col">
           Gracias por registrarte
@@ -206,6 +206,8 @@
             v-if="!register"
             label="Acceder"
             type="submit"
+            style="width: 50%;"
+            :loading="loginLoading"
             neutro
           />
 
@@ -224,6 +226,7 @@
             />
             <action-button
               type="submit"
+              :loading="signUpLoading"
               label="Guardar"
               icon-right="mdi-content-save"
             />
@@ -245,12 +248,9 @@ import {
   computed,
 } from 'vue'
 import { useAuthStore, User, NewUser } from '../stores/auth'
-import { useQuasar, QSpinnerGears, LocalStorage } from 'quasar'
+import { useQuasar, LocalStorage } from 'quasar'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useMutation } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-// En tu componente Vue o archivo TypeScript
 import * as manifest from '../../src-pwa/manifest.json'
 
 import useHandleGraphQLErrors from '../composables/useHandleError'
@@ -260,7 +260,14 @@ import useAuth from '../composables/useAuth';
 export default defineComponent({
   name: 'AuthPage',
   setup() {
-    const { logout } = useAuth()
+    const {
+      loginMutation,
+      logoutUser,
+      loading,
+      signUpMutation,
+      signUpLoading,
+      loginLoading
+    } = useAuth()
     const router = useRouter()
     const store = useAuthStore()
     // const { notifyError } = useNotifyError()
@@ -291,44 +298,7 @@ export default defineComponent({
       confirmPassword: ''
     })
 
-    const { mutate, loading } = useMutation(gql`
-      mutation signUp($input: UserInput!) {
-        signUp(input: $input) {
-          error
-          user {
-            id
-            email
-            name
-            lastName
-            zipCode,
-            city
-            phone
-            address
-            VATIN
-          }
-          token
-        }
-      }
-    `)
 
-    const { mutate: loginMutation, loading: loginLoading } = useMutation(gql`
-      mutation loginUser($email: String!, $password: String!) {
-        loginUser(email: $email, password: $password) {
-          user {
-            id
-            email
-            name
-            lastName
-            zipCode,
-            city
-            phone
-            address
-            VATIN
-            uuid
-          }
-          token
-        }
-      }`)
 
     async function login() {
         const length = LocalStorage.getLength()
@@ -337,11 +307,6 @@ export default defineComponent({
         }
         if (Object.values(user).includes('') || Object.values(user).includes(null)) return
         errors.value = []
-        $q.loading.show({
-          spinner: QSpinnerGears,
-          spinnerColor: 'positive',
-          message: 'Espere ...'
-        })
         try {
           const result = await loginMutation({ email: user.email.toLowerCase(), password: user.password })
           if (result?.data?.loginUser?.token) {
@@ -364,18 +329,12 @@ export default defineComponent({
       }
       if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
       errors.value = []
-      $q.loading.show({
-        spinner: QSpinnerGears,
-        spinnerColor: 'positive',
-        message: 'Registrando usuario ...'
-      })
-
       newUser.email = newUser.email.toLowerCase()
 
       try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...userClean } = newUser
-        const data = await mutate({ input: userClean })
+        const data = await signUpMutation({ input: userClean })
 
         const signUp = data?.data.signUp
         if (signUp.error) {
@@ -398,24 +357,27 @@ export default defineComponent({
       errorHandler: computed(() =>
         errors.value.some((err) => err.includes('Contraseña'))
       ),
+
       reset: () => {
-        router.push(`/?${Date.now()}`)
         store.toggleRegister()
+        registerSuccess.value = false
         register.value = false
       },
+
       heandleEmailError: computed(() => {
         for (const error of errors.value) {
           return error.includes(newUser.email)
         }
         return false
       }),
+      loginLoading,
+      signUpLoading,
+      logoutUser,
       apiKey: process.env.GOOGLE_MAPS_API_KEY,
-      logout,
+      loading,
       addressRef,
       check,
       name,
-      loading,
-      loginLoading,
       registerSuccess,
       revealPassword,
       register,

@@ -15,6 +15,7 @@
         <slot name="badge" />
         </transition>
         <slot name="icon" />
+        <slot name="extra" />
     </q-btn>
 </template>
 

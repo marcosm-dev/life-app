@@ -69,7 +69,7 @@ export default defineComponent({
 <style lang="scss">
   .header-background {
     background-image: url('src/assets/backgrounds/registerbackground-min.webp');
-    background-size: contain;
+    background-size: 100vh;
     background-position: center;
     background-color: $blue-grey-10;
     background-repeat: no-repeat;
