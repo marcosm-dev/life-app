@@ -32,9 +32,9 @@
         inline-label
         dense
         v-ripple.center
-        indicator-color="light-blue-1"
-        active-class="text-blue-grey-10"
-        class="col header-tabs text-blue-grey-13 knockout active-tabs"
+        indicator-color="white"
+        active-class="white"
+        class="col header-tabs knockout active-tabs"
       >
         <q-route-tab
           name="inicio"
@@ -67,6 +67,7 @@
           cover
           class="z-max"
           transition-show="slide-left"
+          transition-hide="slide-right"
           style="border-radius: 26px 0px 0px 26px;"
         >
           <div class="row no-wrap q-pa-md text-dark text-left">
@@ -105,9 +106,7 @@
                  />
               </q-list>
             </div>
-
             <q-separator vertical inset class="q-mx-md" />
-
             <div class="column items-center">
               <q-avatar size="50px">
                 <img src="../assets/avatar.jpg">
@@ -120,33 +119,17 @@
           </div>
           <banner-install-app v-if="store.user.uuid" menu />
         </q-menu>
-        <q-icon name="mdi-account-wrench" size="28px" color="blue-grey-14" />
+        <q-icon name="mdi-account-wrench" size="28px" color="grey-12" />
       </q-avatar>
 
     </q-header>
-    <!-- <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-      </q-list>
-    </q-drawer> -->
     <q-page-container class="container">
       <router-view v-slot="{ Component, route }">
         <transition
           :name="route.meta.transition || 'fade'"
           :enter-active-class="`animated ${route.meta.transition}`"
         >
-          <keep-alive>
-            <component :is="Component" :key="route.path" />
-          </keep-alive>
+          <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </q-page-container>
@@ -185,7 +168,7 @@
           </div>
         </transition>
         <a
-          class="text-blue-grey-1 serpica-title col"
+          class="serpica-title col"
           target="_blank"
           href="https://www.serpica.org"
           style="letter-spacing: 1px;"
@@ -295,7 +278,7 @@ export default defineComponent({
 
 <style lang="scss">
   .header {
-    background-color: rgb(255, 255, 255,.5);
+    background-color: rgba($color: #000000, $alpha: 0.7);
   }
   @media (min-width: 768px) {
     .header-tabs .q-tab, .q-tab__label {
@@ -310,7 +293,7 @@ export default defineComponent({
     background-color: rgba($color: #0000, $alpha: 0.9);
     align-items: center;
     display: flex;
-    color: $blue-grey-1;
+    color: #fff;
     font-size: 18px;
     padding: 1.5em 1em;
   }

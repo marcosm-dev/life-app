@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
     },
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      { name: 'Redirect', path: '', redirect: '/home'},
       {
         name: 'Home',
         path: '/home',

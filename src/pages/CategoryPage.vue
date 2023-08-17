@@ -3,14 +3,13 @@
     <h4 class="q-px-md">
       {{ $route.params.name }}
     </h4>
-    <div
-      v-for="product in products"
-      class="row justify-center"
-      :key="product.id"
-    >
-      <article class="col-12 q-px-sm">
-        <ProductCard :product="product" class="q-mx-auto" />
-      </article>
+    <div class="row justify-center">
+         <ProductCard
+            class="q-mx-sm col-12 col-lg-4 col-md-6"
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+         />
     </div>
   </q-page>
 </template>
@@ -44,8 +43,6 @@ export default defineComponent({
     `, () => ({
       categoryId
     }))
-
-    console.log('HOlA DESDE HOME')
 
 
     return { products: computed(() => result.value?.getProductsByCategory) };

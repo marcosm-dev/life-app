@@ -69,7 +69,6 @@
                           >
                             <q-fab-action
                               outline
-                              glossy
                               class="bg-white"
                               @click="deleteProduct(product.cartUid)"
                               icon="mdi-delete"
@@ -86,7 +85,6 @@
                           >
                             <q-fab-action
                               outline
-                              glossy
                               class="bg-white"
                               @click="deleteProduct(product.cartUid)"
                               icon="mdi-delete"
@@ -209,7 +207,6 @@
               <q-fab-action
                 @click="fabDeleteCart = !fabDeleteCart"
                 outline
-                glossy
                 class="bg-white"
                 color="bg-light-blue-10"
                 icon="mdi-close"
@@ -220,7 +217,6 @@
                 @click="deleteCart()"
                 color="bg-light-blue-10"
                 icon="mdi-delete"
-                glossy
               />
             </q-fab>
           </q-btn>

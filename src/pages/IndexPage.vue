@@ -15,18 +15,18 @@
         class="col-12 col-md-4 col-sm-6 col-lg-2"
       >
           <q-card
-            class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto"
+            class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto rounded-card shadow-10 q-pt-sm"
             bordered
             @click="$router.push(`/category/${category.name}?categoryId=${category.id}`)"
           >
-            <q-card-section class="transparent q-pa-xs">
+            <q-card-section class="transparent q-pa-none">
               <q-img
                 style="rgb(155.155.155,0.1)"
                 :src="`${url}/categories/${category.urlImage}`"
                 height="200px"
                 fit="fill"
               >
-                <div class="absolute-bottom flex justify-between">
+                <div class="absolute-bottom flex justify-between" style="border-radius: 5px 5px 26px 26px">
                   <div class="text-h6 text-white">
                     {{ category.name }}
                   </div>

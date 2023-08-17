@@ -26,7 +26,7 @@
 
     <!-- LOGIN Y REGISTRO DE USUARIO -->
     <q-form @submit="onSubmit" class="q-px-md col q-pt-xl" style="max-width: 450px;">
-       <q-card class="row text-center justify-center q-px-none q-py-md text-dark shadow-15">
+       <q-card class="row text-center justify-center q-px-none q-py-md text-dark shadow-15 rounded-card">
        <q-card-section>
           <q-img
             class="col-12"
@@ -256,6 +256,7 @@ import * as manifest from '../../src-pwa/manifest.json'
 import useHandleGraphQLErrors from '../composables/useHandleError'
 import useAuth from '../composables/useAuth';
 // import useNotifyError from '../composables/useNotifyError'
+import ActionButton from 'components/common/ActionButton.vue';
 
 export default defineComponent({
   name: 'AuthPage',

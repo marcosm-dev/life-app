@@ -9,11 +9,13 @@ import { defineComponent, watchEffect, onMounted, ref } from 'vue'
 import { useAuthStore, NewUser } from './stores/auth'
 import { BeforeInstallPromptEvent } from './components/models'
 import { LocalStorage } from 'quasar'
+import { useRouter } from 'vue-router'
 
 
 export default defineComponent({
   name: 'App',
   setup() {
+    const router = useRouter()
     const authStore = useAuthStore()
     const { setDeferredPrompt } = useAuthStore()
     const showAppInstallBanner = ref(false)

@@ -51,6 +51,7 @@
       </div>
     </q-banner>
     <q-banner
+      v-if="showAppInstallBanner"
       class="z-top animated fadeIn banner-menu q-px-none banner"
       :class="menu ? '' : 'q-pb-none'"
       style="animation-delay: 0.2s;"
