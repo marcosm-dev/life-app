@@ -1,33 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineStore } from 'pinia'
-import { LocalStorage } from 'quasar'
-import { BeforeInstallPromptEvent } from '../components/models'
-
-export interface User {
-  email: string;
-  password: string;
-}
-
-export interface NewUser {
-  name: string;
-  lastName: string;
-  VATIN: string;
-  phone: string;
-  address: string;
-  zipCode: string;
-  city: string;
-  email: string;
-  password: string;
-  confirmPassword?: string;
-  token?: string;
-  uuid?: string | null;
-}
+import { defineStore } from 'pinia';
+import { LocalStorage } from 'quasar';
+import { BeforeInstallPromptEvent } from '../components/models';
+import { User } from '../components/models';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
     deferredPrompt: <BeforeInstallPromptEvent>{},
-    user: <NewUser>{}
+    user: <User>{}
   }),
   getters: {
     authenticated: (state) => !!Object.keys(state.user).length
@@ -39,11 +20,11 @@ export const useAuthStore = defineStore('auth', {
     },
     toggleRegister(val: any) {
       if (['undefined', 'boolean'].includes(typeof val)) {
-        this.register = val
+        this.register = val;
       }
       this.register = !this.register;
     },
-    setUser(user: NewUser) {
+    setUser(user: User) {
       this.user = user;
       if (user.token) LocalStorage.set('token', user.token);
     }

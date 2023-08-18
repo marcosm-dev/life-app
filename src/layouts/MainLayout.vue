@@ -239,7 +239,7 @@ export default defineComponent({
                 // delay: 500,
                 tweenFromOpacity: 0,
                 classes: loading.value ? 'bg-transparent' : '',
-                // keepToClone: true,
+                keepToClone: true,
                 easing: 'ease-in-out',
                 // waitFor: 'transitionend',
 

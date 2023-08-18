@@ -1,8 +1,22 @@
-import { NewUser } from 'src/stores/auth';
 export interface Category {
   id: string;
   name: string;
   urlImage: string | null;
+}
+export interface User {
+  id?: string;
+  name: string;
+  lastName: string;
+  VATIN: string;
+  phone: string;
+  address: string;
+  zipCode: string;
+  city: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  token?: string;
+  uuid?: string | null;
 }
 
 export interface Product {
@@ -90,5 +104,11 @@ export interface NotifyError {
   message: string;
   html?: boolean;
 }
-
-export interface CustomError {}
+export interface Lines {
+  document: string;
+  quantity: number;
+  tax: string[];
+  text: string;
+  unitPrice: number;
+  account: string;
+}

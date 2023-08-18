@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { LocalStorage, useQuasar } from 'quasar'
+import { LocalStorage } from 'quasar'
 import { useAuthStore } from 'stores/auth'
 
 export default defineComponent({
@@ -92,7 +92,6 @@ export default defineComponent({
     signUp: Boolean,
   },
   setup() {
-    const $q = useQuasar()
     const { deferredPrompt } = useAuthStore()
     const showAppInstallBanner = ref(true)
     const neverShowAppInstallBanner = LocalStorage.getItem('neverShowAppInstallBanner')
@@ -114,7 +113,7 @@ export default defineComponent({
 
     function neverShowINstallBanner() {
       showAppInstallBanner.value = false
-      $q.localStorage.set('neverShowAppInstallBanner', true)
+      LocalStorage.set('neverShowAppInstallBanner', true)
     }
 
 
