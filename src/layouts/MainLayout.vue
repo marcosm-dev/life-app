@@ -1,71 +1,61 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row header shadow-5 z-max" elevated>
-      <div class="col-auto">
-        <div class=" q-ma-xs">
+    <q-header class="row header shadow-5" elevated>
+      <transition
+        appear
+        enter-active-class="animated flipInX"
+      >
           <q-btn
-            v-if="$route.query.categoryId"
+            key="back"
+            v-if="$route.params.id"
             @click="$router.back()"
             size="15px"
-            class="q-ma-sm"
+            class="q-ma-sm bg-white text-blue-grey-14 no-shadow"
             rounded
-            outline
             icon="mdi-arrow-left"
-            grossy
-            color="blue-grey-13"
           />
           <q-img
+            key="logo"
             v-else
             height="38.58px"
             width="57.72px"
             :ratio="1"
             fit="contain"
-            @click="$router.push('/home')"
+            @click="$router.push('/')"
             class="rounded-borders q-ma-sm"
             src="../assets/logo-removebg.png"
             no-spinner
           />
-        </div>
-      </div>
+      </transition>
       <q-tabs
         v-model="tab"
         inline-label
         dense
         v-ripple.center
         indicator-color="white"
-        active-class="white"
-        class="col header-tabs knockout active-tabs"
+        active-class="white active-tabs"
+        class="knockout col"
       >
         <q-route-tab
           name="inicio"
           label="Inicio"
           v-ripple.center
           no-caps
-          :disable="true"
-          exact
+          to="/"
         />
-        <q-route-tab
-          name="categorias"
-          v-ripple.center
-          label="Categorías"
-          to="/home"
-          no-caps
-          exact
-         />
         <q-route-tab
           v-ripple.center
           name="manuales"
           label="Manuales"
           no-caps
           to="/manuales"
-          exact
         />
       </q-tabs>
 
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
           cover
-          class="z-max"
+          class="z-max text-center"
           transition-show="slide-left"
           transition-hide="slide-right"
           style="border-radius: 26px 0px 0px 26px;"
@@ -94,16 +84,19 @@
                     Reclamaciones
                   </q-item-section>
                 </q-item>
+                 <q-item>
                   <action-button
                     neutro
                     @click="logoutUser"
                     v-ripple
                     label="Cerrar sesión"
-                    padding="5px 10px"
+                    padding="2px 10px"
+                    flat
                     clickable
-                    class="q-mx-auto block q-mt-md"
+                    class="block q-mt-md text-no-wrap"
                     :loading="logoutLoading"
                  />
+                 </q-item>
               </q-list>
             </div>
             <q-separator vertical inset class="q-mx-md" />
@@ -117,7 +110,8 @@
               </div>
             </div>
           </div>
-          <banner-install-app v-if="store.user.uuid" menu />
+          <banner-install-app menu />
+          <!-- <banner-install-app v-if="store.user.uuid" menu /> -->
         </q-menu>
         <q-icon name="mdi-account-wrench" size="28px" color="grey-12" />
       </q-avatar>
@@ -128,6 +122,7 @@
         <transition
           :name="route.meta.transition || 'fade'"
           :enter-active-class="`animated ${route.meta.transition}`"
+          leave-active-class="animated slideOutLeft"
         >
           <component :is="Component" :key="route.path" />
         </transition>
@@ -159,7 +154,7 @@
                   v-ripple.center
                   ref="cartItemElement"
                   name="mdi-cart-outline"
-                  color="blue-2"
+                  color="light-blue-1"
                   class="q-ml-xs bg-transparent"
                   :class="showCart ? 'animated headShake' : ''"
                   size="28px"
@@ -283,7 +278,6 @@ export default defineComponent({
   @media (min-width: 768px) {
     .header-tabs .q-tab, .q-tab__label {
       padding: 5px;
-      font-size: 16px;
       font-weight: 600;
   }
   }
@@ -318,10 +312,10 @@ export default defineComponent({
     color: $dark;
     height: 28px;
     width: 28px;
-    font-size: 16px;
+    font-size: 17px;
     text-align: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 26px;
   }
 
   .headShake {
@@ -333,5 +327,9 @@ export default defineComponent({
   }
   .active-tabs a {
     border-radius: 26px;
+  }
+
+  .toggle-back {
+    opacity: 0;
   }
 </style>

@@ -36,53 +36,52 @@ const routes: RouteRecordRaw[] = [
     },
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { name: 'Redirect', path: '', redirect: '/home'},
-      {
-        name: 'Home',
-        path: '/home',
-        meta: {
-        //   transition: 'fadeIn',
-          requiresAuth: true
-        },
-        component: () => import('pages/IndexPage.vue')
-      },
-      {
-        name: 'CategoryPage',
-        path: '/category/:name',
-        meta: {
-          transition: 'slideInRight',
-          requiresAuth: true
-        },
-        component: () => import('pages/CategoryPage.vue')
-      },
-      {
-        name: 'Manuales',
-        path: '/manuales',
-        meta: {
-        //   transition: 'fadeIn',
-          requiresAuth: true
-        },
-        component: () => import('pages/ManualesPage.vue')
-      },
-      {
-        name: 'Contacto',
-        path: '/contacto',
-        // meta: {
-        //   transition: 'fadeIn',
-        //   requiresAuth: true
-        // },
-        component: () => import('pages/ContactoPage.vue')
-      },
-      {
-        name: 'UserOrders',
-        path: '/orders',
-        // meta: {
-        //   transition: 'fadeIn',
-        //   requiresAuth: true
-        // },
-        component: () => import(/* webpackChunkName: "group-user" */ 'pages/MyOrders.vue')
-      },
-
+      { name: 'Redirect', path: '', redirect: '/categories'},
+          {
+            name: 'Categories',
+            path: '/categories',
+            meta: {
+              transition: 'slideInRight',
+              requiresAuth: true
+            },
+            component: () => import('pages/CategoriesPage.vue'),
+          },
+          {
+            name: 'Category',
+            path: '/categories/:id',
+            meta: {
+            //   transition: 'fadeIn',
+              requiresAuth: true
+            },
+            component: () => import('pages/CategoryPage.vue')
+          },
+          {
+            name: 'Manuales',
+            path: '/manuales',
+            meta: {
+            //   transition: 'fadeIn',
+              requiresAuth: true
+            },
+            component: () => import('pages/ManualesPage.vue')
+          },
+          {
+            name: 'Contacto',
+            path: '/contacto',
+            // meta: {
+            //   transition: 'fadeIn',
+            //   requiresAuth: true
+            // },
+            component: () => import('pages/ContactoPage.vue')
+          },
+          {
+            name: 'UserOrders',
+            path: '/orders',
+            // meta: {
+            //   transition: 'fadeIn',
+            //   requiresAuth: true
+            // },
+            component: () => import(/* webpackChunkName: "group-user" */ 'pages/MyOrders.vue')
+          },
     ]
   },
 

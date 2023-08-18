@@ -1,15 +1,15 @@
 <template>
   <q-page>
-    <h4 class="q-px-md">
-      {{ $route.params.name }}
+    <h4 class="row justify-around q-px-md">
+      {{ category }}
     </h4>
     <div class="row justify-center">
-         <ProductCard
-            class="q-mx-sm col-12 col-lg-4 col-md-6"
-            v-for="product in products"
-            :key="product.id"
-            :product="product"
-         />
+        <ProductCard
+          class="q-mx-sm col-sm-8 col-12 col-lg-4 col-md-6"
+          v-for="product in products"
+          :key="product.id"
+          :product="product"
+        />
     </div>
   </q-page>
 </template>
@@ -26,14 +26,26 @@ export default defineComponent({
   name: 'CategoryPage',
   setup() {
     const route = useRoute()
-    const { categoryId } = route.query
+    const { id } = route.params
 
-     const { result } = useQuery(gql`
-      query getProductsByCategory($categoryId: ID!) {
-        getProductsByCategory(categoryId: $categoryId) {
+    const { result: categoryResult, loading } = useQuery(gql`
+      query categoryById ($id: ID!) {
+        getCategoryById(id: $id) {
+          id
+          name
+        }
+      }
+    `, {
+      id
+    })
+
+     const { result, loading: productsLoading } = useQuery(gql`
+      query getProductsByCategory($id: ID!) {
+        getProductsByCategory(categoryId: $id) {
           id
           urlImage
           name
+          categoryId
           price
           stock
           description
@@ -41,11 +53,18 @@ export default defineComponent({
         }
       }
     `, () => ({
-      categoryId
+      id
     }))
 
+    console.log('hola desde categorias')
 
-    return { products: computed(() => result.value?.getProductsByCategory) };
+
+    return {
+      products: computed(() => result.value?.getProductsByCategory),
+      category: computed(() => categoryResult.value?.getCategoryById.name),
+      loading,
+      productsLoading,
+    };
   },
   components: {
     ProductCard

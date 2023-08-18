@@ -50,34 +50,38 @@
         />
       </div>
     </q-banner>
-    <q-banner
-      v-if="showAppInstallBanner"
-      class="z-top animated fadeIn banner-menu q-px-none banner"
-      :class="menu ? '' : 'q-pb-none'"
-      style="animation-delay: 0.2s;"
-      dense
-    >
-        <div class="col-12 q-px-md">
-          Añade facilmente nuestra app a tu pantalla de inicio solo pulsando en instalar.
-        </div>
-        <div class="row justify-between">
-          <action-button
-            @click="showAppInstallBanner = false"
-            flat
-            class="q-mt-md "
-            label="Ahora no"
-            text-color="light-blue-1"
-          />
-          <action-button
-            class="q-mt-md q-mr-md"
-            label="Añadir a pantalla de inicio"
-            text-color="light-blue-3"
-            icon="mdi-cellphone-arrow-down"
-          />
-
-          <slot name="extraInfo" />
-      </div>
-    </q-banner>
+    <q-btn-group glossy outline rounded v-if="menu" class="q-mb-md">
+      <q-btn
+        @click="installApp"
+        padding="10"
+        class="text-no-wrap no-wrap"
+        color="blue-grey-8"
+        label="Instalar"
+        no-caps
+        outline
+        icon="mdi-cellphone-arrow-down"
+      />
+      <q-btn
+        padding="10"
+        color="blue-grey-8"
+        icon="mdi-close"
+        outline
+      />
+  </q-btn-group>
+    <!-- <div class="column items-center" v-if="menu">
+      <q-btn
+        @click="installApp"
+        padding="5px 15px"
+        no-caps
+        class="col"
+        style="inline !important"
+        label="Instalar app"
+        icon="mdi-cellphone-arrow-down"
+        outline
+        rounded
+        color="blue-grey-14"
+      />
+    </div> -->
   </template>
 </template>
 

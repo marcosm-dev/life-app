@@ -37,11 +37,11 @@
             alt="serpica life logo"
             loading="lazy"
           />
-          <div class="q-my-lg text-body1 knockout col-12">
+          <div class="q-my-lg text-body col-12" :class="$q.screen.gt.sm ? '' : 'q-px-lg'">
             <template v-if="!register">
                 Inicia sesión con tu cuenta en {{ name }} o create una y pulsando
               <span class="text-body1 knockout" @click="store.toggleRegister">
-                aquí, <u class="cursor-pointer text-body1 text-bold knockout">registrarse</u>.
+                en, <u class="cursor-pointer text-body1 knockout">registrarse</u>.
               </span>
             </template>
             <template v-else>
@@ -52,6 +52,7 @@
         <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
           <q-input
             outlined
+            color="blue-grey-14"
             clearable
             v-model="newUser.name"
             label="Nombre"
@@ -60,6 +61,7 @@
           />
           <q-input
             outlined
+            color="blue-grey-14"
             rounded
             clearable
             type="text"
@@ -68,6 +70,7 @@
           />
           <q-input
             outlined
+            color="blue-grey-14"
             rounded
             clearable
             v-model="newUser.VATIN"
@@ -76,6 +79,7 @@
           />
           <q-input
             outlined
+            color="blue-grey-14"
             rounded
             clearable
             type="text"
@@ -86,6 +90,7 @@
           />
           <q-input
             rounded
+            color="blue-grey-14"
             outlined
             type="text"
             clearable
@@ -94,6 +99,7 @@
           />
           <q-input
             rounded
+            color="blue-grey-14"
             outlined
             clearable
             v-model="newUser.zipCode"
@@ -101,6 +107,7 @@
           />
           <q-input
             rounded
+            color="blue-grey-14"
             outlined
             clearable
             v-model="newUser.city"
@@ -108,6 +115,7 @@
           />
           <q-input
             rounded
+            color="blue-grey-14"
             outlined
             clearable
             type="text"
@@ -121,6 +129,7 @@
           />
           <q-input
             rounded
+            color="blue-grey-14"
             outlined
             clearable
             v-model="newUser.password"
@@ -139,6 +148,7 @@
           </q-input>
           <q-input
              rounded
+            color="blue-grey-14"
             :type="revealPassword ? 'text' : 'password'"
             label="Confirmar contraseña"
             outlined
@@ -160,6 +170,7 @@
         <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
           <q-input
             outlined
+            color="blue-grey-14"
             clearable
             v-model="user.email"
             label="Email"
@@ -171,6 +182,7 @@
           />
           <q-input
             outlined
+            color="blue-grey-14"
             clearable
             item-aligned
             rounded
@@ -313,7 +325,7 @@ export default defineComponent({
           if (result?.data?.loginUser?.token) {
             const { token, user } = result?.data.loginUser
             store.setUser({...user, token})
-            router.push('/home')
+            router.push('/')
           }
         } catch (error: any) {
           errors.value.push(useHandleGraphQLErrors(error))

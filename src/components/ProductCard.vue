@@ -14,7 +14,6 @@
               fetchpriority="high"
               fit="scale-down"
               crossorigin="anonymous"
-              :ratio="1"
             >
               <template #error>
                   <q-img

@@ -32,7 +32,7 @@
           :enter-active-class="!loading && 'animated fadeOut'"
         > -->
 
-        <q-card-section class="no-padding">
+        <q-card-section class="q-py-none q-pl-none">
           <transition-group
             appear
             :duration="200"
@@ -106,12 +106,12 @@
                     <div class="description">{{ product.description }}</div>
                   </q-item-label>
                 </q-item-section>
-                <q-item-section class="no-padding" side>
+                <q-item-section class="no-padding" style="max-width: 100px;" side>
                   <q-item-label class="text-body knockout text-blue-grey-13">
                     {{ product.price.toFixed(2) }}
                   </q-item-label>
                   <ProductQuantity
-                    class="q-px-none"
+                    class="q-pr-none"
                     @update-item="(e) => updateCartItem(product.cartUid, e)"
                     :product="product"
                     :dense="true"

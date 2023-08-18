@@ -126,6 +126,7 @@ module.exports = configure(function (ctx) {
       'fadeIn',
       'fadeOut',
       'flipInX',
+      'flip',
       'slideInDown',
       'slideInLeft',
       'slideInRight',
