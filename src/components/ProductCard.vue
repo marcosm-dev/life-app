@@ -9,7 +9,7 @@
           <div :class="$q.screen.width < 768 ? 'column' : ''">
             <q-img
               class="col"
-              style="max-height: 100px"
+              style="max-height: 100px; border-radius: 26px;"
               :src="`${url}/products/${product.urlImage.toLowerCase()}` ?? '../assets/logo.jpg'"
               fetchpriority="high"
               fit="scale-down"
@@ -18,9 +18,10 @@
               <template #error>
                   <q-img
                     class="col"
+                    style="border-radius: 26px; border: 1px solid rgba(#455a64, 10)"
                     src="../assets/logo.jpg"
                     width="170px"
-                    height="70px"
+                    height="100px"
                   />
               </template>
             </q-img>

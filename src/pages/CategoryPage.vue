@@ -3,13 +3,52 @@
     <h4 class="row justify-around q-px-md">
       {{ category }}
     </h4>
-    <div class="row justify-center">
+    <div class="row justify-center" v-if="products?.length && !loading">
         <ProductCard
           class="q-mx-sm col-sm-8 col-12 col-lg-4 col-md-6"
           v-for="product in products"
           :key="product.id"
           :product="product"
         />
+    </div>
+    <div class="justify-center q-px-sm full-width" v-else>
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+      >
+        <q-card
+        class="q-mb-lg shadow-12 rounded-card"
+            :class="$q.screen.width < 768 ? 'column' : 'row'"
+            style="min-height: 500px;"
+          >
+            <q-card-section class="column">
+              <q-skeleton width="170px" height="100px" class="rounded-card col-12" />
+              <div class="flex justify-between items-end">
+                <q-skeleton width="100px" class="q-mt-md" />
+                <q-skeleton width="120px" height="20px" />
+              </div>
+            </q-card-section>
+
+              <q-separator class="col-12" size="1px" inset />
+              <q-card-section class="q-gutter-y-md">
+                <q-skeleton class="full-width" />
+                <q-skeleton width="60%" />
+              </q-card-section>
+
+              <q-card-section class="row justify-between">
+                <q-skeleton class="col-auto"  width="127px"/>
+                <q-skeleton width="20px"/>
+                <q-skeleton class="col-auto" width="127px" />
+              </q-card-section>
+
+              <q-separator class="col-12" size="1px" inset />
+
+              <q-card-cartions class="row q-pa-md">
+                <q-skeleton width="50%" class="rounded-card q-py-lg col" />
+                <q-skeleton width="50%" class="rounded-card q-py-lg col q-ml-sm" />
+              </q-card-cartions>
+      </q-card>
+      </transition>
     </div>
   </q-page>
 </template>
@@ -29,7 +68,7 @@ export default defineComponent({
     const { id } = route.params
 
     const { result: categoryResult, loading } = useQuery(gql`
-      query categoryById ($id: ID!) {
+      query getCategory ($id: ID!) {
         getCategoryById(id: $id) {
           id
           name
@@ -56,14 +95,12 @@ export default defineComponent({
       id
     }))
 
-    console.log('hola desde categorias')
-
 
     return {
       products: computed(() => result.value?.getProductsByCategory),
       category: computed(() => categoryResult.value?.getCategoryById.name),
-      loading,
       productsLoading,
+      loading: computed(() => loading.value || productsLoading.value),
     };
   },
   components: {
