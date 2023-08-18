@@ -11,6 +11,7 @@ import { DefaultApolloClient } from '@vue/apollo-composable';
 import { LocalStorage } from 'quasar';
 import { logErrorMessages } from '@vue/apollo-util';
 import useHandleGraphqlErrors from 'src/composables/useHandleError';
+import { useAuthStore } from 'src/stores/auth';
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = LocalStorage.getItem('token');
@@ -24,13 +25,14 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-export default boot(({ app, router }) => {
+export default boot(({ app, router, store }) => {
+  const authStore = useAuthStore(store)
   const errorMiddleware = onError((error) => {
     const { graphQLErrors } = error;
     if (graphQLErrors?.length) {
       for (const err of graphQLErrors) {
         if (err.message.toLowerCase() === 'unauthorized') {
-          router.push('/auth');
+          authStore.$reset()
         } else {
           useHandleGraphqlErrors(err);
           logErrorMessages(error);
