@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!neverShowAppInstallBanner">
+  <template v-if="showAppInstallBanner">
     <action-button
       v-if="false"
       @click="installApp"
@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue';
 import { LocalStorage, useQuasar } from 'quasar'
 import { useAuthStore } from 'stores/auth'
 
@@ -110,13 +110,19 @@ export default defineComponent({
           neverShowINstallBanner()
         }
       })
-
     }
 
     function neverShowINstallBanner() {
       showAppInstallBanner.value = false
       $q.localStorage.set('neverShowAppInstallBanner', true)
     }
+
+
+    onMounted(() => {
+      if (!deferredPrompt?.prompt) neverShowINstallBanner()
+
+    })
+
     return {
       deferredPrompt,
       installApp,

@@ -43,10 +43,10 @@
 
               <q-separator class="col-12" size="1px" inset />
 
-              <q-card-cartions class="row q-pa-md">
+              <q-card-actions class="row q-pa-md">
                 <q-skeleton width="50%" class="rounded-card q-py-lg col" />
                 <q-skeleton width="50%" class="rounded-card q-py-lg col q-ml-sm" />
-              </q-card-cartions>
+              </q-card-actions>
       </q-card>
       </transition>
     </div>
