@@ -109,8 +109,8 @@
         outside-arrows
         dense
         active-class="light-blue-1"
-        class="knockout q-mx-auto q-mx-auto"
-        :class="!$q.screen.gt.xs ? 'col-auto' : 'col-12'"
+        class="q-mx-auto q-mx-auto"
+        :class="$q.screen.width >= 464 ? 'col-12' : 'col-auto'"
       >
         <q-route-tab
           name="inicio"

@@ -11,7 +11,7 @@
           <q-card-section class="row justify-center">
               <q-skeleton width="250px" height="150px">
               </q-skeleton>
-                <q-skeleton class="absolute-bottom q-pt-lg flex" style="border-radius: 5px 5px 26px 26px" >
+                <q-skeleton class="absolute-bottom flex" style="border-radius: 5px 5px 26px 26px" >
                   <q-skeleton class="q-mb-lg q-ml-md" width="40%" />
                 </q-skeleton>
           </q-card-section>
