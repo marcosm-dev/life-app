@@ -90,3 +90,5 @@ export interface NotifyError {
   message: string;
   html?: boolean;
 }
+
+export interface CustomError {}

@@ -128,8 +128,12 @@ module.exports = configure(function (ctx) {
       'flipInX',
       'flip',
       'slideInDown',
-      'slideInLeft',
+      'slideOutDown',
+      'slideInUp',
+      'slideInDown',
+      'slideOutLeft',
       'slideInRight',
+      'slideInLeft',
       'slideOutLeft',
       'slideOutRight'
       ],

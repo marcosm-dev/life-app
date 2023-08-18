@@ -204,7 +204,7 @@
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
         </q-card-section>
-        <q-card-section v-show="errors.length" class="text-accent">
+        <!-- <q-card-section v-show="errors.length" class="text-accent">
           <q-list dense bordered padding style="border-radius: 26px;">
             <q-item v-for="error in errors" :key="error">
               <q-item-section class="text-caption">
@@ -212,7 +212,7 @@
               </q-item-section>
             </q-item>
           </q-list>
-        </q-card-section>
+        </q-card-section> -->
         <q-card-actions class="col-12 justify-around q-pa-lg">
           <action-button
             v-if="!register"
@@ -267,8 +267,6 @@ import * as manifest from '../../src-pwa/manifest.json'
 
 import useHandleGraphQLErrors from '../composables/useHandleError'
 import useAuth from '../composables/useAuth';
-// import useNotifyError from '../composables/useNotifyError'
-import ActionButton from 'components/common/ActionButton.vue';
 
 export default defineComponent({
   name: 'AuthPage',
@@ -283,7 +281,6 @@ export default defineComponent({
     } = useAuth()
     const router = useRouter()
     const store = useAuthStore()
-    // const { notifyError } = useNotifyError()
     const $q = useQuasar()
     const errors = ref<string[]>([])
     const revealPassword = ref(false)
@@ -328,8 +325,8 @@ export default defineComponent({
             router.push('/')
           }
         } catch (error: any) {
-          errors.value.push(useHandleGraphQLErrors(error))
-          console.log(error)
+          errors.value.push(error.message)
+          useHandleGraphQLErrors(error)
         }
         $q.loading.hide()
       }
@@ -356,7 +353,8 @@ export default defineComponent({
         else store.setUser(signUp.user)
         registerSuccess.value = true
       } catch (error: any) {
-        errors.value.push(useHandleGraphQLErrors(error))
+        errors.value.push(error.message)
+        useHandleGraphQLErrors(error)
       }
       $q.loading.hide()
     }

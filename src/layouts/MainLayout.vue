@@ -147,18 +147,18 @@
                 <small class="block full-width q-mb-sm">
                   Mi carrito:
                 </small>
-                <div class="knockout cart-count">
-                  {{ cart.length }}
-                </div>
                 <q-icon
                   v-ripple.center
+                  color="light-blue-11"
                   ref="cartItemElement"
-                  name="mdi-cart-outline"
-                  color="light-blue-1"
+                  name="mdi-cart-arrow-right"
                   class="q-ml-xs bg-transparent"
                   :class="showCart ? 'animated headShake' : ''"
                   size="28px"
                 />
+                <div class="knockout cart-count">
+                  {{ cart.length }}
+                </div>
             </div>
           </div>
         </transition>
@@ -194,6 +194,7 @@ import useCartDialog from 'src/composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth';
 import { onBeforeRouteUpdate } from 'vue-router'
+import cors from 'cors';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -233,13 +234,12 @@ export default defineComponent({
                 from,
                 to: cartItemElement.value.$el,
                 duration: 1800,
-                delay: 500,
+                // delay: 500,
                 tweenFromOpacity: 0,
                 classes: loading.value ? 'bg-transparent' : '',
-                tweenToOpacity: 50,
-                keepToClone: true,
-                easing: 'ease-in',
-                waitFor: 'transitionend',
+                // keepToClone: true,
+                easing: 'ease-in-out',
+                // waitFor: 'transitionend',
 
                 onEnd: end => {
                   showCart.value = true;
@@ -310,9 +310,10 @@ export default defineComponent({
     align-items: center;
     background: #fff;
     color: $dark;
-    height: 28px;
-    width: 28px;
-    font-size: 17px;
+    height: 22px;
+    width: 22px;
+    margin: auto 0;
+    font-size: 14px;
     text-align: center;
     align-items: center;
     border-radius: 26px;

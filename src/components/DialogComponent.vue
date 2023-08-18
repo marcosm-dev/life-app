@@ -35,8 +35,8 @@
         <q-card-section class="q-py-none q-pl-none">
           <transition-group
             appear
-            :duration="200"
-            leave-active-class="animated fadeOut"
+            :duration="150"
+            leave-active-class="animated slideOutDown"
           >
             <q-list v-for="product in cart" :key="product.cartUid" style="transition-duration: all;">
                 <q-item v-if="!step" class="q-my-sm row bg-white">
@@ -80,12 +80,15 @@
                             v-else
                             label-position="right"
                             flat
-                            padding="5px"
-                            icon="mdi-delete"
+                            outline
+                            padding="2px"
                           >
+                            <template #icon>
+                              <q-icon name="mdi-delete" size="18px" />
+                            </template>
                             <q-fab-action
-                              outline
                               class="bg-white"
+                              outline
                               @click="deleteProduct(product.cartUid)"
                               icon="mdi-delete"
                             />
@@ -157,7 +160,7 @@
         <q-separator class="col-12" size="1px" />
         <q-card-section class="row text-h6">
             <div class="col-12 flex justify-between">
-              <div class="inter text-subtitle1 text-capitalize text-blue-grey-13">
+              <div class="inter text-subtitle2 text-capitalize text-blue-grey-13">
                 Unidades:
               </div>
               <div class="knockout text-subtitle1 text-blue-grey-13">

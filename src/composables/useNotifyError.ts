@@ -2,12 +2,14 @@ import { Notify } from 'quasar'; // Asegúrate de importar QNotification si es n
 import { NotifyError } from 'components/models';
 
 const useNotifyError = ({ message, html }: NotifyError) => {
-  console.log(message)
     Notify.create({
       message: message,
       color: 'light-blue-1',
-      textColor: 'dark'
-    });
+      textColor: 'dark',
+      closeBtn: true,
+      classes: 'text-capitalize',
+      icon: 'mdi-exclamation-thick',
+    })
 
 
 };

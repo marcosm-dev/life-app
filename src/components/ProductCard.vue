@@ -80,7 +80,7 @@
                 <q-icon
                   v-if="$q.screen.width > 315"
                   size="20px"
-                  name="mdi-cart-arrow-down"
+                  name="mdi-cart-plus"
                   color="blue-grey-14"
                   class="q-ml-sm"
                 />

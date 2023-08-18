@@ -54,8 +54,13 @@ export default defineComponent({
       }
     })
 
+
+    // Tarea mañana revisar no hay token de usuario sacar al usuario de la applicación y abstraer la lógica
+
+
     watchEffect(() => {
       if(result.value) {
+        console.log(result.value)
         const user: NewUser = result.value?.me
         authStore.setUser(user)
       }
