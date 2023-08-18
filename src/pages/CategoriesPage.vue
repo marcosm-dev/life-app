@@ -6,21 +6,28 @@
     <h5 class="col-12 text-bold q-mx-auto text-center text-h6">
       ¿Qué tipo de producto buscas?
     </h5>
-    <div v-if="loading" class="full-width">
+    <template v-if="loading">
+      <div
+        v-for="skeleton in 8"
+        :key="skeleton"
+        class="col-12 col-md-4 col-sm-6 col-lg-2"
+      >
         <q-card
-          v-for="skeleton in 4" :key="skeleton"
+          style="min-height: 210px;"
           class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto rounded-card shadow-10 q-pt-sm"
         >
           <q-card-section class="row justify-center">
               <q-skeleton width="250px" height="150px">
               </q-skeleton>
-                <q-skeleton class="absolute-bottom q-pt-lg flex" style="border-radius: 5px 5px 26px 26px" >
-                  <q-skeleton class="q-mb-lg q-ml-md" width="40%" />
-                </q-skeleton>
           </q-card-section>
+          <q-skeleton class="absolute-bottom q-pt-lg flex" style="border-radius: 5px 5px 26px 26px" >
+            <q-skeleton class="q-mb-lg q-ml-md" width="40%" />
+          </q-skeleton>
         </q-card>
-    </div>
+      </div>
+    </template>
     <div
+      v-else
       v-scroll="onScroll"
       v-for="category in categories"
       ref="itemsRefs"
@@ -44,19 +51,19 @@
                 <div class="text-h6 text-white">
                   {{ category.name }}
                 </div>
-              <transition
-                  name="arrow-left"
-                  appear
-                  appear-active-class="animated slideInLeft"
-                >
-                <q-icon
-                  class="transition-arrow"
-                  color="white"
-                  size="30px"
-                  name="mdi-arrow-right"
-                />
-              </transition>
-              </div>
+                <transition
+                    name="arrow-left"
+                    appear
+                    appear-active-class="animated slideInLeft"
+                  >
+                  <q-icon
+                    class="transition-arrow"
+                    color="white"
+                    size="30px"
+                    name="mdi-arrow-right"
+                  />
+                </transition>
+                </div>
             </q-img>
             <!-- <q-img
               class="bg-blue-grey-3"

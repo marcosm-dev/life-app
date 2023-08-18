@@ -11,45 +11,47 @@
           :product="product"
         />
     </div>
-    <div class="justify-center q-px-sm full-width" v-else>
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-      >
-        <q-card
-        class="q-mb-lg shadow-12 rounded-card"
-            :class="$q.screen.width < 768 ? 'column' : 'row'"
-            style="min-height: 500px;"
-          >
-            <q-card-section class="column">
-              <q-skeleton width="170px" height="100px" class="rounded-card col-12" />
-              <div class="flex justify-between items-end">
-                <q-skeleton width="100px" class="q-mt-md" />
-                <q-skeleton width="120px" height="20px" />
-              </div>
-            </q-card-section>
-
-              <q-separator class="col-12" size="1px" inset />
-              <q-card-section class="q-gutter-y-md">
-                <q-skeleton class="full-width" />
-                <q-skeleton width="60%" />
+    <template v-else>
+      <div v-for="skeleton in 4" class="justify-center q-px-sm full-width col" :key="skeleton">
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+        >
+          <q-card
+          class="q-mb-lg shadow-12 rounded-card"
+              :class="$q.screen.width < 768 ? 'column' : 'row'"
+              style="min-height: 500px;"
+            >
+              <q-card-section class="column">
+                <q-skeleton width="170px" height="100px" class="rounded-card col-12" />
+                <div class="flex justify-between items-end">
+                  <q-skeleton width="100px" class="q-mt-md" />
+                  <q-skeleton width="120px" height="20px" />
+                </div>
               </q-card-section>
 
-              <q-card-section class="row justify-between">
-                <q-skeleton class="col-auto"  width="127px"/>
-                <q-skeleton width="20px"/>
-                <q-skeleton class="col-auto" width="127px" />
-              </q-card-section>
+                <q-separator class="col-12" size="1px" inset />
+                <q-card-section class="q-gutter-y-md">
+                  <q-skeleton class="full-width" />
+                  <q-skeleton width="60%" />
+                </q-card-section>
 
-              <q-separator class="col-12" size="1px" inset />
+                <q-card-section class="row justify-between">
+                  <q-skeleton class="col-auto"  width="127px"/>
+                  <q-skeleton width="20px"/>
+                  <q-skeleton class="col-auto" width="127px" />
+                </q-card-section>
 
-              <q-card-cartions class="row q-pa-md">
-                <q-skeleton width="50%" class="rounded-card q-py-lg col" />
-                <q-skeleton width="50%" class="rounded-card q-py-lg col q-ml-sm" />
-              </q-card-cartions>
-      </q-card>
-      </transition>
-    </div>
+                <q-separator class="col-12" size="1px" inset />
+
+                <q-card-actions class="row q-pa-md">
+                  <q-skeleton width="50%" class="rounded-card q-py-lg col" />
+                  <q-skeleton width="50%" class="rounded-card q-py-lg col q-ml-sm" />
+                </q-card-actions>
+        </q-card>
+        </transition>
+      </div>
+    </template>
   </q-page>
 </template>
 
