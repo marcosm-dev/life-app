@@ -109,7 +109,8 @@
         outside-arrows
         dense
         active-class="light-blue-1"
-        class="knockout q-mx-auto col-auto q-mx-auto"
+        class="knockout q-mx-auto q-mx-auto"
+        :class="!$q.screen.gt.xs ? 'col-auto' : 'col-12'"
       >
         <q-route-tab
           name="inicio"
@@ -126,6 +127,7 @@
           to="/manuales"
         />
       </q-tabs>
+
 
     </q-header>
     <q-page-container class="container">

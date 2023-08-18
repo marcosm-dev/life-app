@@ -6,6 +6,20 @@
     <h5 class="col-12 text-bold q-mx-auto text-center text-h6">
       ¿Qué tipo de producto buscas?
     </h5>
+    <div v-if="loading" class="full-width">
+        <q-card
+          v-for="skeleton in 4" :key="skeleton"
+          class="cursor-pointer q-mb-md q-mt-md text-center q-mx-auto rounded-card shadow-10 q-pt-sm"
+        >
+          <q-card-section class="row justify-center">
+              <q-skeleton width="250px" height="150px">
+              </q-skeleton>
+                <q-skeleton class="absolute-bottom q-pt-lg flex" style="border-radius: 5px 5px 26px 26px" >
+                  <q-skeleton class="q-mb-lg q-ml-md" width="40%" />
+                </q-skeleton>
+          </q-card-section>
+        </q-card>
+    </div>
     <div
       v-scroll="onScroll"
       v-for="category in categories"
@@ -126,6 +140,7 @@ export default defineComponent({
               await loadMore();
             }
         },
+        loading,
         categories,
         loadMore,
         itemsRefs,
