@@ -1,56 +1,41 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="row header shadow-5" elevated>
+    <q-header class="header shadow-5 row z-top" elevated>
       <transition
         appear
         enter-active-class="animated flipInX"
       >
-          <q-btn
-            key="back"
-            v-if="$route.params.id"
-            @click="$router.back()"
-            size="15px"
-            class="q-ma-sm bg-white text-blue-grey-14 no-shadow"
-            rounded
-            icon="mdi-arrow-left"
-          />
-          <q-img
-            key="logo"
-            v-else
-            height="38.58px"
-            width="57.72px"
-            :ratio="1"
-            fit="contain"
-            @click="$router.push('/')"
-            class="rounded-borders q-ma-sm"
-            src="../assets/logo-removebg.png"
-            no-spinner
-          />
+          <div class="col-auto">
+            <q-btn
+              v-if="$route.params.id"
+              @click="$router.back()"
+              size="15px"
+              class="q-ma-sm bg-white text-blue-grey-14 no-shadow col-2"
+              rounded
+              style="width: 57.72px"
+              icon="mdi-arrow-left"
+            />
+            <q-img
+              v-else
+              height="38.58px"
+              width="57.72px"
+              :ratio="1"
+              fit="contain"
+              @click="$router.push('/')"
+              class="rounded-borders q-ma-sm col-2"
+              src="../assets/logo-removebg.png"
+              no-spinner
+            />
+          </div>
       </transition>
-      <q-tabs
-        v-model="tab"
-        inline-label
-        dense
-        v-ripple.center
-        indicator-color="white"
-        active-class="white active-tabs"
-        class="knockout col"
+      <a
+        class="serpica-title q-my-auto q-mr-auto col-auto offset-1 q-mx-auto"
+        target="_blank"
+        href="https://www.serpica.org"
+        style="letter-spacing: 1px;"
       >
-        <q-route-tab
-          name="inicio"
-          label="Inicio"
-          v-ripple.center
-          no-caps
-          to="/"
-        />
-        <q-route-tab
-          v-ripple.center
-          name="manuales"
-          label="Manuales"
-          no-caps
-          to="/manuales"
-        />
-      </q-tabs>
+          SERPICA CANARIAS S.L.
+      </a>
 
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
@@ -116,13 +101,38 @@
         <q-icon name="mdi-account-wrench" size="28px" color="grey-12" />
       </q-avatar>
 
+      <q-tabs
+        v-model="tab"
+        v-ripple.center
+        switch-indicator
+        indicator-color="light-blue-1"
+        outside-arrows
+        dense
+        active-class="light-blue-1"
+        class="knockout q-mx-auto col-auto q-mx-auto"
+      >
+        <q-route-tab
+          name="inicio"
+          label="Inicio"
+          v-ripple.center
+          no-caps
+          to="/"
+        />
+        <q-route-tab
+          v-ripple.center
+          name="manuales"
+          label="Manuales"
+          no-caps
+          to="/manuales"
+        />
+      </q-tabs>
+
     </q-header>
     <q-page-container class="container">
       <router-view v-slot="{ Component, route }">
         <transition
           :name="route.meta.transition || 'fade'"
           :enter-active-class="`animated ${route.meta.transition}`"
-          leave-active-class="animated slideOutLeft"
         >
           <component :is="Component" :key="route.path" />
         </transition>
@@ -149,7 +159,7 @@
                 </small>
                 <q-icon
                   v-ripple.center
-                  color="light-blue-11"
+                  color="light-blue-1"
                   ref="cartItemElement"
                   name="mdi-cart-arrow-right"
                   class="q-ml-xs bg-transparent"
@@ -162,19 +172,11 @@
             </div>
           </div>
         </transition>
-        <a
-          class="serpica-title col"
-          target="_blank"
-          href="https://www.serpica.org"
-          style="letter-spacing: 1px;"
-        >
-          SERPICA CANARIAS S.L.
-        </a>
       </div>
       <div class="column items-end text-caption">
-        <router-link to="/contacto">Contacto</router-link>
-        <router-link to="/home">Política de privacidad</router-link>
-        <router-link to="/home">Protección de datos</router-link>
+        <router-link class="inter" to="/contacto">Contacto</router-link>
+        <router-link class="inter" to="/home">Política de privacidad</router-link>
+        <router-link class="inter" to="/home">Protección de datos</router-link>
         <div class="row q-mt-sm full-width main-footer-italy q-mt-lg">
           <div class="col flag-green" />
           <div class="col flag-white text-dark text-center text-bold text-dark" />
@@ -194,7 +196,6 @@ import useCartDialog from 'src/composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth';
 import { onBeforeRouteUpdate } from 'vue-router'
-import cors from 'cors';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -273,7 +274,7 @@ export default defineComponent({
 
 <style lang="scss">
   .header {
-    background-color: rgba($color: #000000, $alpha: 0.7);
+    background-color: rgba($color: #263238  , $alpha: 0.7);
   }
   @media (min-width: 768px) {
     .header-tabs .q-tab, .q-tab__label {
@@ -284,7 +285,7 @@ export default defineComponent({
   .main-footer {
     background-position: center;
     background-size: contain;
-    background-color: rgba($color: #0000, $alpha: 0.9);
+    background-color: rgba($color: #263238  , $alpha: 0.7);
     align-items: center;
     display: flex;
     color: #fff;
@@ -308,7 +309,7 @@ export default defineComponent({
     display: flex;
     justify-content:center ;
     align-items: center;
-    background: #fff;
+    background: rgba($color: #e1f5fe, $alpha: 0.9) ;
     color: $dark;
     height: 22px;
     width: 22px;

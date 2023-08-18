@@ -17,7 +17,7 @@ const useAuth = () => {
   })
 
   const { mutate: logout, loading: logoutLoading } = useMutation(gql`
-    mutation {
+    mutation logoutUser {
       logoutUser
     }
   `)
@@ -29,13 +29,14 @@ const useAuth = () => {
         if (deleted) {
           state.data = data
           store.$reset()
-          router.push('/auth')
+          router.push('/auth/sign-in')
         } else {
           useNotifyError({ message: error })
         }
 
       })
     } catch (error) {
+      console.log(error)
     }
   }
 

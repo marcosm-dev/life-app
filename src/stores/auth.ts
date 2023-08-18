@@ -37,7 +37,10 @@ export const useAuthStore = defineStore('auth', {
       console.log(deferredPrompt);
       this.deferredPrompt = deferredPrompt;
     },
-    toggleRegister() {
+    toggleRegister(val: any) {
+      if (['undefined', 'boolean'].includes(typeof val)) {
+        this.register = val
+      }
       this.register = !this.register;
     },
     setUser(user: NewUser) {

@@ -261,12 +261,13 @@ import {
 } from 'vue'
 import { useAuthStore, User, NewUser } from '../stores/auth'
 import { useQuasar, LocalStorage } from 'quasar'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import * as manifest from '../../src-pwa/manifest.json'
 
 import useHandleGraphQLErrors from '../composables/useHandleError'
 import useAuth from '../composables/useAuth';
+import { resetCaches } from 'graphql-tag'
 
 export default defineComponent({
   name: 'AuthPage',
@@ -359,6 +360,17 @@ export default defineComponent({
       $q.loading.hide()
     }
 
+    function reset ()  {
+      store.toggleRegister(false)
+      registerSuccess.value = false
+      register.value = false
+    }
+
+    onBeforeRouteLeave(() => {
+      resetCaches();
+    })
+
+
     return {
       async onSubmit() {
         if (register.value) await signUp()
@@ -369,11 +381,9 @@ export default defineComponent({
         errors.value.some((err) => err.includes('Contraseña'))
       ),
 
-      reset: () => {
-        store.toggleRegister()
-        registerSuccess.value = false
-        register.value = false
-      },
+
+
+
 
       heandleEmailError: computed(() => {
         for (const error of errors.value) {
@@ -381,6 +391,7 @@ export default defineComponent({
         }
         return false
       }),
+      reset,
       loginLoading,
       signUpLoading,
       logoutUser,

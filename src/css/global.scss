@@ -13,3 +13,7 @@
 .q-field__native, .q-field__label {
 	margin: 0px 16px !important;
 }
+
+.q-notification__message::first-letter {
+  text-transform: uppercase;
+}

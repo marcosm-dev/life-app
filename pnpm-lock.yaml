@@ -67,6 +67,9 @@ dependencies:
     version: 0.15.0(vue@3.3.4)
 
 devDependencies:
+  '@babel/plugin-syntax-dynamic-import':
+    specifier: ^7.8.3
+    version: 7.8.3(@babel/core@7.22.10)
   '@emailjs/browser':
     specifier: ^3.11.0
     version: 3.11.0

@@ -1,10 +1,16 @@
 import { boot } from 'quasar/wrappers'
-import ActionButton from 'components/common/ActionButton.vue'
-import BannerInstallApp from 'components/common/BannerInstallApp.vue'
 
-export default boot(async ({ app }) => {
+const commonComponents = import.meta.glob('components/common/*.vue');
 
-  app.component('action-button', ActionButton)
-  app.component('banner-install-app', BannerInstallApp)
+export default boot(async({ app }) => {
+  for (const fileName of Object.keys(commonComponents)) {
+    const module = await commonComponents[fileName]()
+    const componentName = fileName
+      .split('/')
+      .pop()
+      ?.replace(/\.\w+$/, '') as string;
 
-})
+      console.log(module)
+    app.component(componentName, (module as any).default)
+  }
+});

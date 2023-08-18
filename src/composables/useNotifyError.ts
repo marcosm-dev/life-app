@@ -1,17 +1,15 @@
-import { Notify } from 'quasar'; // Asegúrate de importar QNotification si es necesario
+import { Notify, format } from 'quasar'; // Asegúrate de importar QNotification si es necesario
 import { NotifyError } from 'components/models';
 
 const useNotifyError = ({ message, html }: NotifyError) => {
     Notify.create({
-      message: message,
+      message: format.capitalize(message),
       color: 'light-blue-1',
       textColor: 'dark',
-      closeBtn: true,
-      classes: 'text-capitalize',
-      icon: 'mdi-exclamation-thick',
+      classes: 'text-lowercase',
+      icon: 'mdi-alert-outline',
+      iconColor: 'accent',
     })
-
-
 };
 
 export default useNotifyError;
