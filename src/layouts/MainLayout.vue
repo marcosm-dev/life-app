@@ -216,7 +216,6 @@ export default defineComponent({
       // const fromSplit = from.path.split('/')
 
       if(toSplit.includes('home')) {
-        console.log('hola')
         isParent.value = true
       } else {
         isParent.value = false
@@ -290,7 +289,7 @@ export default defineComponent({
     display: flex;
     color: #fff;
     font-size: 18px;
-    padding: 1.5em 1em;
+    padding: 1em;
   }
 
   .main-footer-italy .col {

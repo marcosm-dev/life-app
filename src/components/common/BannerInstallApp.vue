@@ -65,23 +65,10 @@
         padding="10"
         color="blue-grey-8"
         icon="mdi-close"
+        v-close-popup
         outline
       />
   </q-btn-group>
-    <!-- <div class="column items-center" v-if="menu">
-      <q-btn
-        @click="installApp"
-        padding="5px 15px"
-        no-caps
-        class="col"
-        style="inline !important"
-        label="Instalar app"
-        icon="mdi-cellphone-arrow-down"
-        outline
-        rounded
-        color="blue-grey-14"
-      />
-    </div> -->
   </template>
 </template>
 

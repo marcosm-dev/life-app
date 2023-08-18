@@ -33,14 +33,28 @@
         > -->
 
         <q-card-section class="q-py-none q-pl-none">
-          <transition-group
+          <!-- <transition-group
             appear
             :duration="150"
             leave-active-class="animated slideOutDown"
-          >
+          > -->
             <q-list v-for="product in cart" :key="product.cartUid" style="transition-duration: all;">
-                <q-item v-if="!step" class="q-my-sm row bg-white">
-                  <q-item-section class="col-auto" avatar>
+
+              <q-slide-item
+                v-if="!step"
+                left-color="red-13"
+                @left="onLeft(product.cartUid)"
+                @right="onRight"
+              >
+                <template v-slot:left>
+                  <q-icon
+                    name="mdi-delete"
+                    color="light-blue-1"
+                  />
+                  Borrar
+                </template>
+                <q-item v-if="!step" class="row bg-white">
+                  <q-item-section class="column" avatar>
                     <q-avatar color="primary" text-color="white" square>
                       <!-- <img :src="product.urlImage" /> -->
                       <img
@@ -48,62 +62,8 @@
                         src="../assets/logo.jpg"
                       >
                     </q-avatar>
-                      <q-btn
-                        @click="selectedFab = product.cartUid"
-                        :disabled="selectedFab !== product.cartUid"
-                        size="14px"
-                        unelevated
-                        outline
-                        dense
-                        rounded
-                        padding="0px 10px"
-                      >
-                          <q-fab
-                            v-if="selectedFab === product.cartUid"
-                            v-model="fabDelete"
-                            label-position="top"
-                            flat
-                            color="blue-grey-14"
-                            padding="5px"
-                            icon="mdi-delete"
-                          >
-                            <q-fab-action
-                              outline
-                              class="bg-white"
-                              @click="deleteProduct(product.cartUid)"
-                              icon="mdi-delete"
-                            />
-                          </q-fab>
-
-                          <!-- Sckeleton -->
-                          <q-fab
-                            v-else
-                            label-position="right"
-                            flat
-                            outline
-                            padding="2px"
-                          >
-                            <template #icon>
-                              <q-icon name="mdi-delete" size="18px" />
-                            </template>
-                            <q-fab-action
-                              class="bg-white"
-                              outline
-                              @click="deleteProduct(product.cartUid)"
-                              icon="mdi-delete"
-                            />
-                          </q-fab>
-                          <!-- <q-icon
-                            name="mdi-delete"
-                            color="blue-grey-14"
-                            size="18px"
-                          /> -->
-                      </q-btn>
-                    <!-- <template v-slot:error>
-                      <img src="../assets/logo.jpg" />
-                    </template> -->
                   </q-item-section>
-                <q-item-section >
+                <q-item-section>
                   <q-item-label class="knockout">{{ product.name }}</q-item-label>
                   <q-item-label class="inter text-lowercase text-blue-grey-13" lines="3">
                     <div class="description">{{ product.description }}</div>
@@ -121,6 +81,7 @@
                   />
                 </q-item-section>
                 </q-item>
+                </q-slide-item>
                 <q-item
                   v-else-if="step === 1"
                   class="q-my-sm"
@@ -154,7 +115,7 @@
                 </q-item>
               <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
             </q-list>
-          </transition-group>
+          <!-- </transition-group> -->
         </q-card-section>
 
         <q-separator class="col-12" size="1px" />
@@ -291,8 +252,8 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
+import { ref, watchEffect, onBeforeUnmount } from 'vue'
+import { useDialogPluginComponent, useQuasar } from 'quasar';
 import ProductQuantity from './ProductQuantity.vue'
 import useProductCart from 'src/composables/useProductCart'
 import { useMutation } from '@vue/apollo-composable'
@@ -319,7 +280,30 @@ const step = ref(0)
 // const url = process.env.IMAGES_URL
 const count = ref(8)
 
-const selectedFab = ref(null)
+const $q = useQuasar()
+    let timer
+
+    function finalize (reset) {
+      timer = setTimeout(() => {
+        reset()
+      }, 200)
+    }
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    function onLeft (uuid) {
+        deleteProduct(uuid)
+        $q.notify('Producto eliminado del carrito')
+        finalize(reset)
+      }
+
+      function onRight ({ reset }) {
+        $q.notify('Right action triggered. Resetting in 1 second.')
+        finalize(reset)
+      }
+
 
 watchEffect(() => {
   if (count.value === 0) {

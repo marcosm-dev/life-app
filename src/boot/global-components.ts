@@ -9,8 +9,6 @@ export default boot(async({ app }) => {
       .split('/')
       .pop()
       ?.replace(/\.\w+$/, '') as string;
-
-      console.log(module)
     app.component(componentName, (module as any).default)
   }
 });
