@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia';
-import { LocalStorage } from 'quasar';
 import { BeforeInstallPromptEvent } from '../components/models';
 import { User } from '../components/models';
 
@@ -26,7 +25,6 @@ export const useAuthStore = defineStore('auth', {
     },
     setUser(user: User) {
       this.user = user;
-      if (user.token) LocalStorage.set('token', user.token);
     }
   },
   persist: {

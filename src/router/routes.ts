@@ -4,6 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'AuthLayout',
     path: '/auth',
+    redirect: '/auth/sign-in',
     meta: {
       transition: 'slideInLeft',
       requiresAuth: true

@@ -4,6 +4,8 @@ import { useAuthStore } from 'src/stores/auth'
 import { reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import useNotifyError from './useNotifyError'
+import { storeToRefs } from 'pinia'
+import { LocalStorage } from 'quasar'
 
 
 const useAuth = () => {
@@ -23,6 +25,15 @@ const useAuth = () => {
   `)
 
   const logoutUser = async () => {
+    if (!LocalStorage.getItem('token')) {
+      store.reset()
+    }
+    try {
+    } catch (error) {
+      
+    }
+
+
     try {
       await logout().then(({ data }) => {
         const { logoutUser: { deleted, error } } = data
@@ -82,6 +93,8 @@ const useAuth = () => {
 
   return {
     ...toRefs(state),
+    ...storeToRefs(store),
+    store,
     loginMutation,
     logoutUser,
     signUpMutation,

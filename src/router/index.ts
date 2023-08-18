@@ -45,7 +45,7 @@ export default route(function () {
   Router.beforeEach((to, from, next) => {
       const isAuthenticated = to.matched.some((record) => record.meta.requiresAuth) && store.authenticated
 
-      // if (to.name !== 'AuthPage' && !isAuthenticated) next({ name: 'AuthPage' })
+      if (to.name !== 'AuthPage' && !isAuthenticated) next({ name: 'AuthPage' })
       next()
 
 

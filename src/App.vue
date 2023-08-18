@@ -6,18 +6,17 @@
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { defineComponent, watchEffect, onMounted, ref } from 'vue'
-import { useAuthStore, NewUser } from './stores/auth'
+import useAuth from './composables/useAuth'
 import { BeforeInstallPromptEvent } from './components/models'
 import { LocalStorage } from 'quasar'
-import { useRouter } from 'vue-router'
 
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const router = useRouter()
-    const authStore = useAuthStore()
-    const { setDeferredPrompt } = useAuthStore()
+    const {
+      store,
+    } = useAuth()
     const showAppInstallBanner = ref(false)
 
     const { result } = useQuery(gql`
@@ -43,7 +42,7 @@ export default defineComponent({
       if ((e as BeforeInstallPromptEvent).platforms) {
         const beforeInstallPromptEvent = e as BeforeInstallPromptEvent
         // Por ejemplo, si quisieras mostrar la solicitud de instalación manualmente:
-        setDeferredPrompt(beforeInstallPromptEvent)
+        store.setDeferredPrompt(beforeInstallPromptEvent)
       }
     }
 
@@ -61,8 +60,8 @@ export default defineComponent({
     watchEffect(() => {
       if(result.value) {
         console.log(result.value)
-        const user: NewUser = result.value?.me
-        authStore.setUser(user)
+        const user = result.value?.me
+        store.setUser(user)
       }
     })
     return {
