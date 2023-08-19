@@ -3,9 +3,6 @@
     class="row justify-center q-mx-md"
     :class="$q.screen.width < 768 ? 'q-mx-md' : 'q-col-gutter-md'"
   >
-    <h5 class="col-12 text-bold q-mx-auto text-center text-h6">
-      ¿Qué tipo de producto buscas?
-    </h5>
     <div v-if="loading" class="full-width">
         <q-card
           v-for="skeleton in 4" :key="skeleton"

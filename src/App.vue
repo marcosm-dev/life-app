@@ -35,7 +35,7 @@ export default defineComponent({
             uuid
           }
         }
-    `, null, { enabled: !!LocalStorage.getItem('token')})
+    `)
 
     const beforeInstallHandler = (e: Event) => {
 

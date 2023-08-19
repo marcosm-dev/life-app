@@ -1,8 +1,5 @@
 <template>
   <q-page padding>
-    <h5 class="desktop-only text-center text-weight-bold">
-          Contacto
-    </h5>
     <div
       class="justify-center"
       :class="$q.screen.width > 768 ? 'row items-center'  : 'column'"
@@ -19,9 +16,14 @@
         <h5 class="mobile-only text-center text-weight-bold q-mb-none">
           Contacto
         </h5>
-        <q-separator :vertical="$q.screen.width > 768" color="dark" size="30px" spaced="10px"/>
+        <q-separator
+          :vertical="$q.screen.width > 768"
+          size="30px"
+          class="contact-separator"
+          spaced="10px"
+        />
         <ul
-          class="col text-bold text-subtitle text-dark"
+          class="col text-bold text-dark contact"
           style="list-style: none; line-height: 2;"
         >
             <li class="text-subtitle2">C/ Ctra Almatriche alto, 198</li>
@@ -63,3 +65,17 @@ export default defineComponent({
   components: { GoogleMap, MapMarker },
 });
 </script>
+
+<style lang="scss">
+.contact {
+  &-separator {
+    border-radius: 26px;
+    margin-top: 30px !important;
+    border: 1px solid rgba($color: #455a64, $alpha: 0.5); /* Agrega un color al borde */
+  }
+  & * {
+    font-family: 'Inter' !important;
+  }
+}
+
+</style>
