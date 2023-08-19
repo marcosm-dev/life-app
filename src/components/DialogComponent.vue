@@ -6,15 +6,16 @@
         v-close-popup
         class="close-icon"
         name="mdi-close"
-        color="white"
+        color="light-blue-1"
         size="40px"
       />
-      <q-card class="full-width">
+      <q-card class="rounded-top">
         <q-icon
           v-if="$q.screen.width >= 600"
           v-close-popup
           name="mdi-close"
-          color="dark block q-ml-auto"
+          class="block q-ml-auto"
+          color="blue-grey-14"
           size="40px"
         />
         <q-card-section
@@ -214,11 +215,11 @@
       <q-inner-loading :showing="sendLoading || success" color="warning">
           <q-spinner-gears
             v-if="sendLoading && !success"
-            size="100px"
-            color="dark"
+            size="75px"
+            color="blue-grey-14"
           />
           <!-- <div v-else-if="!sendLoading && success"> -->
-          <q-card v-if="success" class="text-caption q-py-xl">
+          <q-card v-if="success" class="text-caption q-py-xl rounded-top">
             <q-card-section class="text-caption text-blue-grey-13 row justify-center">
               ¡Pedido generado con Éxito!
               <q-img
@@ -232,7 +233,7 @@
              <action-button
                 @click="success = false; dialogRef.hide()"
                 no-caps
-                :label="count"
+                :label="String(count)"
                 padding="10px 20px"
                 text-color="light-blue-1"
                 flat
@@ -241,9 +242,7 @@
                 ripple
               />
             </q-card-section>
-            <q-card-actions class="row bg-blue-grey-9 justify-center">
-            <banner-install-app class="z-top" />
-            </q-card-actions>
+              <banner-install-app type="Payment" class="z-top" />
           </q-card>
       </q-inner-loading>
 

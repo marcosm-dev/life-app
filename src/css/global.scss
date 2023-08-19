@@ -17,3 +17,9 @@
 .q-notification__message::first-letter {
   text-transform: uppercase;
 }
+
+@media (max-width: 599.98px)  {
+    .q-layout-padding {
+        padding:  40px 16px;
+  }
+}

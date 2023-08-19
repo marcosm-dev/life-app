@@ -1,19 +1,19 @@
 // app global css in SCSS form
 
 * {
-  font-family: 'Varela Round', sans-serif !important;
+  font-family: 'Inter', sans-serif;
 }
 
 a {
-  color: unset !important;
+  color: unset;
   text-decoration: unset;
 }
 
 .flag-green {
-  background: #056837 !important;
+  background: #056837;
 }
 .flag-red {
-  background: #E3000A !important;
+  background: #E3000A;
 }
 .flag-white {
   background: #fff;
@@ -29,17 +29,33 @@ html,body {
 }
 
 .text-red {
-  background-color: red !important;
+  background-color: red;
 }
 
 .text-caption::first-letter {
-  text-transform: uppercase !important;
+  text-transform: uppercase;
 }
 
 .rounded-card {
-  border-radius: 26px;
-  -webkit-border-radius: 26px;
-  -moz-border-radius: 26px;
-  -ms-border-radius: 26px;
-  -o-border-radius: 26px;
+  border-radius: 26px !important;
+  -webkit-border-radius: 26px !important;
+  -moz-border-radius: 26px !important;
+  -ms-border-radius: 26px !important;
+  -o-border-radius: 26px !important;
+}
+
+.rounded-banner-bottom {
+  border-radius:  0px 0px 26px 26px !important;
+  -webkit-border-radius:  0px 0px 26px 26px !important;
+  -moz-border-radius:  0px 0px 26px 26px !important;
+  -ms-border-radius:  0px 0px 26px 26px !important;
+  -o-border-radius:  0px 0px 26px 26px !important;
+}
+
+.rounded-top {
+  border-radius:  26px 26px 0px 0px !important;
+  -webkit-border-radius:  26px 26px 0px 0px !important;
+  -moz-border-radius:  26px 26px 0px 0px !important;
+  -ms-border-radius:  26px 26px 0px 0px !important;
+  -o-border-radius:  26px 26px 0px 0px !important;
 }

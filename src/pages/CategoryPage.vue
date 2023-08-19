@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <h4 class="row justify-around q-px-md">
-      {{ category }}
+      {{ $route.meta.title }}
     </h4>
     <div class="row justify-center" v-if="products?.length && !loading">
         <ProductCard
@@ -11,14 +11,13 @@
           :product="product"
         />
     </div>
-    <div class="justify-center q-px-sm full-width" v-else>
+    <div class="justify-center q-px-sm row" v-else>
       <transition
         appear
         enter-active-class="animated fadeIn"
       >
         <q-card
-        class="q-mb-lg shadow-12 rounded-card"
-            :class="$q.screen.width < 768 ? 'column' : 'row'"
+             class="column q-mx-sm col-sm-8 col-12 col-lg-4 col-md-6 q-mb-lg shadow-12 rounded-card"
             style="min-height: 500px;"
           >
             <q-card-section class="column">
@@ -54,17 +53,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router'
 
 import ProductCard from 'components/ProductCard.vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import { useMeta } from 'quasar'
 
 export default defineComponent({
   name: 'CategoryPage',
   setup() {
     const route = useRoute()
+
     const { id } = route.params
 
     const { result: categoryResult, loading } = useQuery(gql`
@@ -95,16 +96,25 @@ export default defineComponent({
       id
     }))
 
+    watchEffect(() => {
+      if (result.value) {
+        const { name } = categoryResult.value?.getCategoryById
+              useMeta(() => {
+                return {
+                  title: `Serpica canarias -${name}`
+                }
+          })
+      }
+    })
 
     return {
       products: computed(() => result.value?.getProductsByCategory),
-      category: computed(() => categoryResult.value?.getCategoryById.name),
       productsLoading,
       loading: computed(() => loading.value || productsLoading.value),
     };
   },
   components: {
-    ProductCard
+    ProductCard,
   }
 })
 </script>

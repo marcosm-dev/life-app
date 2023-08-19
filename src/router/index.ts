@@ -8,6 +8,7 @@ import {
 
 import routes from './routes';
 import { useAuthStore } from 'src/stores/auth';
+import useNotifyError from 'src/composables/useNotifyError';
 
 /*
 * If not building with SSR mode, you can
@@ -45,7 +46,10 @@ export default route(function () {
   Router.beforeEach((to, from, next) => {
       const isAuthenticated = to.matched.some((record) => record.meta.requiresAuth) && store.authenticated
 
-      if (to.name !== 'AuthPage' && !isAuthenticated) next({ name: 'AuthPage' })
+      // if (to.name !== 'AuthPage' && !isAuthenticated) {
+      //   useNotifyError({ message: 'No estas autenticado, por favor inicia sesión'  })
+      //   next({ name: 'AuthPage' })
+      // }
       next()
 
 

@@ -2,19 +2,33 @@
 import { defineStore } from 'pinia';
 import { BeforeInstallPromptEvent } from '../components/models';
 import { User } from '../components/models';
+import { LocalStorage } from 'quasar';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
-    deferredPrompt: <BeforeInstallPromptEvent>{},
-    user: <User>{}
+    deferredPrompt:  null as BeforeInstallPromptEvent  |  null,
+    user: {} as User,
+    neverShowAppInstallBanner: false,
+    temporalHideBanner: false,
+    hideBanners: {
+      menu: false,
+      payment: false,
+      signup: false,
+    }
   }),
   getters: {
-    authenticated: (state) => !!Object.keys(state.user).length
+    authenticated: (state) => {
+      if  (!state.user.token) return false
+      return !!Object.keys(state.user).length
+    }
   },
   actions: {
+    toggleNeverShowAppInstallBanner(val: boolean) {
+      if (val)  return this.neverShowAppInstallBanner = val
+      return this.neverShowAppInstallBanner = !this.neverShowAppInstallBanner
+    },
     setDeferredPrompt(deferredPrompt: BeforeInstallPromptEvent) {
-      console.log(deferredPrompt);
       this.deferredPrompt = deferredPrompt;
     },
     toggleRegister(val: any) {
@@ -25,9 +39,17 @@ export const useAuthStore = defineStore('auth', {
     },
     setUser(user: User) {
       this.user = user;
+      if (user.token) LocalStorage.set('token', user.token)
     }
   },
   persist: {
-    enabled: true
+    enabled: true,
+    strategies: [
+      {
+        key: 'temporalHideBanner',
+        storage: sessionStorage,
+        paths:  ['user', 'deferredPrompt']
+      },
+    ]
   }
 });

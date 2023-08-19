@@ -6,15 +6,18 @@
       outline
       dense
       rounded
-      padding="20px"
+      :padding="padding ?? '20px'"
       :loading="loading"
     >
+
        <transition
           enter-active-class="animated flipInX"
         >
         <slot name="badge" />
         </transition>
         <slot name="icon" />
+
+        <slot name="label" />
         <slot name="extra" />
     </q-btn>
 </template>
@@ -24,6 +27,9 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
+    padding: {
+      type: String,
+    },
     loading: {
       type: Boolean,
       default: false

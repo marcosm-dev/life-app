@@ -95,7 +95,7 @@
               </div>
             </div>
           </div>
-          <banner-install-app menu />
+          <banner-install-app type="Menu" />
           <!-- <banner-install-app v-if="store.user.uuid" menu /> -->
         </q-menu>
         <q-icon name="mdi-account-wrench" size="28px" color="grey-12" />
@@ -213,7 +213,7 @@ export default defineComponent({
     const animationMotion = ref(false)
     const isParent = ref(false)
 
-    onBeforeRouteUpdate((to, from) => {
+    onBeforeRouteUpdate((to) => {
       const toSplit = to.path.split('/')
       // const fromSplit = from.path.split('/')
 
@@ -243,7 +243,7 @@ export default defineComponent({
                 easing: 'ease-in-out',
                 // waitFor: 'transitionend',
 
-                onEnd: end => {
+                onEnd: () => {
                   showCart.value = true;
                   animationMotion.value = false
 

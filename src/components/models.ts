@@ -5,15 +5,15 @@ export interface Category {
 }
 export interface User {
   id?: string;
-  name: string;
-  lastName: string;
-  VATIN: string;
-  phone: string;
-  address: string;
-  zipCode: string;
-  city: string;
+  name?: string;
+  lastName?: string;
+  VATIN?: string;
+  phone?: string;
+  address?: string;
+  zipCode?: string;
+  city?: string;
   email: string;
-  password: string;
+  password?: string;
   confirmPassword?: string;
   token?: string;
   uuid?: string | null;
@@ -64,7 +64,7 @@ export interface SignUpData {
 
 export interface SignUp {
   token: string;
-  user: NewUser;
+  user: User;
   error: string;
 }
 

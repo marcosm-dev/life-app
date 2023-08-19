@@ -3,70 +3,16 @@
 </template>
 
 <script lang="ts">
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-import { defineComponent, watchEffect, onMounted, ref } from 'vue'
-import useAuth from './composables/useAuth'
-import { BeforeInstallPromptEvent } from './components/models'
-import { LocalStorage } from 'quasar'
-
+import { defineComponent } from 'vue'
+import useMe from './composables/useMe'
+import useInstallApp from './composables/useInstallApp'
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const {
-      store,
-    } = useAuth()
-    const showAppInstallBanner = ref(false)
-
-    const { result } = useQuery(gql`
-      query me {
-          me {
-            id
-            name
-            lastName
-            VATIN
-            phone
-            zipCode
-            city
-            address
-            email
-            uuid
-          }
-        }
-    `)
-
-    const beforeInstallHandler = (e: Event) => {
-
-      // Verificar si el evento es realmente un BeforeInstallPromptEvent
-      if ((e as BeforeInstallPromptEvent).platforms) {
-        const beforeInstallPromptEvent = e as BeforeInstallPromptEvent
-        // Por ejemplo, si quisieras mostrar la solicitud de instalación manualmente:
-        store.setDeferredPrompt(beforeInstallPromptEvent)
-      }
-    }
-
-    onMounted(() => {
-      const neverShowAppInstallBanner = LocalStorage.getItem('neverShowAppInstallBanner')
-      if (!neverShowAppInstallBanner) {
-        window.addEventListener('beforeinstallprompt', beforeInstallHandler)
-      }
-    })
-
-
-    // Tarea mañana revisar no hay token de usuario sacar al usuario de la applicación y abstraer la lógica
-
-
-    watchEffect(() => {
-      if(result.value) {
-        console.log(result.value)
-        const user = result.value?.me
-        store.setUser(user)
-      }
-    })
-    return {
-      showAppInstallBanner
-    }
+    useMe()
+    useInstallApp()
   }
+
 })
 </script>

@@ -5,7 +5,7 @@ import { reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import useNotifyError from './useNotifyError'
 import { storeToRefs } from 'pinia'
-import { LocalStorage } from 'quasar'
+// import { LocalStorage } from 'quasar'
 
 
 const useAuth = () => {
@@ -25,26 +25,18 @@ const useAuth = () => {
   `)
 
   const logoutUser = async () => {
-    if (!LocalStorage.getItem('token')) {
-      store.reset()
-    }
     try {
-    } catch (error) {
-      
-    }
-
-
-    try {
-      await logout().then(({ data }) => {
-        const { logoutUser: { deleted, error } } = data
-        if (deleted) {
-          state.data = data
-          store.$reset()
-          router.push('/auth/sign-in')
-        } else {
-          useNotifyError({ message: error })
+      await logout().then((result) => {
+        if (result && result.data) {
+          const { logoutUser: { deleted, error } } = result.data
+          if (deleted) {
+            state.data = result.data
+            store.$reset()
+            router.push('/auth/sign-in')
+          } else {
+            useNotifyError({ message: error })
+          }
         }
-
       })
     } catch (error) {
       console.log(error)
