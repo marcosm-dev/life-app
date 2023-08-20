@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <h4 class="row justify-around q-px-md">
-      {{ $route.meta.title }}
+        {{  categoryName  }}
     </h4>
     <div class="row justify-center" v-if="products?.length && !loading">
         <ProductCard
@@ -53,19 +53,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
 import ProductCard from 'components/ProductCard.vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+
 import { useMeta } from 'quasar'
 
 export default defineComponent({
   name: 'CategoryPage',
   setup() {
     const route = useRoute()
-
+    const categoryName = ref(null)
     const { id } = route.params
 
     const { result: categoryResult, loading } = useQuery(gql`
@@ -99,18 +100,22 @@ export default defineComponent({
     watchEffect(() => {
       if (result.value) {
         const { name } = categoryResult.value?.getCategoryById
-              useMeta(() => {
-                return {
-                  title: `Serpica canarias -${name}`
-                }
-          })
+        categoryName.value = name
+
       }
     })
 
+    useMeta(() => {
+            return {
+              title: `Serpica Canarias ${categoryName.value ? `-${categoryName.value}` : ''}`
+            }
+      })
+
     return {
       products: computed(() => result.value?.getProductsByCategory),
-      productsLoading,
       loading: computed(() => loading.value || productsLoading.value),
+      productsLoading,
+      categoryName,
     };
   },
   components: {

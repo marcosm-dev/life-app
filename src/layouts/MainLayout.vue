@@ -1,33 +1,28 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="header shadow-5 row z-top" elevated>
-      <transition
-        appear
-        enter-active-class="animated flipInX"
-      >
-          <div class="col-auto">
-            <q-btn
-              v-if="$route.params.id"
-              @click="$router.back()"
-              size="15px"
-              class="q-ma-sm bg-white text-blue-grey-14 no-shadow col-2"
-              rounded
-              style="width: 57.72px"
-              icon="mdi-arrow-left"
-            />
-            <q-img
-              v-else
-              height="38.58px"
-              width="57.72px"
-              :ratio="1"
-              fit="contain"
-              @click="$router.push('/')"
-              class="rounded-borders q-ma-sm col-2"
-              src="../assets/logo-removebg.png"
-              no-spinner
-            />
-          </div>
-      </transition>
+        <div class="col-auto">
+          <q-btn
+            v-if="$route.params.id"
+            @click="$router.back()"
+            size="15px"
+            class="q-ma-sm bg-white text-blue-grey-14 no-shadow col-2 animated flipInX"
+            rounded
+            style="width: 57.72px"
+            icon="mdi-arrow-left"
+          />
+          <q-img
+            v-else
+            height="38.58px"
+            width="57.72px"
+            :ratio="1"
+            fit="contain"
+            @click="$router.push('/')"
+            class="rounded-borders q-ma-sm col-2"
+            src="../assets/logo-removebg.png"
+            no-spinner
+          />
+        </div>
       <a
         class="serpica-title q-my-auto q-mr-auto col-auto offset-1 q-mx-auto"
         target="_blank"
@@ -98,7 +93,7 @@
           <banner-install-app type="Menu" />
           <!-- <banner-install-app v-if="store.user.uuid" menu /> -->
         </q-menu>
-        <q-icon name="mdi-account-wrench" size="28px" color="grey-12" />
+        <q-icon name="mdi-menu" size="28px" color="grey-12" />
       </q-avatar>
 
       <q-tabs

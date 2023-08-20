@@ -67,6 +67,7 @@
             </action-button>
             <action-button
               padding="5px 10px"
+              @click="installApp"
               neutro
               icon="mdi-plus-circle-outline"
               outline

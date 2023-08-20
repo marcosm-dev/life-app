@@ -1,5 +1,5 @@
 <template>
-  <q-page class="window-height bg-dark-page">
+  <q-page class="window-height">
   <!-- Iframe for Life Manual -->
       <iframe
         ref="iframe"
@@ -26,7 +26,8 @@ export default {
     $q.loading.show({
       delay: 900,
       spinner: QSpinnerGears,
-      spinnerColor: 'dark-page',
+      spinnerColor: 'blue-grey-14',
+      spinnerSize: 75,
       backgroundColor: 'transparent',
     });
 

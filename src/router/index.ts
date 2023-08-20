@@ -46,10 +46,10 @@ export default route(function () {
   Router.beforeEach((to, from, next) => {
       const isAuthenticated = to.matched.some((record) => record.meta.requiresAuth) && store.authenticated
 
-      // if (to.name !== 'AuthPage' && !isAuthenticated) {
-      //   useNotifyError({ message: 'No estas autenticado, por favor inicia sesión'  })
-      //   next({ name: 'AuthPage' })
-      // }
+      if (to.name !== 'AuthPage' && !isAuthenticated) {
+        useNotifyError({ message: 'No estas autenticado, por favor inicia sesión'  })
+        next({ name: 'AuthPage' })
+      }
       next()
 
 

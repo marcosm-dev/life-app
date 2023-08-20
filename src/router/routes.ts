@@ -49,7 +49,6 @@ const routes: RouteRecordRaw[] = [
         name: 'Category',
         path: '/categories/:id',
         meta: {
-          title: 'hola',
           //   transition: 'fadeIn',
           requiresAuth: true
         },
