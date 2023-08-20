@@ -242,7 +242,7 @@
               />
             <q-btn
               class="col-12 q-mt-md"
-              @click="toggleCartDialog(true)"
+              @click="dialogRef.hide()"
               flat
               no-caps
               label="Cerrar"
