@@ -120,12 +120,11 @@ export default defineComponent({
       LocalStorage.set('neverShowAppInstallBanner', true);
     }
     const hideInstallPromotion = () => {
+      const type: string = props.type.toLowerCase()
         if (hideBanners.value.menu) {
-          return  setTimeout(() => {
               hideBanners.value[Types.Menu] = true;
-            }, 4000)
         }
-        hideBanners.value[props.type.toLowerCase()] = true;
+        hideBanners.value[type] = true;
     };
 
     async function installApp() {

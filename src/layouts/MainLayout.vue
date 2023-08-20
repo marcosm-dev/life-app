@@ -35,10 +35,10 @@
       <q-avatar tag="button" class="col-auto q-pa-sm" size="45px">
         <q-menu
           cover
-          class="z-max text-center"
+          class="z-max text-center burger-menu"
           transition-show="slide-left"
           transition-hide="slide-right"
-          style="border-radius: 26px 0px 0px 26px;"
+          style="border-radius: 26px 0px 0px 26px; "
         >
           <div class="row no-wrap q-pa-md text-dark text-left">
             <div class="column">
@@ -86,7 +86,7 @@
               </q-avatar>
 
               <div class="text-caption q-mt-md q-mb-xs text-blue-grey-14" style="letter-spacing: -.5px;">
-                {{ store.user.name }}
+                {{ authStore.user.name }}
               </div>
             </div>
           </div>
@@ -198,10 +198,10 @@ export default defineComponent({
   name: 'MainLayout',
   setup() {
     const { productQuantity, loading } = useCartAnimation()
-    const { toggleCartDialog, cart } = useCartDialog()
+    const { cart, toggleCartDialog } = useCartDialog()
     const { logoutUser, logoutLoading } = useAuth()
     const bus = inject<EventBus>('bus', new EventBus())
-    const store = useAuthStore()
+    const authStore = useAuthStore()
     const leftDrawerOpen = ref(null)
     const cartItemElement: Ref<HTMLElement | null> = ref(null)
     const showCart = ref(false)
@@ -252,16 +252,16 @@ export default defineComponent({
 
     return {
       isParent,
-      store,
+      authStore,
       cart,
       logoutUser,
       loading,
       logoutLoading,
       showCart,
       productQuantity,
+      toggleCartDialog,
       cartItemElement,
       leftDrawerOpen,
-      toggleCartDialog,
       tab: ref('categorias'),
     }
   },
@@ -330,4 +330,5 @@ export default defineComponent({
   .toggle-back {
     opacity: 0;
   }
+
 </style>

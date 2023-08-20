@@ -13,7 +13,7 @@
             </GoogleMap>
         </div>
 
-        <h5 class="mobile-only text-center text-weight-bold q-mb-none">
+        <h5 class="mobile-only text-center text-weight-medium q-mb-none">
           Contacto
         </h5>
         <q-separator
@@ -28,18 +28,18 @@
         >
             <li class="text-subtitle2">C/ Ctra Almatriche alto, 198</li>
             <li>35018 Las Palmas - Tamaraceite</li>
-            <li>
+            <li class="text-weight-medium">
               Las Palmas de Gran Canaria
             </li>
             <li>
-              <q-icon name="mdi-email" size="20px" />
+              <q-icon name="mdi-email-outline" size="20px" />
               <a href="mailto:serpica.sa@hotmail.com" class="text-subtitle2">
                 serpica.sa@hotmail.com
               </a>
             </li>
             <li>
               <a href="tel:+34657422132" class="text-subtitle2">
-                <q-icon name="mdi-phone" size="20px" />
+                <q-icon name="mdi-phone-outline" size="20px" />
                 +34657422132
               </a>
             </li>
@@ -71,6 +71,7 @@ export default defineComponent({
   &-separator {
     border-radius: 26px;
     margin-top: 30px !important;
+    background:  transparent;
     border: 1px solid rgba($color: #455a64, $alpha: 0.5); /* Agrega un color al borde */
   }
   & * {

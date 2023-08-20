@@ -1,6 +1,5 @@
 <template>
   <q-dialog position="bottom" ref="dialogRef" @hide="onDialogHide">
-
       <q-icon
         v-if="$q.screen.width <= 600"
         v-close-popup
@@ -219,8 +218,8 @@
             color="blue-grey-14"
           />
           <!-- <div v-else-if="!sendLoading && success"> -->
-          <q-card v-if="success" class="text-caption q-py-xl rounded-top">
-            <q-card-section class="text-caption text-blue-grey-13 row justify-center">
+          <q-card v-if="success" class="text-caption q-py-xl rounded-top bg-light-blue-1 dialog-card">
+            <q-card-section class="text-caption text-blue-grey-14 row justify-center">
               ¡Pedido generado con Éxito!
               <q-img
                 v-if="invoice"
@@ -229,7 +228,7 @@
                 class="q-ml-xs "
                 src="~assets/check.gif"
               />
-              <p>Te enviaremos la factura por correo electrónico. ¡Gracias por tu compra!</p>
+              <p class="text-blue-grey-13">Le enviaremos la factura por correo electrónico. ¡Gracias por tu compra!</p>
              <action-button
                 @click="success = false; dialogRef.hide()"
                 no-caps
@@ -237,10 +236,18 @@
                 padding="10px 20px"
                 text-color="light-blue-1"
                 flat
-                class="bg-blue-grey-14 q-mx-auto q-mt-lg"
+                class="bg-blue-grey-14 q-mx-auto q-mt-lg  text-caption"
                 rounded
                 ripple
               />
+            <q-btn
+              class="col-12 q-mt-md"
+              @click="toggleCartDialog(true)"
+              flat
+              no-caps
+              label="Cerrar"
+              rounded
+            />
             </q-card-section>
               <banner-install-app type="Payment" class="z-top" />
           </q-card>
@@ -252,8 +259,9 @@
 
 <script setup>
 import { ref, watchEffect, onBeforeUnmount } from 'vue'
-import { useDialogPluginComponent, useQuasar } from 'quasar';
+import { useDialogPluginComponent, useQuasar } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
+import useCartDialog from 'src/composables/useCartDialog'
 import useProductCart from 'src/composables/useProductCart'
 import { useMutation } from '@vue/apollo-composable'
 import { useAuthStore } from '../stores/auth'
@@ -267,13 +275,13 @@ const {
     cartCount,
     cart,
   } = useProductCart()
-const { user } = useAuthStore()
-const { dialogRef, onDialogHide } = useDialogPluginComponent()
+  const { user } = useAuthStore()
+  const { dialogRef, onDialogHide } = useDialogPluginComponent()
+  const { toggleCartDialog } =useCartDialog(dialogRef.value?.$el)
 
 const order = ref(null)
 const invoice = ref(null)
 const success = ref(false)
-const fabDelete = ref(false)
 const fabDeleteCart = ref(false)
 const step = ref(0)
 // const url = process.env.IMAGES_URL
@@ -465,4 +473,7 @@ function deleteCart() {
   text-transform: capitalize !important;
 }
 
+.dialog-card {
+  border:  1px solid rgba($color:  $dark-page, $alpha: 0.5);
+}
 </style>
