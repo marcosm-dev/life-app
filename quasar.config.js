@@ -67,18 +67,18 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         API_URL: ctx.dev
-          ? 'http://localhost:3000'  // http://localhost:3000
+          ? 'http://localhost:3000' // http://localhost:3000
           : process.env.API_URL,
         APOLLO_URI: ctx.dev
           ? 'http://localhost:4000/graphql'
           : process.env.APOLLO_URI,
-          GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-          EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
-          EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
-          EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
-          IMAGES_URL: ctx.dev
-          ? 'http://localhost:4000/static'
-          : process.env.IMAGES_URI
+        GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+        EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
+        EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
+        IMAGES_URL: ctx.dev
+          ? 'https://res.cloudinary.com/doabho3qp/image/upload/v1692818057'
+          : process.env.IMAGES_URI,
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
@@ -112,12 +112,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Loading',
-        'Dialog',
-        'Notify',
-        'Meta'
-      ],
+      plugins: ['Loading', 'Dialog', 'Notify', 'Meta'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -136,8 +131,8 @@ module.exports = configure(function (ctx) {
       'slideInRight',
       'slideInLeft',
       'slideOutLeft',
-      'slideOutRight'
-      ],
+      'slideOutRight',
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {

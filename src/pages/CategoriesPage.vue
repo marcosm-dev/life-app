@@ -14,7 +14,7 @@
                 <q-card-section class="transparent q-pa-none">
                   <q-img
                     style="rgb(155.155.155,0.1)"
-                    :src="`${url}/categories/${category.urlImage}`"
+                    :src="`${url}/categorias/${category.urlImage}`"
                     height="200px"
                     fit="fill"
                   >
@@ -78,7 +78,6 @@ export default defineComponent({
     const limit = ref($q.screen.gt.sm ? 4 : 8)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
-
 
     const { result, loading, fetchMore } = useQuery(gql`
       query getAllCategories($limit: Int!, $skip: Int!) {
