@@ -4,9 +4,9 @@ import { NotifyError } from 'components/models'
 const useNotifyError = ({ message, html }: NotifyError) => {
   Notify.create({
     message: format.capitalize(message),
-    color: 'light-blue-1',
+    color: 'white',
     textColor: 'dark',
-    classes: 'text-lowercase',
+    classes: 'text-lowercase border-radius-md q-pa-md',
     icon: 'mdi-alert-outline',
     iconColor: 'accent'
   })

@@ -163,11 +163,21 @@
                           outline
                           padding="10px 20px"
                           class="delete-icon"
+                          @click="deleteCart"
                           style="min-width: 50%"
                           color="primary"
-                          icon="mdi-delete-outline"
                           rounded
-                        />
+                        >
+                          <q-spinner
+                             v-if="removeLoading"
+                             size="24px"
+                           />
+                          <q-icon
+                            v-else
+                            size="24px"
+                            name="mdi-delete-outline"
+                          />
+                        </q-btn>
                         <q-btn
                           style="min-width: 50%"
                           padding="10px 20px"
@@ -192,12 +202,18 @@
                       />
                </transition-group>
                 <q-btn
-                  v-else
-                  icon="mdi-arrow-left"
-                  flat
-                  color="blue-grey-13 col"
-                  @click="step--"
-                />
+                    @click="step--"
+                    icon="mdi-arrow-left"
+                    outline
+                    rounded
+                    align="start"
+                    padding="10px 20px"
+                    label="Atras"
+                    no-caps
+                    class="col q-ml-lg"
+                    color="blue-grey-13"
+                  />
+
                 <action-button
                   :disable="amount === 0"
                   outline
@@ -447,7 +463,6 @@ async function onOKClick() {
       resetProcess()
       invoice.value = res
     }, 2750)
-    console.log(error)
   }
 }
 

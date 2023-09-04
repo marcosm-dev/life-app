@@ -243,6 +243,7 @@
                 outline
                 rounded
                 label="Atras"
+                align="start"
                 no-caps
                 class="col q-ml-lg"
                 color="blue-grey-13"
@@ -345,7 +346,6 @@ export default defineComponent({
         }
       } catch (error: any) {
         errors.value.push(error.message)
-        useHandleGraphQLErrors(error)
       }
       $q.loading.hide()
     }
@@ -378,7 +378,6 @@ export default defineComponent({
         registerSuccess.value = true
       } catch (error: any) {
         errors.value.push(error.message)
-        useHandleGraphQLErrors(error)
       }
       $q.loading.hide()
     }
