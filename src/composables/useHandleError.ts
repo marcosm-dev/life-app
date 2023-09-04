@@ -1,4 +1,4 @@
-import useNotifyError from "./useNotifyError"
+import useNotifyError from './useNotifyError'
 
 const useHandleGraphqlErrors = (error: Error) => {
   const { message } = error

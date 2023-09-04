@@ -13,7 +13,7 @@ export default {
         'graphql-tag',
         'autoprefixer',
         '@apollo/client/core'
-      ],
-    },
-  },
-};
+      ]
+    }
+  }
+}

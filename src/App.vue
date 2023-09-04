@@ -13,6 +13,5 @@ export default defineComponent({
     useMe()
     useInstallApp()
   }
-
 })
 </script>

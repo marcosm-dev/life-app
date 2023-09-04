@@ -7,3 +7,20 @@
 //  this declaration also apply `quasar` own
 //  augmentations (eg. adds `$q` into Vue component context)
 /// <reference types="@quasar/app-vite" />
+
+// src/quasar.d.ts
+
+declare module '@quasar/app' {
+  interface QuasarHTMLElement extends HTMLElement {
+    $el: HTMLElement;
+    // Agrega otras propiedades específicas de Quasar si es necesario
+  }
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $q: {
+      // Define las propiedades y métodos específicos de Quasar que necesitas
+    };
+  }
+}
