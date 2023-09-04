@@ -7,7 +7,6 @@ import useNotifyError from './useNotifyError'
 import { storeToRefs } from 'pinia'
 // import { LocalStorage } from 'quasar'
 
-
 const useAuth = () => {
   const store = useAuthStore()
   const router = useRouter()
@@ -15,7 +14,7 @@ const useAuth = () => {
   const state = reactive({
     loading: false,
     data: null,
-    error: null,
+    error: null
   })
 
   const { mutate: logout, loading: logoutLoading } = useMutation(gql`
@@ -28,7 +27,9 @@ const useAuth = () => {
     try {
       await logout().then((result) => {
         if (result && result.data) {
-          const { logoutUser: { deleted, error } } = result.data
+          const {
+            logoutUser: { deleted, error }
+          } = result.data
           if (deleted) {
             state.data = result.data
             store.$reset()
@@ -51,7 +52,7 @@ const useAuth = () => {
           email
           name
           lastName
-          zipCode,
+          zipCode
           city
           phone
           address
@@ -60,27 +61,27 @@ const useAuth = () => {
         }
         token
       }
-  }`)
+    }
+  `)
 
-
-    const { mutate: signUpMutation, loading: signUpLoading } = useMutation(gql`
-      mutation signUp($input: UserInput!) {
-        signUp(input: $input) {
-          error
-          user {
-            id
-            email
-            name
-            lastName
-            zipCode,
-            city
-            phone
-            address
-            VATIN
-          }
-          token
+  const { mutate: signUpMutation, loading: signUpLoading } = useMutation(gql`
+    mutation signUp($input: UserInput!) {
+      signUp(input: $input) {
+        error
+        user {
+          id
+          email
+          name
+          lastName
+          zipCode
+          city
+          phone
+          address
+          VATIN
         }
+        token
       }
+    }
   `)
 
   return {
@@ -92,7 +93,7 @@ const useAuth = () => {
     signUpMutation,
     logoutLoading,
     loginLoading,
-    signUpLoading,
+    signUpLoading
   }
 }
 

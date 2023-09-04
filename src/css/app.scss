@@ -13,7 +13,7 @@ a {
   background: #056837;
 }
 .flag-red {
-  background: #E3000A;
+  background: #e3000a;
 }
 .flag-white {
   background: #fff;
@@ -23,9 +23,10 @@ a {
   background: transparent;
   margin-top: -30px;
 }
-html,body {
-  height:100%;
-  min-height:100%;
+html,
+body {
+  height: 100%;
+  min-height: 100%;
 }
 
 .text-red {
@@ -45,17 +46,17 @@ html,body {
 }
 
 .rounded-banner-bottom {
-  border-radius:  0px 0px 26px 26px !important;
-  -webkit-border-radius:  0px 0px 26px 26px !important;
-  -moz-border-radius:  0px 0px 26px 26px !important;
-  -ms-border-radius:  0px 0px 26px 26px !important;
-  -o-border-radius:  0px 0px 26px 26px !important;
+  border-radius: 0px 0px 26px 26px !important;
+  -webkit-border-radius: 0px 0px 26px 26px !important;
+  -moz-border-radius: 0px 0px 26px 26px !important;
+  -ms-border-radius: 0px 0px 26px 26px !important;
+  -o-border-radius: 0px 0px 26px 26px !important;
 }
 
 .rounded-top {
-  border-radius:  26px 26px 0px 0px !important;
-  -webkit-border-radius:  26px 26px 0px 0px !important;
-  -moz-border-radius:  26px 26px 0px 0px !important;
-  -ms-border-radius:  26px 26px 0px 0px !important;
-  -o-border-radius:  26px 26px 0px 0px !important;
+  border-radius: 26px 26px 0px 0px !important;
+  -webkit-border-radius: 26px 26px 0px 0px !important;
+  -moz-border-radius: 26px 26px 0px 0px !important;
+  -ms-border-radius: 26px 26px 0px 0px !important;
+  -o-border-radius: 26px 26px 0px 0px !important;
 }

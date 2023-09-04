@@ -7,8 +7,8 @@
           Gracias por registrarte
         </q-card-section>
         <q-card-section class="q-pt-none col">
-          Su registro ha finalizado con éxito, recibira un email con la confirmación,
-          en menos de 24 horas le daremos acceso a nuestra app.
+          Su registro ha finalizado con éxito, recibira un email con la
+          confirmación, en menos de 24 horas le daremos acceso a nuestra app.
         </q-card-section>
         <q-card-actions class="col q-pb-lg justify-center">
           <action-button
@@ -34,28 +34,28 @@
         class="row text-center justify-center q-px-none q-py-md text-dark shadow-15 rounded-card"
       >
         <q-card-section>
-          <q-img
-            class="col-12"
-            src="~assets/logo.jpg"
-            fetchpriority="high"
-            width="180px"
-            height="70px"
-            alt="serpica life logo"
-            loading="lazy"
-          />
-          <div
-            class="q-my-lg text-body col-12"
-            :class="$q.screen.gt.sm ? '' : 'q-px-lg'"
-          >
-            <template v-if="!register">
-              Inicia sesión con tu cuenta en {{ name }} o create una y pulsando
-              <span class="text-body1 knockout" @click="store.toggleRegister">
-                en,
-                <u class="cursor-pointer text-body1 knockout">registrarse</u>.
-              </span>
-            </template>
-            <template v-else> Crea una cuenta en {{ name }} </template>
-          </div>
+            <q-img
+              class="col-12"
+              src="~assets/logo.jpg"
+              fetchpriority="high"
+              width="180px"
+              height="70px"
+              alt="serpica life logo"
+              loading="lazy"
+            />
+            <div
+              class="q-my-lg text-body col-12"
+              :class="$q.screen.gt.sm ? '' : ''"
+            >
+              <template v-if="!register">
+                 Inicia sesión con tu cuenta en<br><strong>{{ name }}</strong>
+                <span class="text-body1" @click="store.toggleRegister">
+                  <div class="text-body2 q-mt-sm">¿Aun no trabajas con nosotros?</div>
+                  <u class="cursor-pointer text-body1 knockout">Crear mi cuenta</u>
+                </span>
+              </template>
+              <template v-else> Crea una cuenta en {{ name }} </template>
+            </div>
         </q-card-section>
         <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
           <q-input
@@ -220,7 +220,7 @@
         <q-card-section class="col-12 q-px-none q-pb-none">
           <q-separator size="2px" />
         </q-card-section>
-        <q-card-actions class="col-12 justify-around q-pa-lg">
+        <q-card-actions class="col-12 justify-around q-px-lg q-pt-lg">
           <action-button
             v-if="!register"
             label="Acceder"
@@ -230,26 +230,37 @@
             neutro
           />
 
-          <div class="row justify-between" v-else>
+          <div class="row q-gutter-x-md justify-between" v-else>
             <q-checkbox
               v-model="check"
-              class="q-mb-xl text-body2 no-padding text-left text-no-wrap ellipsis"
+              class="q-mb-xl text-body2 no-padding text-left text-no-wrap ellipsis col-12"
             >
               He leído y acepto la <u>política de privacidad</u>.
             </q-checkbox>
+            <q-btn
+                @click="store.toggleRegister"
+                icon="mdi-arrow-left"
+                outline
+                rounded
+                label="Atras"
+                no-caps
+                class="col q-ml-lg"
+                color="blue-grey-13"
+              />
             <action-button
-              @click="store.toggleRegister"
-              label="Iniciar sesión"
-              flat
-              neutro
-            />
-            <action-button
+              class="col"
               type="submit"
               :loading="signUpLoading"
-              label="Guardar"
-              icon-right="mdi-content-save"
+              label="Continuar"
             />
           </div>
+          <action-button
+            label="¿Has olvidado tu contraseña?"
+            flat
+            class="q-mt-lg"
+            style="text-decoration: underline;"
+            neutro
+            />
         </q-card-actions>
       </q-card>
     </q-form>
@@ -259,17 +270,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue';
-import { useAuthStore } from '../stores/auth';
-import { useQuasar, LocalStorage } from 'quasar';
-import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import * as manifest from '../../src-pwa/manifest.json';
+import { defineComponent, reactive, ref, computed } from 'vue'
+import { useAuthStore } from '../stores/auth'
+import { useQuasar, LocalStorage } from 'quasar'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import * as manifest from '../../src-pwa/manifest.json'
 
-import useHandleGraphQLErrors from '../composables/useHandleError';
-import useAuth from '../composables/useAuth';
-import { resetCaches } from 'graphql-tag';
-import { User } from 'src/components/models';
+import useHandleGraphQLErrors from '../composables/useHandleError'
+import useAuth from '../composables/useAuth'
+import { resetCaches } from 'graphql-tag'
+import { User } from 'src/components/models'
 
 export default defineComponent({
   name: 'AuthPage',
@@ -281,22 +292,22 @@ export default defineComponent({
       signUpMutation,
       signUpLoading,
       loginLoading
-    } = useAuth();
-    const router = useRouter();
-    const store = useAuthStore();
-    const $q = useQuasar();
-    const errors = ref<string[]>([]);
-    const revealPassword = ref(false);
-    const registerSuccess = ref(false);
-    const { register } = storeToRefs(store);
-    const { name } = manifest;
-    const check = ref(false);
-    const addressRef = ref(null);
+    } = useAuth()
+    const router = useRouter()
+    const store = useAuthStore()
+    const $q = useQuasar()
+    const errors = ref<string[]>([])
+    const revealPassword = ref(false)
+    const registerSuccess = ref(false)
+    const { register } = storeToRefs(store)
+    const { name } = manifest
+    const check = ref(false)
+    const addressRef = ref(null)
 
     const user: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
       password: process.env.DEV ? '1111' : ''
-    });
+    })
 
     const newUser: User = reactive({
       name: '',
@@ -309,83 +320,83 @@ export default defineComponent({
       email: '',
       password: '',
       confirmPassword: ''
-    });
+    })
 
     async function login() {
-      const length = LocalStorage.getLength();
+      const length = LocalStorage.getLength()
       if (length) {
-        LocalStorage.clear();
+        LocalStorage.clear()
       }
       if (
         Object.values(user).includes('') ||
         Object.values(user).includes(null)
       )
-        return;
-      errors.value = [];
+        return
+      errors.value = []
       try {
         const result = await loginMutation({
           email: user.email.toLowerCase(),
           password: user.password
-        });
+        })
         if (result?.data?.loginUser?.token) {
-          const { token, user } = result?.data.loginUser;
-          store.setUser({ ...user, token });
-          router.push('/');
+          const { token, user } = result?.data.loginUser
+          store.setUser({ ...user, token })
+          router.push('/')
         }
       } catch (error: any) {
-        errors.value.push(error.message);
-        useHandleGraphQLErrors(error);
+        errors.value.push(error.message)
+        useHandleGraphQLErrors(error)
       }
-      $q.loading.hide();
+      $q.loading.hide()
     }
 
     async function signUp() {
-      errors.value = [];
+      errors.value = []
       if (!check.value) {
         errors.value.push(
           'Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.'
-        );
-        return;
+        )
+        return
       }
       if (
         Object.values(newUser).includes('') ||
         Object.values(newUser).includes(null)
       )
-        return;
-      errors.value = [];
-      newUser.email = newUser.email.toLowerCase();
+        return
+      errors.value = []
+      newUser.email = newUser.email.toLowerCase()
 
       try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { confirmPassword, ...userClean } = newUser;
-        const data = await signUpMutation({ input: userClean });
+        const { confirmPassword, ...userClean } = newUser
+        const data = await signUpMutation({ input: userClean })
 
-        const signUp = data?.data.signUp;
+        const signUp = data?.data.signUp
         if (signUp.error) {
-          errors.value.push(signUp.error);
-        } else store.setUser(signUp.user);
-        registerSuccess.value = true;
+          errors.value.push(signUp.error)
+        } else store.setUser(signUp.user)
+        registerSuccess.value = true
       } catch (error: any) {
-        errors.value.push(error.message);
-        useHandleGraphQLErrors(error);
+        errors.value.push(error.message)
+        useHandleGraphQLErrors(error)
       }
-      $q.loading.hide();
+      $q.loading.hide()
     }
 
     function reset() {
-      store.toggleRegister(false);
-      registerSuccess.value = false;
-      register.value = false;
+      store.toggleRegister(false)
+      registerSuccess.value = false
+      register.value = false
     }
 
     onBeforeRouteLeave(() => {
-      resetCaches();
-    });
+      resetCaches()
+    })
 
     return {
       async onSubmit() {
-        if (register.value) await signUp();
-        else await login();
+        if (register.value) await signUp()
+        else await login()
       },
 
       errorHandler: computed(() =>
@@ -394,9 +405,9 @@ export default defineComponent({
 
       heandleEmailError: computed(() => {
         for (const error of errors.value) {
-          return error.includes(newUser.email);
+          return error.includes(newUser.email)
         }
-        return false;
+        return false
       }),
       reset,
       loginLoading,
@@ -414,7 +425,7 @@ export default defineComponent({
       errors,
       user,
       store
-    };
+    }
   }
-});
+})
 </script>

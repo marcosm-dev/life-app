@@ -1,20 +1,20 @@
-import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
-import { useCartStore } from 'src/stores/cart';
-import { reactive } from 'vue';
+import { storeToRefs } from 'pinia'
+import { useQuasar } from 'quasar'
+import { useCartStore } from 'src/stores/cart'
+import { reactive } from 'vue'
 
-import DialogComponent from 'components/DialogComponent.vue';
+import DialogComponent from 'components/DialogComponent.vue'
 
 const useCartDialog = () => {
-  const $q = useQuasar();
+  const $q = useQuasar()
   const state = reactive({
     open: false
-  });
-  const store = useCartStore();
-  const { cart, cartCount } = storeToRefs(store);
+  })
+  const store = useCartStore()
+  const { cart, cartCount } = storeToRefs(store)
 
   function toggleCartDialog() {
-    state.open = !state.open;
+    state.open = !state.open
 
     if (state.open) {
       $q.dialog({
@@ -24,7 +24,7 @@ const useCartDialog = () => {
         componentProps: {
           products: store.cart
         }
-      }).onDismiss(() => toggleCartDialog());
+      }).onDismiss(() => toggleCartDialog())
     }
   }
 
@@ -33,6 +33,6 @@ const useCartDialog = () => {
     state,
     cartCount,
     toggleCartDialog
-  };
-};
-export default useCartDialog;
+  }
+}
+export default useCartDialog

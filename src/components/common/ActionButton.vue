@@ -1,34 +1,31 @@
 <template>
-   <q-btn
-      :text-color="neutro ? 'blue-grey-14' : 'light-blue-14'"
-      :label="label"
-      no-caps
-      outline
-      dense
-      rounded
-      :padding="padding ?? '20px'"
-      :loading="loading"
-    >
+  <q-btn
+    :text-color="neutro ? 'blue-grey-14' : 'light-blue-14'"
+    :label="label"
+    no-caps
+    outline
+    dense
+    rounded
+    :padding="padding ?? '20px'"
+    :loading="loading"
+  >
+    <transition enter-active-class="animated flipInX">
+      <slot name="badge" />
+    </transition>
+    <slot name="icon" />
 
-       <transition
-          enter-active-class="animated flipInX"
-        >
-        <slot name="badge" />
-        </transition>
-        <slot name="icon" />
-
-        <slot name="label" />
-        <slot name="extra" />
-    </q-btn>
+    <slot name="label" />
+    <slot name="extra" />
+  </q-btn>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
     padding: {
-      type: String,
+      type: String
     },
     loading: {
       type: Boolean,
@@ -36,10 +33,10 @@ export default defineComponent({
     },
     neutro: {
       type: Boolean,
-      default: false,
+      default: false
     },
     label: {
-      type: String,
+      type: String
     }
   },
   name: 'ActionButton',
@@ -47,6 +44,4 @@ export default defineComponent({
     return {}
   }
 })
-
-
 </script>

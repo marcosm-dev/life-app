@@ -1,4 +1,3 @@
-
 // Quasar SCSS (& Sass) Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -13,14 +12,14 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #455a64 ;
-$secondary : #20ae5c;
-$accent    : #db597f;
+$primary:       rgba($color: #263238, $alpha: 0.7);
+$secondary:   #20ae5c;
+$accent:         #db597f;
 
-$dark      : #333b41;
-$dark-page : #455a64 ;
+$dark:            rgba($color: #333b41, $alpha: 0.7);
+$dark-page:  #455a64;
 
-$positive  : #fff;
-$negative  : #d11b52;
-$info      : #31CCEC;
-$warning   : #ff9800;
+$positive:      rgba($color: #ffff, $alpha: 0.7);
+$negative:     #d11b52;
+$info:            #31ccec;
+$warning:     #ff9800;

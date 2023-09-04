@@ -1,9 +1,9 @@
 // a Quasar CLI boot file (let's say /src/boot/bus.js)
 
-import { EventBus } from 'quasar';
-import { boot } from 'quasar/wrappers';
+import { EventBus } from 'quasar'
+import { boot } from 'quasar/wrappers'
 
-export const eventBus = new EventBus();
+export const eventBus = new EventBus()
 
 export default boot(({ app }) => {
   const bus = new EventBus()
@@ -12,5 +12,5 @@ export default boot(({ app }) => {
   app.config.globalProperties.$bus = bus
 
   // for Composition API
-  app.provide('bus', eventBus);
+  app.provide('bus', eventBus)
 })
