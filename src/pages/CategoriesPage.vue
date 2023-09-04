@@ -1,7 +1,6 @@
 <template>
   <q-page padding>
-    <template v-if="loading
-">
+    <template v-if="loading && !categories">
       <q-card
         v-for="skeleton in 4"
         :key="skeleton"
@@ -35,7 +34,7 @@
         >
           <q-card-section class="transparent q-pa-none">
             <q-img
-              :src="`${url}/categories/${category.urlImage}`"
+              :src="`${url}/categorias/${category.urlImage}`"
               height="200px"
               fit="fill"
             >
@@ -43,7 +42,7 @@
                 class="absolute-bottom flex justify-between"
                 style="border-radius: 5px 5px 26px 26px"
               >
-                <div class="text-h6" style="text-transform: none;">
+                <div class="text-h6" style="text-transform: none">
                   {{ category.name }}
                 </div>
                 <transition
@@ -85,12 +84,11 @@ export default defineComponent({
   name: 'IndexPage',
   setup() {
     const $q = useQuasar()
-    const limit = ref($q.screen.gt.sm ? 4 : 8)
+    const limit = ref($q.screen.gt.sm ? 8 : 4)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
 
-    const { result, loading, fetchMore } = useQuery(
-      gql`
+    const { result, fetchMore, loading } = useQuery(gql`
         query getAllCategories($limit: Int!, $skip: Int!) {
           getAllCategories(limit: $limit, skip: $skip) {
             id
@@ -98,10 +96,9 @@ export default defineComponent({
             name
           }
         }
-      `,
-      () => ({
+      `, () => ({
         limit: limit.value,
-        skip: 0
+        skip: 0,
       })
     )
     const categories = computed(() => result.value?.getAllCategories)
@@ -113,14 +110,9 @@ export default defineComponent({
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           // No new feed posts
-          if (!fetchMoreResult) {
+          if (!fetchMoreResult.getAllCategories.length) {
             return previousResult
           }
-
-          // Revisar desactivar query sino hay mas productos
-          // if(result.value.getAllCategories.length === categories.value.length) {
-          // }
-
           // Concat previous feed with new feed posts
           return {
             ...previousResult,
@@ -150,4 +142,3 @@ export default defineComponent({
   }
 })
 </script>
-

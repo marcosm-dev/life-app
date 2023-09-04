@@ -243,7 +243,7 @@
                 outline
                 rounded
                 label="Atras"
-                align="start"
+                align="left"
                 no-caps
                 class="col q-ml-lg"
                 color="blue-grey-13"

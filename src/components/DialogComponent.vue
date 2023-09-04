@@ -151,7 +151,7 @@
               <!-- Step 1 -->
 
               <q-card-actions
-                class="row justify-evenly q-px-md q-py-lg"
+                class="q-px-md q-py-lg row justify-between"
               >
                <transition-group
                   v-if="!step"
@@ -202,18 +202,17 @@
                       />
                </transition-group>
                 <q-btn
+                    v-else
                     @click="step--"
                     icon="mdi-arrow-left"
                     outline
                     rounded
-                    align="start"
-                    padding="10px 20px"
+                    padding="10px 29px"
                     label="Atras"
                     no-caps
-                    class="col q-ml-lg"
+                    class="col-auto"
                     color="blue-grey-13"
                   />
-
                 <action-button
                   :disable="amount === 0"
                   outline

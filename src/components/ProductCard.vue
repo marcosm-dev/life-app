@@ -39,10 +39,9 @@
           <q-separator size="1px" spaced="10px" />
           <div class="col-12">
             <div class="row q-col-gutter-y-md">
-                  <div class="description text-lowercase text-blue-grey-13">
-                  {{ product.description }}
-                </div>
-                <div class="text-caption row">
+                  <div class="description text-lowercase text-blue-grey-13 col-12">
+                    {{ product.description }}
+                  </div>
                   <div v-if="product.accessories" class="col-12 text-blue-grey-10 text-bold">
                     Incluye:
                   </div>
@@ -50,7 +49,6 @@
                     {{ product.accessories }}
                   </div>
                 </div>
-              </div>
             </div>
         <q-separator size="1px" spaced="5px" />
       </q-card-section>
