@@ -43,34 +43,6 @@
                 class="absolute-bottom flex justify-between"
                 style="border-radius: 5px 5px 26px 26px"
               >
-<<<<<<< HEAD
-                <q-card-section class="transparent q-pa-none">
-                  <q-img
-                    style="rgb(155.155.155,0.1)"
-                    :src="`${url}/categorias/${category.urlImage}`"
-                    height="200px"
-                    fit="fill"
-                  >
-                    <div class="absolute-bottom flex justify-between" style="border-radius: 5px 5px 26px 26px">
-                      <div class="text-h6 text-white">
-                        {{ category.name }}
-                      </div>
-                      <transition
-                          name="arrow-left"
-                          appear
-                          appear-active-class="animated slideInLeft"
-                        >
-                        <q-icon
-                          class="transition-arrow"
-                          color="white"
-                          size="30px"
-                          name="mdi-arrow-right"
-                        />
-                      </transition>
-                      </div>
-                  </q-img>
-                  <!-- <q-img
-=======
                 <div class="text-h6" style="text-transform: none;">
                   {{ category.name }}
                 </div>
@@ -89,7 +61,6 @@
               </div>
             </q-img>
             <!-- <q-img
->>>>>>> v1
                     class="bg-blue-grey-3"
                     :src="`${url}/categories/${category.urlImage}`"
                     style="max-height: 160px !important; border: 2px double rgb(0,0,0,0.3)"
@@ -118,14 +89,6 @@ export default defineComponent({
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
 
-<<<<<<< HEAD
-    const { result, loading, fetchMore } = useQuery(gql`
-      query getAllCategories($limit: Int!, $skip: Int!) {
-        getAllCategories(limit: $limit, skip: $skip) {
-          id
-          urlImage
-          name
-=======
     const { result, loading, fetchMore } = useQuery(
       gql`
         query getAllCategories($limit: Int!, $skip: Int!) {
@@ -134,7 +97,6 @@ export default defineComponent({
             urlImage
             name
           }
->>>>>>> v1
         }
       `,
       () => ({

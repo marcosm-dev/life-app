@@ -77,15 +77,9 @@ module.exports = configure(function (ctx) {
         EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
         EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
         IMAGES_URL: ctx.dev
-<<<<<<< HEAD
-          ? 'https://res.cloudinary.com/doabho3qp/image/upload/v1692818057'
-          : process.env.IMAGES_URI,
-      },
-=======
           ? 'http://localhost:4000/static'
           : process.env.IMAGES_URI
       }
->>>>>>> v1
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -118,11 +112,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-<<<<<<< HEAD
-      plugins: ['Loading', 'Dialog', 'Notify', 'Meta'],
-=======
       plugins: ['Loading', 'Dialog', 'Notify', 'Meta']
->>>>>>> v1
     },
 
     // animations: 'all', // --- includes all animations
@@ -141,11 +131,7 @@ module.exports = configure(function (ctx) {
       'slideInRight',
       'slideInLeft',
       'slideOutLeft',
-<<<<<<< HEAD
-      'slideOutRight',
-=======
       'slideOutRight'
->>>>>>> v1
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles

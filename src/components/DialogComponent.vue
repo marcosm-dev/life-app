@@ -8,7 +8,7 @@
             color="white"
             size="40px"
           />
-          <q-card class="rounded-top">
+          <q-card class="rounded-top full-width">
               <q-card-section
                 class="text-weight-light knockout text-body1"
                 style="letter-spacing: 0.5px"
@@ -151,46 +151,46 @@
               <!-- Step 1 -->
 
               <q-card-actions
-                class="row q-col-gutter-x-lg justify-evenly q-px-md q-py-lg"
+                class="row justify-evenly q-px-md q-py-lg"
               >
-                <q-btn
+               <transition-group
                   v-if="!step"
-                  class="col"
-                  @click="fabDeleteCart = !fabDeleteCart"
-                  text-color="blue-grey-13"
-                  :label="!step ? 'Vaciar carrito' : ''"
-                  no-caps
-                  :ripple="false"
-                  flat
-                >
-                  <q-fab
-                    v-model="fabDeleteCart"
-                    label-position="top"
-                    flat
-                    padding="5px"
-                    hide-icon
-                    direction="up"
-                  >
-                    <q-fab-action
-                      @click="fabDeleteCart = !fabDeleteCart"
-                      outline
-                      class="bg-white"
-                      color="bg-light-blue-10"
-                      icon="mdi-close"
-                    />
-                    <q-fab-action
-                      outline
-                      class="bg-white"
-                      @click="deleteCart()"
-                      color="bg-light-blue-10"
-                      >
-                        <template #icon>
-                            <q-spinner v-if="removeLoading" size="14px" />
-                            <q-icon v-else name="mdi-delete" />
-                        </template>
-                      </q-fab-action>
-                  </q-fab>
-                </q-btn>
+                  appear
+                  enter-active-class="animated flipInX"
+               >
+                    <q-btn-group v-if="deleteCartModel" outline rounded>
+                      <q-btn
+                          outline
+                          padding="10px 20px"
+                          class="delete-icon"
+                          style="min-width: 50%"
+                          color="primary"
+                          icon="mdi-delete-outline"
+                          rounded
+                        />
+                        <q-btn
+                          style="min-width: 50%"
+                          padding="10px 20px"
+                          icon="mdi-close"
+                          color="dark"
+                          @click="deleteCartModel = !deleteCartModel"
+                          outline
+                          rounded
+                        />
+                    </q-btn-group>
+                      <q-btn
+                        v-else-if="!step && !deleteCartModel"
+                        class="col-auto"
+                        rounded
+                        color="dark"
+                        no-caps
+                        outline
+                        @click="deleteCartModel = !deleteCartModel"
+                        :label="!step ? 'Vaciar carrito' : ''"
+                        padding="10px 20px"
+                        :ripple="false"
+                      />
+               </transition-group>
                 <q-btn
                   v-else
                   icon="mdi-arrow-left"
@@ -293,6 +293,7 @@ const {
 const { user } = useAuthStore()
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const { toggleCartDialog } = useCartDialog(dialogRef.value?.$el)
+const deleteCartModel = ref(false)
 
 const order = ref(null)
 const invoice = ref(null)
@@ -482,9 +483,8 @@ async function deleteCart() {
 .product-accesories::first-letter {
   text-transform: uppercase;
 }
-.delete-icon {
-  position: absolute;
-  bottom: 0;
+.mdi-delete-outline {
+  color: $accent !important;
 }
 
 .description {
