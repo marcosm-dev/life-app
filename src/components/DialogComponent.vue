@@ -44,11 +44,8 @@
                       Borrar
                     </template>
                     <q-item v-if="!step" class="row bg-white">
-                      <q-item-section class="column" avatar>
-                        <q-avatar color="primary" text-color="white" square>
-                          <!-- <img :src="product.urlImage" /> -->
-                          <img style="aspect-ratio: 1" src="../assets/logo.jpg" />
-                        </q-avatar>
+                      <q-item-section class="column q-px-none" avatar>
+                           <cloudinary-image :image="product.name" folder="productos" class="dialog-image" />
                       </q-item-section>
                       <q-item-section>
                         <q-item-label class="knockout">{{ product.name }}</q-item-label>
@@ -76,7 +73,7 @@
                     <q-item-section avatar>
                       <q-avatar color="primary" text-color="white" square>
                         <!-- <img :src="product.urlImage" /> -->
-                        <img src="../assets/logo.jpg" />
+                        <cloudinary-image :image="product.name" folder="productos" />
                       </q-avatar>
                       <!-- <template v-slot:error>
                               <img src="../assets/logo.jpg" />
@@ -510,5 +507,8 @@ async function deleteCart() {
 
 .dialog-card {
   border: 1px solid rgba($color: $dark-page, $alpha: 0.5);
+}
+.dialog-image {
+  width: 60px;
 }
 </style>
