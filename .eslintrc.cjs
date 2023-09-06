@@ -17,7 +17,11 @@ module.exports = {
     ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
   },
-
+  //  lint: [
+  //   "src/**/*.ts",
+  //   "src/**/*.vue",
+  //   "!volar.config.js" // Excluir el archivo volar.config.js
+  // ],
   env: {
     browser: true,
     es2021: true,

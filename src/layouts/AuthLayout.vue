@@ -1,17 +1,9 @@
 <template>
   <q-layout view="hHh Lpr fff" class="header-background">
-    <q-page-container>
-      <router-view />
+    <q-page-container class="no-padding">
+      <router-view  />
     </q-page-container>
-    <div class="row justify-center text-center">
-      <!-- <a
-          href="https://www.serpica.org"
-          class="text-warning knockout text-h4 fixed full-width serpica"
-        >
-          SERPICA
-      </a> -->
-    </div>
-    <q-footer class="row text-right fixed-bottom footer-background">
+    <q-footer class="row text-righ footer-background">
       <aside class="col-12">
         <div class="row items-center">
           <q-separator class="col" size="6px" color="light-blue-1" />
@@ -78,15 +70,9 @@ export default defineComponent({
 }
 .footer-background {
   color: $light-blue-1 !important;
-  padding: 78px 0px;
+  padding: 2rem 0px;
   background: transparent;
-  background-position-y: 100px;
   background: linear-gradient(rgb(0, 0, 0, 0.5) 505%, rgb(0, 0, 0, 0.5) 100%);
 }
 
-.serpica {
-  margin: 0 auto;
-  bottom: 15%;
-  display: block !important;
-}
 </style>

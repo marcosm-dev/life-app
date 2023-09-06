@@ -52,7 +52,12 @@ const routes: RouteRecordRaw[] = [
           //   transition: 'fadeIn',
           requiresAuth: true
         },
-        component: () => import('pages/CategoryPage.vue')
+        component: () => import('pages/CategoryPage.vue'),
+      },
+      {
+        path: '/product/:id',
+        name: 'Product',
+        component: () => import('pages/ProductPage.vue')
       },
       {
         name: 'Manuales',

@@ -67,7 +67,7 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         API_URL: ctx.dev
-          ? 'http://localhost:3000' // http://localhost:3000
+          ? ' http://localhost:4000' // http://localhost:3000
           : process.env.API_URL,
         APOLLO_URI: ctx.dev
           ? 'http://localhost:4000/graphql'
@@ -76,6 +76,9 @@ module.exports = configure(function (ctx) {
         EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
         EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
+        CLOUDINARY_KEY: process.env.CLOUDINARY_API_KEY,
+        CLOUDINARY_SECRET: process.env.CLOUDINARY_API_SECRET,
+        CLOUDINARY_ID: process.env.CLOUDINARY_API_ID,
         IMAGES_URL: process.env.IMAGES_URI
       }
       // rawDefine: {}

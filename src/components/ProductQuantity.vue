@@ -46,7 +46,7 @@
 
       <div class="knockout text-h6 text-blue-grey-14  col-auto">
         {{ product.price.toFixed(2) }}
-        <small class="text-blue-grey-13">€</small>
+        <small class="text-blue-grey-10">EUR</small>
       </div>
       <slot  name="extraInfo" />
     </div>

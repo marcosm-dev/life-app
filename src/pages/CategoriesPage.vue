@@ -32,14 +32,19 @@
           @click="$router.push(`/category/${category.id}`)"
           bordered
         >
-          <q-card-section class="transparent q-pa-none">
-            <q-img
+          <q-card-section class="transparent q-pa-none row justify-center">
+            <!-- <q-img
               :src="`${url}/categorias/${category.urlImage}`"
               height="200px"
               fit="fill"
-            >
+            > -->
+              <cloudinary-image
+                :image="category.name"
+                folder="categorias"
+                class="category-cover"
+             />
               <div
-                class="absolute-bottom flex justify-between"
+                class="absolute-bottom flex justify-between q-pa-md bg-primary text-grey-1"
                 style="border-radius: 5px 5px 26px 26px"
               >
                 <div class="text-h6" style="text-transform: none">
@@ -56,9 +61,10 @@
                     size="30px"
                     name="mdi-arrow-right"
                   />
+
                 </transition>
               </div>
-            </q-img>
+            <!-- </q-img> -->
             <!-- <q-img
                     class="bg-blue-grey-3"
                     :src="`${url}/categories/${category.urlImage}`"
@@ -79,8 +85,10 @@ import { defineComponent, computed, ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useQuasar } from 'quasar'
+import CloudinaryImage from 'src/components/common/CloudinaryImage.vue'
 
 export default defineComponent({
+  components: { CloudinaryImage },
   name: 'IndexPage',
   setup() {
     const $q = useQuasar()
@@ -142,3 +150,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+.category-cover {
+  height: 200px;
+}
+</style>

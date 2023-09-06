@@ -1,9 +1,8 @@
 <template>
-  <q-page class="window-height">
+  <q-page class="window-height q-pt-md">
     <!-- Iframe for Life Manual -->
     <iframe
-      ref="iframe"
-      class="full-width full-height"
+      class="full-width full-height iframe-manuales"
       src="https://www.homelife.it/es/download"
       frameborder="0"
       allowfullscreen
@@ -33,12 +32,15 @@ export default {
 
     async function iframeVisible(e: Event) {
       await new Promise((resolve, reject) => {
-        if (e.isTrusted) resolve(e.isTrusted)
+        if (e.isTrusted) {
+          resolve(e.isTrusted)
+        }
         else reject(e.isTrusted)
         iframeLoaded.value = e.isTrusted
       })
       $q.loading.hide()
     }
+
 
     onUnmounted(() => {
       console.log('hola')
@@ -53,3 +55,9 @@ export default {
   }
 }
 </script>
+
+<style>
+#nav-icon {
+  display: none !important;
+}
+</style>

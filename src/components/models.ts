@@ -28,8 +28,9 @@ export interface Product {
   accessories: string
   urlMoreInfo: string
   stock: number
+  brand: string
   uuid: string
-  urlImage: string
+  image: string
   userId: number
   categoryId: number
   amount: number

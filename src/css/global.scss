@@ -23,6 +23,10 @@
   text-transform: uppercase;
 }
 
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}
+
 @media (max-width: 599.98px) {
   .q-layout-padding {
     padding: 40px 16px;
@@ -43,4 +47,19 @@
   -moz-border-radius: 14px ;
   -ms-border-radius: 14px ;
   -o-border-radius: 14px ;
+}
+
+.border-radius-medium {
+  border-radius: 14px 0px 14px 0px;
+  -webkit-border-radius: 14px 0px 14px 0px;
+  -moz-border-radius: 14px 0px 14px 0px;
+  -ms-border-radius: 14px 0px 14px 0px;
+  -o-border-radius: 14px 0px 14px 0px;
+}
+
+.cart-heart {
+  z-index: 1;
+  position: absolute;
+  top: 5px;
+  left: 5px;
 }

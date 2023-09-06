@@ -141,7 +141,7 @@
                         .toFixed(2)
                         .replace('.', ',')
                     }}
-                    <small>€</small>
+                    <small class="text-caption">EUR</small>
                   </div>
                 </div>
               </q-card-section>

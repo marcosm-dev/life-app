@@ -1,5 +1,8 @@
 <template>
-  <q-page class="row justify-center items-center">
+  <q-page
+    class="row justify-center items-center"
+    style="min-height: 90vh;"
+    >
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
     <q-dialog v-model="registerSuccess">
       <q-card class="column rounded-card q-pb-none">
@@ -27,8 +30,9 @@
     <!-- LOGIN Y REGISTRO DE USUARIO -->
     <q-form
       @submit="onSubmit"
-      class="q-px-md col q-pt-xl"
+      class="q-px-md col"
       style="max-width: 450px"
+      :style="register && 'margin-bottom: 10em'"
     >
       <q-card
         class="row text-center justify-center q-px-none q-py-md text-dark shadow-15 rounded-card"
@@ -278,7 +282,6 @@ import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import * as manifest from '../../src-pwa/manifest.json'
 
-import useHandleGraphQLErrors from '../composables/useHandleError'
 import useAuth from '../composables/useAuth'
 import { resetCaches } from 'graphql-tag'
 import { User } from 'src/components/models'
