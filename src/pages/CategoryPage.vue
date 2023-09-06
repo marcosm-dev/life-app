@@ -3,7 +3,7 @@
         <div class="justify-center q-px-sm row"  v-if="productsLoading || loading">
 
         </div>
-        <div class="row q-col-gutter-sm justify-center" v-else>
+        <div class="row q-col-gutter-x-sm q-gutter-y-lg justify-center" v-else>
           <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4" :key="product.id">
               <q-card
                 class="border-radius-md full-height column"
