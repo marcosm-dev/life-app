@@ -2,7 +2,7 @@
   <q-page padding>
         <q-card
           v-if="loading"
-          class="column justify-end col-sm-8 col-12 col-lg-4 col-md-6 q-mb-lg shadow-12 rounded-card q-col-gutter-y-xl"
+          class="column justify-end col-sm-8 col-12 col-lg-4 col-md-6 q-mb-lg shadow-12 rounded-card q-col-gutter-y-xl q-mt-xs"
           style="min-height: 607px"
         >
 
