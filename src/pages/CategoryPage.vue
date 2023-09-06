@@ -3,7 +3,7 @@
         <div class="justify-center q-px-sm row"  v-if="productsLoading || loading">
 
     </div>
-    <div class="row q-col-gutter-md justify-center" v-else>
+    <div class="row q-col-gutter-sm justify-center" v-else>
       <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4" :key="product.id">
           <q-card
             class="border-radius-md full-height column"
@@ -36,11 +36,11 @@
             </q-card-section>
 
             <q-card-actions class="row q-pa-md q-mt-auto justify-end ">
-                <div class="col-12 q-my-sm full-width text-right">
-                      <div class="bg-lime-13 text-blue-grey-14 text-bold q-pa-sm border-radius-sm ">
-                        {{ product.price.toFixed(2) }}
-                        <small>EUR</small>
-                        </div>
+                  <div class="bg-lime-13 text-blue-grey-14 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
+                   <div class="q-ml-auto flex">
+                      {{ product.price.toFixed(2) }}
+                      <small class="block q-mr-auto q-mx-sm">EUR</small>
+                   </div>
               </div>
                 <div v-if="product.stock < 10" class="text-bold text-accent text-overline q-py-xs">
                     Quedan {{ product.stock }} {{  product.stock > 0 ? 'Uds' : 'Ud' }}.

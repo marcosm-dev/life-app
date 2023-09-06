@@ -44,7 +44,7 @@
                 class="category-cover"
              />
               <div
-                class="absolute-bottom flex justify-between q-pa-md bg-primary text-grey-1"
+                class="absolute-bottom flex justify-between q-pa-md bg-secondary text-grey-1"
                 style="border-radius: 5px 5px 26px 26px"
               >
                 <div class="text-h6" style="text-transform: none">
