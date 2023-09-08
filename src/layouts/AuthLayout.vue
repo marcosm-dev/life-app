@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr fff" class="header-background">
-    <q-page-container class="no-padding">
+    <q-page-container>
       <router-view  />
     </q-page-container>
     <q-footer class="row text-righ footer-background">
@@ -70,7 +70,7 @@ export default defineComponent({
 }
 .footer-background {
   color: $light-blue-1 !important;
-  padding: 2rem 0px;
+  padding: 2.2rem 0px;
   background: transparent;
   background: linear-gradient(rgb(0, 0, 0, 0.5) 505%, rgb(0, 0, 0, 0.5) 100%);
 }

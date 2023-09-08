@@ -1,8 +1,5 @@
 <template>
-  <q-page
-    class="row justify-center items-center"
-    style="min-height: 90vh;"
-    >
+  <q-page class="column justify-center" padding>
     <!-- MODAL DE CONFIRMACIÓN DE REGISTRO -->
     <q-dialog v-model="registerSuccess">
       <q-card class="column rounded-card q-pb-none">
@@ -28,248 +25,236 @@
     </q-dialog>
 
     <!-- LOGIN Y REGISTRO DE USUARIO -->
-    <q-form
-      @submit="onSubmit"
-      class="q-px-md col"
-      style="max-width: 450px"
-      :style="register && 'margin-bottom: 10em'"
-    >
-      <q-card
-        class="row text-center justify-center q-px-none q-py-md text-dark shadow-15 rounded-card"
-      >
-        <q-card-section>
-            <q-img
-              class="col-12"
-              src="~assets/logo.jpg"
-              fetchpriority="high"
-              width="180px"
-              height="70px"
-              alt="serpica life logo"
-              loading="lazy"
+      <q-form @submit="onSubmit" class="row justify-center items-center">
+        <!-- :style="register && 'margin-bottom: 10em'" -->
+        <q-card
+          class="col-12 justify-center q-px-none q-py-md text-dark shadow-15 rounded-card"
+          style="max-width: 400px;"
+        >
+          <q-card-section class="text-center">
+              <q-img
+                src="~assets/logo.jpg"
+                fetchpriority="high"
+                width="180px"
+                height="70px"
+                alt="serpica life logo"
+                loading="lazy"
+              />
+              <q-card-section class="text-body">
+                <template v-if="!register">
+                  Inicia sesión con tu cuenta en<br><strong class="text-blue-grey-14">{{ name }}</strong>
+                  <span class="text-body1" @click="store.toggleRegister">
+                    <div class="text-body2 q-mt-sm">¿Aun no trabajas con nosotros?</div>
+                    <u class="cursor-pointer text-body1 knockout text-blue-grey-14">Crear mi cuenta</u>
+                  </span>
+                </template>
+                <template v-else> Crea una cuenta en {{ name }} </template>
+              </q-card-section>
+          </q-card-section>
+          <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
+            <q-input
+              outlined
+              color="blue-grey-14"
+              clearable
+              v-model="newUser.name"
+              label="Nombre"
+              rounded
+              lazy-rules
             />
-            <div
-              class="q-my-lg text-body col-12"
-              :class="$q.screen.gt.sm ? '' : ''"
+            <q-input
+              outlined
+              color="blue-grey-14"
+              rounded
+              clearable
+              type="text"
+              v-model="newUser.lastName"
+              label="Apellidos"
+            />
+            <q-input
+              outlined
+              color="blue-grey-14"
+              rounded
+              clearable
+              v-model="newUser.VATIN"
+              label="CIF o DNI"
+              lazy-rules
+            />
+            <q-input
+              outlined
+              color="blue-grey-14"
+              rounded
+              clearable
+              type="text"
+              v-model="newUser.phone"
+              error-message="Por favor ingresa un email válido."
+              :error="errorHandler"
+              label="Teléfono"
+            />
+            <q-input
+              rounded
+              color="blue-grey-14"
+              outlined
+              type="text"
+              clearable
+              v-model="newUser.address"
+              label="Dirección"
+            />
+            <q-input
+              rounded
+              color="blue-grey-14"
+              outlined
+              clearable
+              v-model="newUser.zipCode"
+              label="Código Postal"
+            />
+            <q-input
+              rounded
+              color="blue-grey-14"
+              outlined
+              clearable
+              v-model="newUser.city"
+              label="Ciudad"
+            />
+            <q-input
+              rounded
+              color="blue-grey-14"
+              outlined
+              clearable
+              type="text"
+              v-model="newUser.email"
+              :error="heandleEmailError"
+              label="Email"
+              :rules="[
+                (val) =>
+                  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+                    val
+                  )
+              ]"
+              lazy-rules
+            />
+            <q-input
+              rounded
+              color="blue-grey-14"
+              outlined
+              clearable
+              v-model="newUser.password"
+              label="Contraseña"
+              lazy-rules
+              :type="revealPassword ? 'text' : 'password'"
+              error-message="Las contraseñas no coinciden"
             >
-              <template v-if="!register">
-                 Inicia sesión con tu cuenta en<br><strong>{{ name }}</strong>
-                <span class="text-body1" @click="store.toggleRegister">
-                  <div class="text-body2 q-mt-sm">¿Aun no trabajas con nosotros?</div>
-                  <u class="cursor-pointer text-body1 knockout">Crear mi cuenta</u>
-                </span>
+              <template #append>
+                <q-icon
+                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                  class="cursor-pointer"
+                  @click="revealPassword = !revealPassword"
+                />
               </template>
-              <template v-else> Crea una cuenta en {{ name }} </template>
-            </div>
-        </q-card-section>
-        <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
-          <q-input
-            outlined
-            color="blue-grey-14"
-            clearable
-            v-model="newUser.name"
-            label="Nombre"
-            rounded
-            lazy-rules
-          />
-          <q-input
-            outlined
-            color="blue-grey-14"
-            rounded
-            clearable
-            type="text"
-            v-model="newUser.lastName"
-            label="Apellidos"
-          />
-          <q-input
-            outlined
-            color="blue-grey-14"
-            rounded
-            clearable
-            v-model="newUser.VATIN"
-            label="CIF o DNI"
-            lazy-rules
-          />
-          <q-input
-            outlined
-            color="blue-grey-14"
-            rounded
-            clearable
-            type="text"
-            v-model="newUser.phone"
-            error-message="Por favor ingresa un email válido."
-            :error="errorHandler"
-            label="Teléfono"
-          />
-          <q-input
-            rounded
-            color="blue-grey-14"
-            outlined
-            type="text"
-            clearable
-            v-model="newUser.address"
-            label="Dirección"
-          />
-          <q-input
-            rounded
-            color="blue-grey-14"
-            outlined
-            clearable
-            v-model="newUser.zipCode"
-            label="Código Postal"
-          />
-          <q-input
-            rounded
-            color="blue-grey-14"
-            outlined
-            clearable
-            v-model="newUser.city"
-            label="Ciudad"
-          />
-          <q-input
-            rounded
-            color="blue-grey-14"
-            outlined
-            clearable
-            type="text"
-            v-model="newUser.email"
-            :error="heandleEmailError"
-            label="Email"
-            :rules="[
-              (val) =>
-                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-                  val
-                )
-            ]"
-            lazy-rules
-          />
-          <q-input
-            rounded
-            color="blue-grey-14"
-            outlined
-            clearable
-            v-model="newUser.password"
-            label="Contraseña"
-            lazy-rules
-            :type="revealPassword ? 'text' : 'password'"
-            error-message="Las contraseñas no coinciden"
-          >
-            <template #append>
-              <q-icon
-                :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                class="cursor-pointer"
-                @click="revealPassword = !revealPassword"
-              />
-            </template>
-          </q-input>
-          <q-input
-            rounded
-            color="blue-grey-14"
-            :type="revealPassword ? 'text' : 'password'"
-            label="Confirmar contraseña"
-            outlined
-            clearable
-            lazy-rules
-            error-message="Las contraseñas no coinciden"
-            v-model="newUser.confirmPassword"
-            :rules="[(val) => val === newUser.password]"
-          >
-            <template #append>
-              <q-icon
-                :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                class="cursor-pointer"
-                @click="revealPassword = !revealPassword"
-              />
-            </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
-          <q-input
-            outlined
-            color="blue-grey-14"
-            clearable
-            v-model="user.email"
-            label="Email"
-            rounded
-            lazy-rules
-            item-aligned
-            error-message="Por favor ingresa un email válido."
-            :rules="[
-              (val) =>
-                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-                  val
-                )
-            ]"
-          />
-          <q-input
-            outlined
-            color="blue-grey-14"
-            clearable
-            item-aligned
-            rounded
-            :type="revealPassword ? 'text' : 'password'"
-            error-message="Por favor, ingresa bien tu contraseña"
-            v-model="user.password"
-            :error="errorHandler"
-            label="Contraseña"
-          >
-            <template #append>
-              <q-icon
-                :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                class="cursor-pointer"
-                @click="revealPassword = !revealPassword"
-              />
-            </template>
-          </q-input>
-        </q-card-section>
-        <q-card-section class="col-12 q-px-none q-pb-none">
-          <q-separator size="2px" />
-        </q-card-section>
-        <q-card-actions class="col-12 justify-around q-px-lg q-pt-lg">
+            </q-input>
+            <q-input
+              rounded
+              color="blue-grey-14"
+              :type="revealPassword ? 'text' : 'password'"
+              label="Confirmar contraseña"
+              outlined
+              clearable
+              lazy-rules
+              error-message="Las contraseñas no coinciden"
+              v-model="newUser.confirmPassword"
+              :rules="[(val) => val === newUser.password]"
+            >
+              <template #append>
+                <q-icon
+                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                  class="cursor-pointer"
+                  @click="revealPassword = !revealPassword"
+                />
+              </template>
+            </q-input>
+          </q-card-section>
+          <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
+            <q-input
+              outlined
+              color="blue-grey-14"
+              clearable
+              v-model="user.email"
+              label="Email"
+              rounded
+              lazy-rules
+              item-aligned
+              error-message="Por favor ingresa un email válido."
+              :rules="[
+                (val) =>
+                  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+                    val
+                  )
+              ]"
+            />
+            <q-input
+              outlined
+              color="blue-grey-14"
+              clearable
+              item-aligned
+              rounded
+              :type="revealPassword ? 'text' : 'password'"
+              error-message="Por favor, ingresa bien tu contraseña"
+              v-model="user.password"
+              :error="errorHandler"
+              label="Contraseña"
+            >
+              <template #append>
+                <q-icon
+                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                  class="cursor-pointer"
+                  @click="revealPassword = !revealPassword"
+                />
+              </template>
+            </q-input>
+          </q-card-section>
+          <q-card-actions v-if="!register" class="row justify-center">
+            <action-button
+              label="Acceder"
+              type="submit"
+              style="width: 50%"
+              :loading="loginLoading"
+              neutro
+            />
           <action-button
-            v-if="!register"
-            label="Acceder"
-            type="submit"
-            style="width: 50%"
-            :loading="loginLoading"
-            neutro
-          />
-
-          <div class="row q-gutter-x-md justify-between" v-else>
-            <q-checkbox
+              label="He olvidado mi contraseña"
+              flat
+              class="q-mt-lg col-12"
+              text-color="blue-grey-14"
+              style="text-decoration: underline;"
+              neutro
+            />
+          </q-card-actions>
+          <q-card-actions class="row justify-between q-mx-sm" v-else>
+            <!-- <q-checkbox
               v-model="check"
-              class="q-mb-xl text-body2 no-padding text-left text-no-wrap ellipsis col-12"
+              class="text-body2 col-12"
             >
               He leído y acepto la <u>política de privacidad</u>.
-            </q-checkbox>
-            <q-btn
+            </q-checkbox> -->
+            <action-button
                 @click="store.toggleRegister"
                 icon="mdi-arrow-left"
                 outline
+                neutro
                 rounded
                 label="Atras"
-                align="left"
                 no-caps
-                class="col q-ml-lg"
+                class="col"
                 color="blue-grey-13"
               />
             <action-button
-              class="col"
               type="submit"
+              class="col"
               :loading="signUpLoading"
-              label="Continuar"
+              :label="$q.lang.label.create"
             />
-          </div>
-          <action-button
-            label="¿Has olvidado tu contraseña?"
-            flat
-            class="q-mt-lg"
-            style="text-decoration: underline;"
-            neutro
-            />
-        </q-card-actions>
-      </q-card>
-    </q-form>
-
+          </q-card-actions>
+        </q-card>
+      </q-form>
     <!-- FIN LOGIN DE USUARIO -->
   </q-page>
 </template>

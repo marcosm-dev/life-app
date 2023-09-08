@@ -1,12 +1,12 @@
 <template>
   <q-btn
-    :text-color="neutro ? 'blue-grey-4' : 'light-blue-14'"
+    :text-color="neutro ? 'blue-grey-13' : 'light-blue-14'"
     :label="label"
     no-caps
     outline
     dense
     rounded
-    :padding="padding ?? '20px'"
+    :padding="padding ?? '15px'"
     :loading="loading"
   >
     <transition enter-active-class="animated flipInX">
