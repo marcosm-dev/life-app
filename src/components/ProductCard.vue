@@ -22,11 +22,11 @@
                     <path id="Tracciato_149" data-name="Tracciato 149" d="M-8227.488,9763.788h58.435" transform="translate(8302.489 -9685.761)" fill="none" stroke="#fff" stroke-width="4"></path>
                     <path id="Tracciato_150" data-name="Tracciato 150" d="M-8227.488,9763.788h58.435" transform="translate(8360.923 -9685.761)" fill="none" stroke="#b40000" stroke-width="4"></path>
             </svg>
-              <cloudinary-image
+              <q-img
                 class="col q-mb-md"
                 style="border-radius: 26px"
                 folder="productos"
-                :image="product.name"
+                :src="`${url}/productos/${product.imagen}.png`"
               >
                 <template #error>
                     <q-img
@@ -37,7 +37,7 @@
                       height="100px"
                     />
                 </template>
-              </cloudinary-image>
+              </q-img>
 
             </q-card-section>
           <div class="text-bold col full-height flex">

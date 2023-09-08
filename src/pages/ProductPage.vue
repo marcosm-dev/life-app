@@ -60,10 +60,10 @@ export default defineComponent({
       query getProductById($productId: ID!) {
         getProductById(id: $productId) {
           id
-          urlImage
           name
           categoryId
           price
+          imagen
           stock
           description
           accessories

@@ -34,32 +34,33 @@
 }
 
 .border-radius-md {
-  border-radius: 22px;
-  -webkit-border-radius: 22px;
-  -moz-border-radius: 22px;
-  -ms-border-radius: 22px;
-  -o-border-radius: 22px;
+  border-radius: 26px;
+  -webkit-border-radius: 26px;
+  -moz-border-radius: 26px;
+  -ms-border-radius: 26px;
+  -o-border-radius: 26px;
 }
 
 .border-radius-sm {
-  border-radius: 14px ;
-  -webkit-border-radius: 14px ;
-  -moz-border-radius: 14px ;
-  -ms-border-radius: 14px ;
-  -o-border-radius: 14px ;
+  border-radius: 16px ;
+  -webkit-border-radius: 16px ;
+  -moz-border-radius: 16px ;
+  -ms-border-radius: 16px ;
+  -o-border-radius: 16px ;
 }
 
 .border-radius-medium {
-  border-radius: 14px 0px 14px 0px;
-  -webkit-border-radius: 14px 0px 14px 0px;
-  -moz-border-radius: 14px 0px 14px 0px;
-  -ms-border-radius: 14px 0px 14px 0px;
-  -o-border-radius: 14px 0px 14px 0px;
+  border-radius: 16px 0px 16px 0px;
+  -webkit-border-radius: 16px 0px 16px 0px;
+  -moz-border-radius: 16px 0px 16px 0px;
+  -ms-border-radius: 16px 0px 16px 0px;
+  -o-border-radius: 16px 0px 16px 0px;
 }
 
 .cart-heart {
+  visibility: hidden;
   z-index: 1;
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: -7px;
+  right: -9px;
 }

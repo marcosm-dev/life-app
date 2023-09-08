@@ -45,7 +45,12 @@
                     </template>
                     <q-item v-if="!step" class="row bg-white">
                       <q-item-section class="column q-px-none" avatar>
-                           <cloudinary-image :image="product.name" folder="productos" class="dialog-image" />
+                           <q-img
+                            :src="`${url}/productos/${product.imagen}.png`"
+                            width="40px"
+                            height="50"
+                            class="dialog-image"
+                          />
                       </q-item-section>
                       <q-item-section>
                         <q-item-label class="knockout">{{ product.name }}</q-item-label>
@@ -306,6 +311,7 @@ const { user } = useAuthStore()
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const { toggleCartDialog } = useCartDialog(dialogRef.value?.$el)
 const deleteCartModel = ref(false)
+const url = process.env.IMAGES_URL
 
 const order = ref(null)
 const invoice = ref(null)

@@ -7,12 +7,6 @@ const OPTIONS = {
   apiKey: process.env.CLOUDINARY_KEY
 }
 
-const formatName = (name: string) => {
-      if (!name) return
-      // Reemplazar espacios y caracteres especiales por _
-      return name.trim().toLowerCase().replace(/[^\w]/g, '_')
-}
-
 // function getThumbnailUrl(publicId: string) {
 //   const cloudName = process.env.CLOUDINARY_ID
 //   const width = 150
@@ -23,7 +17,7 @@ const formatName = (name: string) => {
 // }
 
 const useCloudinaryImage = (name: string, folder: string) => {
-    const publicId = `/${folder}/${formatName(name)}`
+    const publicId = `/${folder}/${name}`
       return  new CloudinaryImage(publicId, OPTIONS)
 }
 

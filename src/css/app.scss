@@ -37,12 +37,12 @@ body {
   text-transform: uppercase;
 }
 
+.bg-card-gradient {
+  background: radial-gradient(0% 100%, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.03) 100%);
+}
+
 .rounded-card {
   border-radius: 26px !important;
-  -webkit-border-radius: 26px !important;
-  -moz-border-radius: 26px !important;
-  -ms-border-radius: 26px !important;
-  -o-border-radius: 26px !important;
 }
 
 .rounded-banner-bottom {

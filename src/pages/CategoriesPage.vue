@@ -20,34 +20,30 @@
     <div
       v-else
       v-scroll="onScroll"
-      class="row q-col-gutter-x-md q-col-gutter-y-lg"
+      class="row q-col-gutter-x-sm  q-col-gutter-y-lg"
     >
       <div
         v-for="category in categories"
-        class="col-12 col-sm-6 col-md-4 col-lg-3"
+        class="col-6 col-sm-6 col-md-4 col-lg-3"
         :key="category.id"
       >
         <q-card
-          class="cursor-pointer rounded-card shadow-10 category-card"
+          class="cursor-pointer shadow-10 category-card bg-transparent border-radius-md shadow-15"
           @click="$router.push(`/category/${category.id}`)"
           bordered
         >
-          <q-card-section class="transparent q-pa-none row justify-center">
-            <!-- <q-img
-              :src="`${url}/categorias/${category.urlImage}`"
-              height="200px"
-              fit="fill"
-            > -->
-              <cloudinary-image
-                :image="category.name"
-                folder="categorias"
-                class="category-cover"
-             />
-              <div
-                class="absolute-bottom flex justify-between q-pa-md bg-secondary text-grey-1"
-                style="border-radius: 5px 5px 26px 26px"
+          <q-card-section class="transparent row justify-center">
+            <q-img
+                  :src="`${url}/productos/${category.urlImage}`"
+                  height="100px"
+                  fit="scale-down"
+                  fetchpriority="high"
+                />
+            <div
+                class="absolute-bottom flex justify-between q-px-md bg-primary text-grey-1 text-no-wrap no-wrap"
+                style="border-radius: 2px 2px 26px 26px; padding: 10px 14px"
               >
-                <div class="text-h6" style="text-transform: none">
+                <div class="text-lime-13" style="text-transform: none">
                   {{ category.name }}
                 </div>
                 <transition
@@ -56,23 +52,13 @@
                   appear-active-class="animated slideInLeft"
                 >
                   <q-icon
-                    class="transition-arrow"
+                    class="transition-arrow q-ml-auto"
                     color="white"
-                    size="30px"
+                    size="20px"
                     name="mdi-arrow-right"
                   />
-
                 </transition>
               </div>
-            <!-- </q-img> -->
-            <!-- <q-img
-                    class="bg-blue-grey-3"
-                    :src="`${url}/categories/${category.urlImage}`"
-                    style="max-height: 160px !important; border: 2px double rgb(0,0,0,0.3)"
-                    fit="contain"
-                    fetchpriority="high"
-                    :ratio="1"
-                  /> -->
           </q-card-section>
         </q-card>
       </div>
@@ -85,14 +71,13 @@ import { defineComponent, computed, ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useQuasar } from 'quasar'
-import CloudinaryImage from 'src/components/common/CloudinaryImage.vue'
+import { fill } from '@cloudinary/url-gen/actions/resize';
 
 export default defineComponent({
-  components: { CloudinaryImage },
   name: 'IndexPage',
   setup() {
     const $q = useQuasar()
-    const limit = ref($q.screen.gt.sm ? 8 : 4)
+    const limit = ref($q.screen.gt.sm ? 8 : 10)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
 
@@ -153,6 +138,10 @@ export default defineComponent({
 
 <style lang="scss">
 .category-cover {
-  height: 200px;
+  width: 100%;
+  height: 100%;
+}
+.category-card {
+  height: 100%;
 }
 </style>

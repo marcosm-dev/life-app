@@ -6,52 +6,61 @@
         <div class="row q-col-gutter-x-sm q-gutter-y-lg justify-center" v-else>
           <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4" :key="product.id">
               <q-card
-                class="border-radius-md full-height column"
+                class="border-radius-md q-px-sm q-pb-sm bg-grey-1"
                 bordered
                 flat
                 outline
               >
-                <!-- <q-icon
+                <q-icon
                   class="cart-heart"
                   size="24px"
                   color="blue-grey-13"
                   name="mdi-heart-outline"
-                /> -->
-                <q-card-section class="no-padding col-auto">
-                    <q-card-section class="flex flex-center q-py-sm">
-                          <cloudinary-image
-                            class="fit"
-                            folder="productos"
-                            :image="product.name"
+                />
+                  <q-card-section class="border-radius-sm">
+                      <q-img
+                        :src="`${url}/productos/${product.imagen}`"
+                        height="90px"
+                        fit="scale-down"
+                      >
+                          <template #error>
+                            <q-img
+                              :src="image ? image : `${url}/productos/${product.imagen}.png`"
+                              fit="scale-down"
+                              @error="image = 'http://localhost:4000/static/logo.svg'"
+                              class="bg-transparent"
                             />
-                    </q-card-section>
-                    <q-card-section class="q-gutter-y-sm q-py-none">
-                      <div class="text-subtitle1 knockout bg-blue-grey-1 full-width q-pa-sm border-radius-sm text-blue-grey-10">
-                          {{ product.name }}
-                      </div>
-                      <div class="text-caption  bg-blue-grey-1 border-radius-sm text-blue-grey-10  q-py-md q-px-sm">
-                          {{ product.description.toLowerCase() }}.
-                      </div>
+                          </template>
+                        </q-img>
                   </q-card-section>
+                  <q-card-section class="q-gutter-y-sm no-padding">
+                    <div class="text-subtitle1 knockout full-width q-pa-sm border-radius-sm text-grey-10 bg-lime-14">
+                        {{ product.name }}
+                    </div>
+                    <div class="text-caption border-radius-sm text-blue-grey-10 q-px-sm">
+                        {{ product.description.toLowerCase() }}.
+                    </div>
                 </q-card-section>
 
-                <q-card-actions class="row q-pa-md q-mt-auto justify-end ">
-                      <div class="bg-lime-13 text-blue-grey-14 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
-                      <div class="q-ml-auto flex">
-                          {{ product.price.toFixed(2) }}
-                          <small class="block q-mr-auto q-mx-sm">EUR</small>
+                <q-card-actions class="flex justify-end no-padding q-mt-md">
+                      <div class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
+                          <div class="q-ml-auto flex text-right">
+                              {{ product.price.toFixed(2).replace('.', ',') }}
+                            <small class="block q-mr-auto q-mx-sm text-caption">EUR</small>
+                          </div>
                       </div>
-                  </div>
-                    <div v-if="product.stock < 10" class="text-bold text-accent text-overline q-py-xs">
-                        Quedan {{ product.stock }} {{  product.stock > 0 ? 'Uds' : 'Ud' }}.
+                      <div v-if="product.stock < 10" class="text-bold text-accent text-overline q-py-xs">
+                          Quedan {{ product.stock }} {{  product.stock > 1 ? 'Uds' : 'Ud' }}.
+                      </div>
+                    <div class="full-width q-pa-sm">
+                          <action-button
+                          :to="`/product/${product.id}`"
+                          class="text-no-wrap full-width"
+                          neutro
+                          padding="5px 20px"
+                          label="Ver producto"
+                        />
                     </div>
-                    <action-button
-                      :to="`/product/${product.id}`"
-                      class="text-no-wrap block col-12"
-                      neutro
-                      padding="5px 20px"
-                      label="Ver producto"
-                    />
                 </q-card-actions>
             </q-card>
             <!-- <ProductCard  :product="product"  /> -->
@@ -61,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { computed, defineComponent, ref, watchEffect, Ref } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 
 import { useQuery } from '@vue/apollo-composable'
@@ -105,6 +114,7 @@ export default defineComponent({
             urlImage
             name
             price
+            imagen
             stock
             description
           }
@@ -138,9 +148,11 @@ export default defineComponent({
     return {
       products: computed(() => result.value?.getProductsByCategory),
       loading: computed(() => loading.value || productsLoading.value),
+      url: process.env.IMAGES_URL,
       useCloudinaryImage,
       productsLoading,
-      categoryName
+      categoryName,
+      image: ref<null | string>(null),
     }
   },
 })

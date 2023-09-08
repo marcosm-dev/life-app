@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue'
 import {
   AdvancedImage,
-  lazyload,
+  responsive,
 } from '@cloudinary/vue'
 import useCloudinaryImage from 'src/composables/useCloudinaryImage';
 
@@ -18,7 +18,7 @@ export default defineComponent({
   name: 'ClodinaryImage',
   props: ['image', 'folder'],
   setup() {
-    const plugins = [lazyload()];
+    const plugins = [responsive()]
 
     return {
       plugins,
