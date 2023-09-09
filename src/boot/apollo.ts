@@ -32,6 +32,7 @@ export default boot(({ app, router, store }) => {
     if (graphQLErrors?.length) {
       for (const err of graphQLErrors) {
         if (err.message.toLowerCase() === 'unauthorized') {
+          router.push('/auth')
           authStore.$reset()
         } else {
           useHandleGraphqlErrors(err)

@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-        <div v-if="loading || !products" class="justify-center q-px-sm row q-gutter-y-lg q-gutter-x-sm" >
+        <div v-if="loading || !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
           <div
             v-for="productCard in 15"
             :key="productCard"

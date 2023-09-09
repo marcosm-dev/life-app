@@ -71,7 +71,7 @@
                       </q-item-section>
                       <q-item-section class="no-padding" style="max-width: 100px" side>
                         <q-item-label class="text-body knockout text-blue-grey-13">
-                          {{ product.price.toFixed(2) }}
+                          {{ product.price.toFixed(2).replace('.', ',') }}
                         </q-item-label>
                         <ProductQuantity
                           class="q-pr-none"
@@ -84,13 +84,20 @@
                   </q-slide-item>
                   <q-item v-else-if="step === 1" class="q-my-sm" clickable v-ripple>
                     <q-item-section avatar>
-                      <q-avatar color="primary" text-color="white" square>
-                        <!-- <img :src="product.urlImage" /> -->
-                        <cloudinary-image :image="product.name" folder="productos" />
-                      </q-avatar>
-                      <!-- <template v-slot:error>
-                              <img src="../assets/logo.jpg" />
-                            </template> -->
+                     <q-img
+                        :src="`${url}/productos/${product.imagen}.png`"
+                        width="40px"
+                        height="50"
+                        class="dialog-image"
+                      >
+                      <template #error>
+                          <q-img
+                              src="src/assets/logo.jpg"
+                            fit="scale-down"
+                            class="bg-transparent"
+                          />
+                        </template>
+                      </q-img>
                     </q-item-section>
                     <q-item-section>
                       <q-item-label caption class="text-dark">{{
@@ -243,19 +250,18 @@
     <!-- Fin de la compra -->
 
     <!-- <q-inner-loading :showing="true" color="warning"> -->
-    <q-inner-loading :showing="sendLoading || success" color="warning">
+    <q-inner-loading :showing="sendLoading || success" color="warning" class="bg-transparent">
       <q-spinner-gears
         v-if="sendLoading && !success"
         size="75px"
-        color="blue-grey-14"
+        color="blue-grey-14 "
       />
-      <!-- <div v-else-if="!sendLoading && success"> -->
       <q-card
         v-if="success"
-        class="text-caption q-py-xl rounded-top bg-light-blue-1 dialog-card"
+        class="text-caption  rounded-top bg-white bg-white"
       >
         <q-card-section
-          class="text-caption text-blue-grey-14 row justify-center"
+          class="text-body1 text-blue-grey-14 row items-center justify-center"
         >
           ¡Tu pedido se ha generado con Éxito!
           <q-img
@@ -266,23 +272,28 @@
             src="~assets/check.gif"
           />
           <p class="text-blue-grey-13">
-            Le enviaremos la factura por correo electrónico. ¡Gracias por tu
+            Pronto llegará la factura a tu correo electrónico.
+          </p>
+          <p class="text-lime-14">
+            ¡Gracias por tu
             compra!
           </p>
-          <action-button
-            @click="success = false ;dialogRef.hide()"
-            no-caps
-            :label="String(count)"
-            padding="10px 20px"
-            text-color="light-blue-1"
-            flat
-            class="bg-blue-grey-14 q-mx-auto q-mt-lg text-caption"
-            rounded
-            ripple
-          />
+         <div class="col-12 text-center">
+           <action-button
+              @click="deleteCart"
+              no-caps
+              :label="String(count)"
+              padding="10px 20px"
+              text-color="grey-1"
+              flat
+              class="bg-blue-grey-14 q-mx-auto q-mt-lg text-body"
+              rounded
+              ripple
+            />
+         </div>
           <q-btn
             class="col-12 q-mt-md"
-            @click="dialogRef.hide()"
+            @click="deleteCart"
             flat
             no-caps
             label="Cerrar"
@@ -323,10 +334,9 @@ const url = process.env.IMAGES_URL
 
 const order = ref(null)
 const invoice = ref(null)
+
 const success = ref(false)
-const fabDeleteCart = ref(false)
 const step = ref(0)
-// const url = process.env.IMAGES_URL
 const count = ref(8)
 
 const $q = useQuasar()
@@ -461,6 +471,7 @@ async function onOKClick() {
         orderId: order.value.id,
         lines: getInvoceItems(order.value?.products)
       }).then((res) => {
+        step.value = 2
         success.value = true
         setTimeout(() => {
           resetProcess()
@@ -480,6 +491,8 @@ async function deleteCart() {
    if (order.value) await removeOrder()
     setTimeout(() => {
       dialogRef.value.hide()
+      count.value = 0
+      success.value = false
       resetCart()
     }, 500)
   }
