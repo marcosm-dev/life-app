@@ -27,13 +27,13 @@ export const useAuthStore = defineStore('auth', {
     } as Banners
   }),
   getters: {
-    authenticated: (state) => {
+    authenticated: () => {
       const token = LocalStorage.getItem('token')
-      if (!token) return false
-      return !!Object.keys(state.user).length
+      if (!token || typeof token === 'undefined') return false
+      return true
     },
     hideBanner() {
-      if (Object.values(this.hideBanner).includes(true) || !this.deferredPrompt?.prompt) return true
+      if (Object.values(this.hideBanners).includes(true) || !this.deferredPrompt?.prompt) return true
       return false
     },
   },

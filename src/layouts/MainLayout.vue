@@ -104,8 +104,8 @@
         <q-tabs
           v-model="tab"
           indicator-color="transparent"
-          active-color="blue-grey-1 bg-dark"
-          class="shadow-2  border-radius-md q-mb-sm bg-dark"
+          active-color="lime-14 bg-dark bg-secondary"
+          class="shadow-2  border-radius-md q-mb-sm bg-primary"
         >
           <q-route-tab
             to="/home"
@@ -260,7 +260,7 @@ export default defineComponent({
   justify-content: center;
   background: #fff;
   font-weight: 600;
-  color: $dark;
+  color: $blue-grey !important;
   height: 22px;
   font-size: 10px;
   width: 22px;

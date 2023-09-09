@@ -71,16 +71,19 @@
 import { defineComponent, computed, ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { useQuasar } from 'quasar'
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import { useQuasar } from 'quasar';
+import { onBeforeRouteLeave } from 'vue-router';
+import useAuth from 'src/composables/useAuth';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    const { store } = useAuth()
     const $q = useQuasar()
     const limit = ref($q.screen.gt.sm ? 8 : 10)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
+    store.title = '¿Qué tipo de producto buscas?'
 
     const { result, fetchMore, loading } = useQuery(gql`
         query getAllCategories($limit: Int!, $skip: Int!) {
@@ -118,6 +121,10 @@ export default defineComponent({
         }
       })
     }
+
+    onBeforeRouteLeave(() =>{
+      store.title = ''
+    })
 
     return {
       onScroll: async () => {

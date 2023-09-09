@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-        <div v-if="loading || !products" class="justify-center q-px-sm row q-gutter-y-lg" >
+        <div v-if="loading || !products" class="justify-center q-px-sm row q-gutter-y-lg q-gutter-x-sm" >
           <div
             v-for="productCard in 15"
             :key="productCard"
@@ -156,11 +156,7 @@ export default defineComponent({
               categoryName.value ? `-${categoryName.value}` : ''
             }`,
           }
-        })
-
-    onBeforeRouteLeave(() =>{
-      store.title = '¿Que tipo de producto buscas?'
-    })
+      })
 
     return {
       products: computed(() => result.value?.getProductsByCategory),

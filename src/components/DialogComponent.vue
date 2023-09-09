@@ -50,7 +50,15 @@
                             width="40px"
                             height="50"
                             class="dialog-image"
-                          />
+                          >
+                          <template #error>
+                              <q-img
+                                 src="src/assets/logo.jpg"
+                                fit="scale-down"
+                                class="bg-transparent"
+                              />
+                            </template>
+                          </q-img>
                       </q-item-section>
                       <q-item-section>
                         <q-item-label class="knockout">{{ product.name }}</q-item-label>
