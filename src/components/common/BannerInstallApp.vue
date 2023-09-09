@@ -4,7 +4,8 @@
       <q-banner
         key="banner-classic"
         v-if="['Payment', 'SignUp'].includes(type)"
-        class="animated fadeIn rounded-banner-bottom bg-deep-purple-12 q-py-md full-width"
+        :class="type === 'SignUp' && 'rounded-banner-bottom '"
+        class="animated fadeIn bg-deep-purple-12 q-py-md full-width"
         style="animation-delay: 0.2s"
         dense
       >

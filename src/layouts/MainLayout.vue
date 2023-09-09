@@ -56,7 +56,7 @@
               <div class="row justify-end text-white text-right">
                 <div class="column">
                   <q-list dense class="text-white font-bold">
-                    <q-item clickable v-ripple to="/orders" disable>
+                    <q-item clickable v-ripple to="/orders" >
                       <q-item-section> Mis Pedidos </q-item-section>
                     </q-item>
 

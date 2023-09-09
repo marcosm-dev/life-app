@@ -473,10 +473,8 @@ async function onOKClick() {
       }).then((res) => {
         step.value = 2
         success.value = true
-        setTimeout(() => {
-          resetProcess()
-          invoice.value = res
-        }, 2750)
+        resetProcess()
+        invoice.value = res
       })
     }
   } catch (error) {
