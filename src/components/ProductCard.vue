@@ -2,7 +2,7 @@
     <q-card class="q-mb-lg shadow-12 rounded-card row items-end">
       <q-card-section class="col-12">
             <!-- :src="`${url}/productos/${product.image}`" -->
-            <q-card-section class="row reverse">
+            <q-card-section class="row reverse q-gutter-x-lg">
               <svg
                   class="col-3"
                   xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,6 @@
                     />
                 </template>
               </q-img>
-
             </q-card-section>
           <div class="text-bold col full-height flex">
             <div class="text-h5 text-blue-grey-10">

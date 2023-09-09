@@ -28,7 +28,8 @@ export const useAuthStore = defineStore('auth', {
   }),
   getters: {
     authenticated: (state) => {
-      if (!state.user.token) return false
+      const token = LocalStorage.getItem('token')
+      if (!token) return false
       return !!Object.keys(state.user).length
     },
     hideBanner() {

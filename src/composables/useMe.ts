@@ -3,8 +3,11 @@ import useAuth from './useAuth'
 import gql from 'graphql-tag'
 
 import { computed, toRef, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
+import { LocalStorage } from 'quasar'
 
 const useMe = () => {
+  const router = useRouter()
   const { authenticated, store } = useAuth()
 
   const { result } = useQuery(
@@ -32,7 +35,11 @@ const useMe = () => {
   const me = computed(() => result.value?.me)
 
   watchEffect(() => {
-    if (result.value) store.setUser(me.value)
+    if (result.value) {
+       store.setUser(me.value)
+    } else {
+      if (!LocalStorage.getItem('token')) router.push('/auth')
+    }
   })
 
   return {
