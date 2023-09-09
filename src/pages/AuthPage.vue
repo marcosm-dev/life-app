@@ -51,7 +51,7 @@
                 <template v-else> Crea una cuenta en {{ name }} </template>
               </q-card-section>
           </q-card-section>
-          <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pt-none">
+          <q-card-section v-if="register" class="col-12 q-gutter-y-md q-py-none">
             <q-input
               outlined
               color="blue-grey-14"
@@ -229,12 +229,12 @@
             />
           </q-card-actions>
           <q-card-actions class="row justify-between q-mx-sm" v-else>
-            <!-- <q-checkbox
+            <q-checkbox
               v-model="check"
-              class="text-body2 col-12"
+              class="text-body2 col-12 text-no-wrap q-mb-lg"
             >
               He leído y acepto la <u>política de privacidad</u>.
-            </q-checkbox> -->
+            </q-checkbox>
             <action-button
                 @click="store.toggleRegister"
                 icon="mdi-arrow-left"
@@ -270,6 +270,7 @@ import * as manifest from '../../src-pwa/manifest.json'
 import useAuth from '../composables/useAuth'
 import { resetCaches } from 'graphql-tag'
 import { User } from 'src/components/models'
+import useNotifyError from '../composables/useNotifyError';
 
 export default defineComponent({
   name: 'AuthPage',
@@ -339,18 +340,13 @@ export default defineComponent({
     }
 
     async function signUp() {
+      console.log('signuip')
       errors.value = []
       if (!check.value) {
-        errors.value.push(
-          'Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.'
-        )
-        return
+         useNotifyError({ message: 'Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.' })
+         return
       }
-      if (
-        Object.values(newUser).includes('') ||
-        Object.values(newUser).includes(null)
-      )
-        return
+      if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
       errors.value = []
       newUser.email = newUser.email.toLowerCase()
 
