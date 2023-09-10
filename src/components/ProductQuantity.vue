@@ -45,7 +45,7 @@
     >
 
       <div class="knockout text-h6 text-blue-grey-14  col-auto">
-        {{ product.price.toFixed(2) }}
+        {{ product.price.toFixed(2).replace('.',',') }}
         <small class="text-blue-grey-10">EUR</small>
       </div>
       <slot  name="extraInfo" />

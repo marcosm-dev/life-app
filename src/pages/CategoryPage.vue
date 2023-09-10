@@ -22,11 +22,10 @@
           </div>
         </div>
         <div class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
-          <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4" :key="product.id">
+          <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4 " :key="product.id">
               <q-card
-                class="border-radius-md q-px-sm q-pb-sm bg-grey-1"
+                class="border-radius-md q-px-sm q-pb-sm bg-grey-1 shadow-5"
                 bordered
-                flat
                 outline
               >
                 <q-icon

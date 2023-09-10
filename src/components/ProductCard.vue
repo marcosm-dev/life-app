@@ -45,7 +45,7 @@
             </div>
             <a
               target="_blank"
-              href="https://www.homelife.it/es/producto/vis"
+              :href="product.urlMoreInfo"
               class="text-info cursor-pointer col-auto text-caption q-mt-auto q-ml-auto"
               :class="$q.screen.width < 768 ? '' : ''"
             >

@@ -36,6 +36,7 @@ const useMe = () => {
 
   watchEffect(() => {
     if (result.value) {
+      console.log(me.value)
        store.setUser(me.value)
     } else {
       if (!LocalStorage.getItem('token')) router.push('/auth')
