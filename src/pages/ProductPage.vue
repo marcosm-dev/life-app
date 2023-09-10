@@ -3,7 +3,7 @@
         <q-card
           v-if="loading"
           class="column justify-end col-sm-8 col-12 col-lg-4 col-md-6 q-mb-lg shadow-12 rounded-card q-col-gutter-y-xl q-mt-xs"
-          style="min-height: 607px"
+          style="min-height: 607px;"
         >
 
           <q-card-section class="column">
@@ -37,6 +37,7 @@
           </q-card-actions>
         </q-card>
       <product-card
+          style="max-width: 600px; margin: auto"
           v-else
           :product="product"
       />
@@ -49,6 +50,7 @@ import gql from 'graphql-tag'
 import ProductCard from 'src/components/ProductCard.vue'
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+
 export default defineComponent({
   components: { ProductCard },
   name: 'ProductPage',
@@ -62,6 +64,7 @@ export default defineComponent({
           id
           name
           categoryId
+          urlMoreInfo
           price
           imagen
           stock

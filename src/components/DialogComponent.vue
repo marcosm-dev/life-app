@@ -1,6 +1,6 @@
 <template>
   <q-dialog position="bottom" ref="dialogRef" @hide="onDialogHide">
-    <div class="column items-end">
+    <div class="row items-end">
           <q-icon
             v-close-popup
             name="mdi-close"
@@ -22,11 +22,11 @@
                   :enter-active-class="!loading && 'animated fadeOut'"
                 > -->
 
-              <q-card-section class="q-py-none q-pl-none">
+              <q-card-section class="q-py-none q-px-none">
                 <transition-group
                     appear
                     :duration="150"
-                    leave-active-class="animated slideOutDown"
+                    leave-active-class="animated fadeOut"
                   >
                 <q-list
                   v-for="product in cart"
@@ -53,7 +53,7 @@
                           >
                           <template #error>
                               <q-img
-                                 src="src/assets/logo.jpg"
+                                src="../assets/logo.jpg"
                                 fit="scale-down"
                                 class="bg-transparent"
                               />
@@ -74,7 +74,7 @@
                           {{ product.price.toFixed(2).replace('.', ',') }}
                         </q-item-label>
                         <ProductQuantity
-                          class="q-pr-none"
+                          class="q-pr-none q-ml-auto"
                           @update-item="(e) => updateCartItem(product.cartUid, e)"
                           :product="product"
                           :dense="true"
@@ -92,7 +92,7 @@
                       >
                       <template #error>
                           <q-img
-                              src="src/assets/logo.jpg"
+                            src="../assets/logo.jpg"
                             fit="scale-down"
                             class="bg-transparent"
                           />
@@ -119,7 +119,7 @@
                         {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
                       </q-item-label>
                       <div class="knockout">
-                        {{ (product.price * product.quantity).toFixed(2) }}
+                        {{ (product.price * product.quantity).toFixed(2).replace('.', ',') }}
                       </div>
                     </q-item-section>
                   </q-item>
@@ -129,7 +129,7 @@
               </q-card-section>
 
               <q-separator class="col-12" size="1px" />
-              <q-card-section class="row text-h6">
+              <q-card-section class="row text-h6" @click="deleteCartModel = false">
                 <div class="col-12 flex justify-between">
                   <div class="inter text-subtitle2 text-capitalize text-blue-grey-13">
                     Unidades:
@@ -140,12 +140,9 @@
                 </div>
                 <div class="col-12 flex justify-between">
                   <div class="knockout">
-                    {{ !step ? 'Subtotal:' : 'TOTAL:' }}
-                    <span
-                      v-if="step === 1"
-                      class="text-caption text-capitalize text-blue-grey-13"
-                    >
-                      (Impuestos incluidos)
+                      TOTAL
+                    <span class="text-caption text-capitalize text-blue-grey-13">
+                      (IGIC incluido)
                     </span>
                   </div>
                   <div
@@ -153,11 +150,7 @@
                     :class="!step ? 'text-h5' : 'text-h4'"
                     style="letter-spacing: -0.9px"
                   >
-                    {{
-                      (isNaN(amount) ? 0 : !step ? amount : (amount * 7) / 100 + amount)
-                        .toFixed(2)
-                        .replace('.', ',')
-                    }}
+                      {{ ((amount * 7) / 100 + amount).toFixed(2).replace('.', ',') }}
                     <small class="text-caption">EUR</small>
                   </div>
                 </div>
@@ -175,14 +168,18 @@
                   appear
                   enter-active-class="animated flipInX"
                >
-                    <q-btn-group v-if="deleteCartModel" outline rounded>
+                    <q-btn-group
+                      v-if="deleteCartModel"
+                      outline
+                      rounded
+                    >
                       <q-btn
                           outline
                           padding="10px 20px"
                           class="delete-icon"
                           @click="deleteCart"
-                          style="min-width: 50%"
                           color="primary"
+                          style="min-width: 129.23px;"
                           rounded
                         >
                           <q-spinner
@@ -195,15 +192,14 @@
                             name="mdi-delete-outline"
                           />
                         </q-btn>
-                        <q-btn
+                        <!-- <q-btn
                           style="min-width: 50%"
                           padding="10px 20px"
-                          icon="mdi-close"
                           color="dark"
                           @click="deleteCartModel = !deleteCartModel"
                           outline
                           rounded
-                        />
+                        /> -->
                     </q-btn-group>
                       <q-btn
                         v-else-if="!step && !deleteCartModel"
@@ -237,7 +233,7 @@
                   padding="10px 20px"
                   dense
                   :neutro="!!!step"
-                  :label="!step ? 'Guardar y ver resumen' : 'Realizar pedido'"
+                  :label="!step ? 'Continuar' : 'Realizar pedido'"
                   @click="onOKClick"
                   no-caps
                   :loading="loading"
@@ -312,7 +308,6 @@
 import { ref, watchEffect, onBeforeUnmount } from 'vue'
 import { useDialogPluginComponent, useQuasar } from 'quasar'
 import ProductQuantity from './ProductQuantity.vue'
-import useCartDialog from 'src/composables/useCartDialog'
 import useProductCart from 'src/composables/useProductCart'
 import { useMutation } from '@vue/apollo-composable'
 import { useAuthStore } from '../stores/auth'
@@ -328,7 +323,6 @@ const {
 } = useProductCart()
 const { user } = useAuthStore()
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
-const { toggleCartDialog } = useCartDialog(dialogRef.value?.$el)
 const deleteCartModel = ref(false)
 const url = process.env.IMAGES_URL
 
@@ -366,7 +360,7 @@ function onRight({ reset }) {
 watchEffect(() => {
   if (count.value === 0) {
     setTimeout(() => {
-      dialogRef.value.hide()
+      dialogRef.value?.hide()
       success.value = false
       count.value = 8
     }, 400)
@@ -488,7 +482,7 @@ async function onOKClick() {
 async function deleteCart() {
    if (order.value) await removeOrder()
     setTimeout(() => {
-      dialogRef.value.hide()
+      dialogRef.value?.hide()
       count.value = 0
       success.value = false
       resetCart()

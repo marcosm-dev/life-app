@@ -75,7 +75,7 @@
         >
           <template #extraInfo>
             <div
-              v-if="product.stock < 20"
+              v-if="product.stock < 10 && product.stock !== 0"
               class="text-accent q-my-auto  col text-right text-accent"
             >
               {{  product.stock === 1 ?  `Queda ${product.stock} ud.` :  `Quedan ${product.stock} uds.`}}
@@ -83,7 +83,7 @@
           </template>
         </ProductQuantity>
       </q-card-actions>
-      <q-card-actions class="row justify-between full-width q-pa-md">
+      <q-card-actions v-if="product.stock" class="row justify-between full-width q-pa-md">
         <action-button
           @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
           :label="$q.screen.width < 300 ? 'Añadir' : 'Al carrito'"
@@ -117,6 +117,13 @@
           style="min-width: 130.8px"
         />
       </q-card-actions>
+      <q-card-actions class="full-width q-pa-md" v-else-if="!product.uuid">
+        <action-button
+          @click="toggleCustomDialog"
+          class="full-width"
+          label="Solo disponible bajo pedido"
+        />
+      </q-card-actions>
     </q-card>
 </template>
 
@@ -126,9 +133,10 @@ import { defineComponent, ref, computed, inject, Ref } from 'vue'
 import ProductQuantity from 'components/ProductQuantity.vue'
 import useCartDialog from '../composables/useCartDialog'
 import useCartAnimation from 'src/composables/useCartAnimation'
-import { EventBus } from 'quasar'
+import { EventBus } from 'quasar';
 import useProductCart from '../composables/useProductCart'
 import { Product } from './models'
+import useCustomDialog from 'src/composables/useCustomDialog'
 
 export default defineComponent({
   name: 'ProductComponent',
@@ -143,6 +151,12 @@ export default defineComponent({
   },
   emits: ['product-to-cart'],
   setup(props) {
+    const { toggleCustomDialog } = useCustomDialog({
+      title: `Hola, vemos que estas interesado en <span class="text-capitalize text-bold">${props.product.name.toLowerCase()}</span>`,
+      subtitle: 'Solamente pulsa en enviar y nos pondremos en contacto contigo.',
+      product: props.product
+    })
+
     const { cart, increase, decrease, state, addToCart } = useProductCart(props.product)
     const { toggle, loading } = useCartAnimation()
     const { toggleCartDialog } = useCartDialog()
@@ -151,6 +165,7 @@ export default defineComponent({
     const morphGroupModel = ref('topleft')
 
     return {
+      toggleCustomDialog,
       bus,
       increase,
       decrease,

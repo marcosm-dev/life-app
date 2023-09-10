@@ -5,9 +5,9 @@
       class="col-4"
       aria-label="minus"
       @click="$emit('update-item', '-')"
-      color="blue-grey-4"
+      :color="product.quantity === 1 ? 'accent' : 'blue-grey-4'"
       outline
-      icon="mdi-minus"
+      :icon="product.quantity === 1 ? 'mdi-delete-outline' : 'mdi-minus'"
       unelevated
       rounded
       size="10px"

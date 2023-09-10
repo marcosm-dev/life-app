@@ -43,8 +43,14 @@ export const useCartStore = defineStore('cart', {
       this.cart.push(product)
     },
     updateCartItem(uid: string, action: string) {
+      console.log(uid)
+      console.log(action)
       const index = this.cart.findIndex((item) => item.cartUid === uid)
-
+      console.log(this.cart[index].quantity)
+      if (this.cart[index].quantity === 1 && action === '-') {
+        this.cart =  this.cart.filter((it) => it.cartUid !== uid)
+        return
+      }
       if (index !== -1) {
         const updatedItem: Product = { ...this.cart[index] }
         // Realizar las modificaciones necesarias en updatedItem según la acción
@@ -57,7 +63,6 @@ export const useCartStore = defineStore('cart', {
         ) {
           updatedItem.quantity--
         }
-
         // Actualizar el elemento en el arreglo
         this.cart[index] = updatedItem
       }

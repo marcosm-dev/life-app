@@ -24,7 +24,7 @@
       <template v-else>
         <div
           v-for="category in categories"
-          class="col-6 col-sm-6 col-md-4 col-lg-3"
+          class="col-6 col-sm-6 col-md-6 col-lg-4"
           :key="category.id"
         >
           <q-card
@@ -35,7 +35,7 @@
             <q-card-section class="transparent row justify-center">
               <q-img
                     :src="`${url}/productos/${category.urlImage}`"
-                    height="100px"
+                    :height="!$q.screen.gt.sm ? '100px' : '200px'"
                     fit="scale-down"
                     fetchpriority="high"
                   />

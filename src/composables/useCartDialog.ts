@@ -24,7 +24,8 @@ const useCartDialog = () => {
         componentProps: {
           products: store.cart
         }
-      }).onDismiss(() => toggleCartDialog())
+      })
+      .onDismiss(() => toggleCartDialog())
     }
   }
 

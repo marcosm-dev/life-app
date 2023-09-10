@@ -6,16 +6,21 @@ import { uid } from 'quasar'
 const useProductCart = (product: any) => {
   const state = reactive({
     ...product,
-    quantity: 1
+    quantity: product?.stock ? 1 : 0
   })
   const store = useCartStore()
+
+
+  function deleteProduct(uuid: string) {
+    store.deleteProduct(uuid)
+  }
 
   function increase() {
     state.quantity++
   }
 
   function decrease() {
-    if (state.quantity !== 1) state.quantity--
+    if (state.quantity > 0) state.quantity--
   }
 
   function addToCart() {
@@ -24,10 +29,6 @@ const useProductCart = (product: any) => {
 
   function resetCart() {
     store.$reset()
-  }
-
-  function deleteProduct(uuid: any) {
-    store.deleteProduct(uuid)
   }
 
   function updateCartItem(uid: string, action: string) {
