@@ -6,6 +6,18 @@
                 <p class="text-body2 q-px-sm text-body2 text-medium" v-html="title" />
                 <p class="text-body2 q-px-sm text-body1 q-py-none" v-html="subtitle" />
             </q-card-section>
+            <q-card-section>
+             <q-input
+                v-model="message"
+                outlined
+                rounded
+                color="blue-grey-13"
+                clearable
+                placeholder="Hola, mi nombre es.... y estoy interesado en el artículo..."
+                dense
+                type="textarea"
+              />
+            </q-card-section>
             <q-card-actions class="q-px-lg q-pb-lg">
               <action-button
                   @click="onOKClick"
@@ -20,10 +32,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import {Product} from '../models'
+import { Product } from '../models'
 import useAuth from 'src/composables/useAuth'
 
 const { user } = useAuth()
@@ -36,6 +49,7 @@ const props = defineProps({
       default: () => ({})
   },
 })
+const message = ref('')
 
 const { mutate: sendEmail, loading } = useMutation(gql`
   mutation sendEmail($options: MailOptionsInput!) {
@@ -54,7 +68,14 @@ async function onOKClick() {
     options:  {
       subject: 'Solicitud de articulo.',
       to: user.value.email,
-      html: `<p>El usuario ${user.value.name} con email: ${user.value.email} solicita el artículo ${props.product.name} con id: ${props.product.id}</p>`
+      html: `
+          <p>
+            El usuario ${user.value.name} con email: ${user.value.email} solicita el artículo ${props.product.name} con id: ${props.product.id}
+          </p>
+          <p>
+              ${message.value}
+            </p>
+          `
     }
   }
   await sendEmail(variables)

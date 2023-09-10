@@ -152,8 +152,8 @@ export default defineComponent({
   emits: ['product-to-cart'],
   setup(props) {
     const { toggleCustomDialog } = useCustomDialog({
-      title: `Hola, vemos que estas interesado en <span class="text-capitalize text-bold">${props.product.name.toLowerCase()}</span>`,
-      subtitle: 'Solamente pulsa en enviar y nos pondremos en contacto contigo.',
+      title: `Hola, vemos que estas interesado en <span class="text-capitalize text-bold">${props.product.name.toLowerCase()}.</span>`,
+      subtitle: 'Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo en la mayor brevedad.',
       product: props.product
     })
 
