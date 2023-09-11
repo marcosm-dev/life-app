@@ -50,62 +50,50 @@ export default defineComponent({
     const categoryName = ref(null)
     const { id } = route.params
 
-    const { result: categoryResult, loading } = useQuery(
-      gql`
-        query getCategory($id: ID!) {
-          getCategoryById(id: $id) {
-            id
-            name
-          }
-        }
-      `,
-      {
-        id
-      }
-      )
-
-      const { result, loading: productsLoading } = useQuery(
-        gql`
+      const { result, loading } = useQuery(gql`
         query getProductsByCategory($id: ID!) {
-          getProductsByCategory(categoryId: $id) {
-            id
-            urlImage
-            name
-            price
-            imagen
-            stock
-            description
-            uuid
+            getProductsByCategory(categoryId: $id) {
+              id
+              urlImage
+              name
+              price
+              categoryId {
+                id
+                name
+              }
+              imagen
+              stock
+              description
+              uuid
+            }
           }
-        }
-      `,
-      () => ({
-        id
-      })
+        `,
+        () => ({
+          id
+        })
       )
 
       watchEffect(() => {
-      if (result.value && categoryResult.value) {
-        const { name } = categoryResult.value?.getCategoryById
-        categoryName.value = name
-        store.title = name
-      }
+        if (result.value) {
+          const { name } = result.value.getProductsByCategory[0].categoryId
+          categoryName.value = name
+          store.title = name
+        }
     })
 
     useMeta(() => {
           return {
             title: `Serpica Canarias ${
-              categoryName.value ? `-${categoryName.value}` : ''
+              categoryName.value ? `-${categoryName.value}` : ' '
             }`,
           }
       })
 
     return {
       products: computed(() => result.value?.getProductsByCategory),
-      loading: computed(() => loading.value || productsLoading.value),
+      loading,
       url: process.env.IMAGES_URL,
       useCloudinaryImage,
-      productsLoading,
       categoryName,
       image: ref<null | string>(null),
     }
