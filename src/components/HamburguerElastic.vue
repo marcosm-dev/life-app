@@ -23,7 +23,7 @@ export default {
   props: ['isActive'],
    data () {
     return {
-      color: '#FFF',
+      color: '#fff',
       activeColor: '#C6FF00',
       buttonStyle: null,
       type: 'elastic',

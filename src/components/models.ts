@@ -28,7 +28,7 @@ export interface Product {
   accessories: string
   urlMoreInfo: string
   stock: number
-  brand?: string
+  brand: Brand
   uuid: string
   imagen: string
   userId: number
@@ -112,4 +112,9 @@ export interface Lines {
   text: string
   unitPrice: number
   account: string
+}
+
+export interface Brand {
+  name: string,
+  image: string
 }

@@ -15,7 +15,7 @@
     />
     <div
       :class="$q.screen.width < 768 ? 'q-mb-sm' : 'q-mb-lg'"
-      class="text-center text-black col q-my-auto knockout"
+      class="text-center text-black col q-my-auto text-subtitle3"
     >
       {{ product.quantity }}
     </div>
@@ -60,7 +60,7 @@
       icon="mdi-minus"
       unelevated
     />
-    <div class="col items-center q-py-lg text-subtitle1 knockout">
+    <div class="col items-center q-py-lg text-subtitle1">
       {{ product.quantity }}
     </div>
     <q-btn

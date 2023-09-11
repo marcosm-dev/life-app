@@ -20,7 +20,7 @@ const useProductCart = (product: any) => {
   }
 
   function decrease() {
-    if (state.quantity > 0) state.quantity--
+    if (state.quantity !== 1) state.quantity--
   }
 
   function addToCart() {

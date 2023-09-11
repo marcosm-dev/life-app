@@ -5,12 +5,12 @@
               v-close-popup
               name="mdi-close"
               class="q-ml-auto"
-              color="lime-13"
+              color="blue-grey-1"
               size="40px"
             />
           <q-card class="rounded-top full-width">
               <q-card-section
-                class="text-weight-light text-subtitle1"
+                class="text-subtitle1"
                 style="letter-spacing: 0.5px"
               >
                 {{ !step ? 'Mi carrito' : 'Resumen' }}
@@ -61,7 +61,10 @@
                           </q-img>
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label class="text-subtitle2">{{ product.name }}</q-item-label>
+                        <q-item-label class="text-subtitle2">
+                          {{ product.name }}
+                          <small>- {{ product.brand.name }}</small>
+                        </q-item-label>
                         <q-item-label
                           class="inter text-lowercase text-blue-grey-13"
                           lines="3"
@@ -70,7 +73,7 @@
                         </q-item-label>
                       </q-item-section>
                       <q-item-section class="no-padding" style="max-width: 100px" side>
-                        <q-item-label class="text-body text-blue-grey-13">
+                        <q-item-label class="text-subtitle3">
                           {{ product.price.toFixed(2).replace('.', ',') }}
                         </q-item-label>
                         <ProductQuantity
@@ -100,9 +103,10 @@
                       </q-img>
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label caption class="text-subtitle2">{{
-                        product.name
-                      }}</q-item-label>
+                      <q-item-label caption class="text-subtitle2">
+                        {{ product.name }}
+                        <small>- {{ product.brand.name }}</small>
+                      </q-item-label>
                       <q-item-label
                         class="inter text-lowercase text-blue-grey-13"
                         lines="3"
@@ -113,7 +117,7 @@
                       </q-item-label>
                     </q-item-section>
                     <q-separator vertical />
-                    <q-item-section class="text-dark-page" side>
+                    <q-item-section class="text-subtitle3" side>
                       <q-item-label caption>
                         {{ product.quantity }}
                         {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
@@ -131,10 +135,10 @@
               <q-separator class="col-12" size="1px" />
               <q-card-section class="row" @click="deleteCartModel = false">
                 <div class="col-12 flex justify-between">
-                  <div class="inter text-subtitle2 text-capitalize text-blue-grey-13">
+                  <div class="text-caption text-grey-10">
                     Unidades:
                   </div>
-                  <div class="text-subtitle1 text-blue-grey-13">
+                  <div class="text-subtitle3 text-grey-10">
                     {{ cartCount }}
                   </div>
                 </div>
@@ -142,13 +146,14 @@
                   <div class="text-subtitle1">
                       Subtotal
                   </div>
-                  <div class="text-subtitle3" style="letter-spacing: -0.9px">
+                  <div class="text-subtitle3">
                       {{ amount.toFixed(2).replace('.', ',') }}
                     <small class="text-caption">EUR</small>
                   </div>
                 </div>
+                <q-separator class="col-12 q-mb-sm q-mt-xs" size="1px"  />
                 <div class="col-12 flex justify-between">
-                  <div class="text-h6">
+                  <div class="text-subtitle1">
                       TOTAL
                     <span class="text-caption text-dark-page text-capitalize text-bold">
                       (IGIC incluido)
@@ -214,7 +219,7 @@
                         v-else-if="!step && !deleteCartModel"
                         class="col-auto"
                         rounded
-                        color="dark"
+                        color="grey-6"
                         no-caps
                         outline
                         @click="deleteCartModel = !deleteCartModel"
@@ -241,7 +246,6 @@
                   class="col"
                   padding="10px 20px"
                   dense
-                  :neutro="!!!step"
                   :label="!step ? 'Continuar' : 'Realizar pedido'"
                   @click="onOKClick"
                   no-caps

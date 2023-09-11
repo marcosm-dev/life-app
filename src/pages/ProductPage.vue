@@ -48,15 +48,19 @@
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import ProductCard from 'src/components/ProductCard.vue'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import useAuth from 'src/composables/useAuth'
+import { Product } from '../components/models'
 
 export default defineComponent({
   components: { ProductCard },
   name: 'ProductPage',
   setup() {
+    const { store } = useAuth()
     const route = useRoute()
     const { id } = route.params
+
 
     const { result, loading } = useQuery(gql`
       query getProductById($productId: ID!) {
@@ -66,6 +70,10 @@ export default defineComponent({
           categoryId
           urlMoreInfo
           price
+          brand {
+            name
+            image
+          }
           imagen
           stock
           description
@@ -77,6 +85,10 @@ export default defineComponent({
     })
 
     const  product = computed(() => result.value?.getProductById)
+
+    watch(product, (val: Product) => {
+       store.title = `Producto: ${val.name}`
+    })
 
     return {
       product,

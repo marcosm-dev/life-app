@@ -2,30 +2,30 @@
   <q-dialog  position="bottom"  ref="dialogRef">
       <div class="row">
             <q-card class="border-radius-md">
-            <q-card-section>
-                <p class="text-body2 q-px-sm text-body2 text-medium" v-html="title" />
-                <p class="text-body2 q-px-sm text-body1 q-py-none" v-html="subtitle" />
-            </q-card-section>
-            <q-card-section>
-             <q-input
-                v-model="message"
-                outlined
-                rounded
-                color="blue-grey-13"
-                clearable
-                placeholder="Hola, mi nombre es.... y estoy interesado en el artículo..."
-                dense
-                type="textarea"
-              />
-            </q-card-section>
-            <q-card-actions class="q-px-lg q-pb-lg">
-              <action-button
-                  @click="onOKClick"
-                  class="full-width"
-                  label="Enviar"
-                  :loading="loading"
-                />
-            </q-card-actions>
+                <q-card-section>
+                    <p class="text-subtitle1 q-px-sm" v-html="title" />
+                    <p class="text- q-px-sm  q-py-none text-blue-grey-14" v-html="subtitle" />
+                </q-card-section>
+                <q-card-section>
+                <q-input
+                    v-model="message"
+                    outlined
+                    rounded
+                    color="blue-grey-13"
+                    clearable
+                    :placeholder="placeHolder"
+                    dense
+                    type="textarea"
+                  />
+                </q-card-section>
+                <q-card-actions class="q-px-lg q-pb-lg">
+                  <action-button
+                      @click="onOKClick"
+                      class="full-width"
+                      label="Enviar"
+                      :loading="loading || wishLoading"
+                    />
+                </q-card-actions>
             </q-card>
       </div>
   </q-dialog>
@@ -50,10 +50,20 @@ const props = defineProps({
   },
 })
 const message = ref('')
+const placeHolder = 'Escribe algo.... (opcional).'
 
 const { mutate: sendEmail, loading } = useMutation(gql`
   mutation sendEmail($options: MailOptionsInput!) {
     sendEmail(input: $options)
+  }
+`)
+
+const { mutate: addToWish, loading: wishLoading } = useMutation(gql`
+  mutation addProductToWishes($productId: ID!) {
+    addProductToWishes(productId: $productId) {
+      id
+      name
+    }
   }
 `)
 
@@ -79,6 +89,7 @@ async function onOKClick() {
     }
   }
   await sendEmail(variables)
+  await addToWish({ productId: props.product.id})
   dialogRef.value?.hide()
 }
 

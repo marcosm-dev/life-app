@@ -1,7 +1,7 @@
 // app global css in SCSS form
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter-Regular', sans-serif;
 }
 
 h1,
@@ -18,12 +18,13 @@ h6,
 .text-h4,
 .text-h5,
 .text-h6 {
-  font-family: 'Knockout' !important;
+  font-family: 'Knockout';
+  color: $blue-grey-14;
 }
 
 .text-subtitle3 {
   font-family: 'Knockout';
-  font-weight: 300;
+  color: $blue-grey-14;
 }
 
 a {
@@ -60,7 +61,7 @@ body {
 }
 
 .bg-card-gradient {
-  background: radial-gradient(0% 100%, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.03) 100%);
+  background: linear-gradient(0% 100%, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.03) 100%);
 }
 
 .rounded-card {

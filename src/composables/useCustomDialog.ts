@@ -9,6 +9,7 @@ const useCustomDialog = (props: any) => {
     open: false
   })
   function toggleCustomDialog(val: boolean) {
+    console.log(props)
     if (val) state.open = val
    else {
      state.open = !state.open

@@ -32,7 +32,7 @@
         </div>
         <div class="col q-ml-sm q-my-auto text-no-wrap">
           <a
-              class="text-subtitle2"
+              class="text-subtitle text-subtitle3 text-white"
               target="_blank"
               href="https://www.serpica.org"
               style="letter-spacing: 1px"
@@ -157,14 +157,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, Ref } from 'vue';
-import { EventBus, morph } from 'quasar';
+import { defineComponent, ref, inject, Ref } from 'vue'
+import { EventBus, morph } from 'quasar'
 
-import useCartDialog from '../composables/useCartDialog';
-import useCartAnimation from '../composables/useCartAnimation';
-import useAuth from '../composables/useAuth';
-import HamburguerElastic from 'components/HamburguerElastic.vue';
-import { QuasarHTMLElement } from '@quasar/app';
+import useCartDialog from '../composables/useCartDialog'
+import useCartAnimation from '../composables/useCartAnimation'
+import useAuth from '../composables/useAuth'
+import HamburguerElastic from 'components/HamburguerElastic.vue'
+import { QuasarHTMLElement } from '@quasar/app'
 
 export default defineComponent({
   name: 'MainLayout',
