@@ -52,9 +52,9 @@
               />
           </transition>
           <!-- Implementar buscador en pagina /categorias -->
-          <!-- <div v-show="title" class="text-caption text-info">
+          <div v-show="title" class="text-caption text-info">
             {{ title }}
-          </div> -->
+          </div>
           <!-- <q-icon
             @click="searchFunction"
             name="mdi-magnify"
