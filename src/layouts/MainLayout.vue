@@ -25,7 +25,7 @@
               fit="cover"
               @click="$router.push('/')"
               class="rounded-borders q-ma-sm col-2"
-              :src="toggleLogo ? 'src/assets/logo-removebg.png' : 'src/assets/aprimatic_logo.png'"
+              :src="toggleLogo ? './src/assets/logo-removebg.png' : './src/assets/aprimatic_logo.png'"
               no-spinner
           />
         </div>
