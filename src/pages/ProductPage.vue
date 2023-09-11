@@ -90,7 +90,8 @@ export default defineComponent({
     watchEffect(() => {
       if (result.value) {
         const { name } = result.value?.getProductById?.categoryId
-        store.title = `${name} ${product.value?.brand.name}`
+        const brandName = product.value?.brand.name
+        store.title = `${name} ${brandName.toUpperCase()}`
       }
     })
     return {

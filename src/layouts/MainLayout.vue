@@ -30,18 +30,50 @@
           />
         </div>
         <div class="col q-ml-sm q-my-auto text-no-wrap">
-          <a
-              class="text-subtitle text-subtitle3 text-white"
-              target="_blank"
-              href="https://www.serpica.org"
-              style="letter-spacing: 1px"
-            >
-            SERPICA CANARIAS S.L.
-          </a>
-          <div v-show="title" class="text-caption text-light-blue-11">
+          <transition
+            appear
+            enter-active-class="animated flipInX"
+          >
+              <a
+                v-if="search"
+                class="text-subtitle text-subtitle3 text-white"
+                target="_blank"
+                href="https://www.serpica.org"
+                style="letter-spacing: 1px"
+              >
+              SERPICA CANARIAS S.L.
+            </a>
+             <input
+                v-else
+                v-model="searchText"
+                class="input-search"
+                type="text"
+                autofocus
+              />
+          </transition>
+          <!-- Implementar buscador en pagina /categorias -->
+          <!-- <div v-show="title" class="text-caption text-info">
             {{ title }}
+          </div> -->
+          <!-- <q-icon
+            @click="searchFunction"
+            name="mdi-magnify"
+            color="grey-1"
+            size="28px"
+          /> -->
+            <!-- <q-input
+              v-model="productSelected"
+              bg-color="positive"
+              outlined
+              color="lime-13"
+              class="q-my-sm"
+              standout
+              rounded
+              input-style="border-radius: 15px !important"
+              autofocus
+              dense
+            /> -->
           </div>
-        </div>
         <banner-install-app type="Header" />
         <tasty-burger-button @toggle="drawer = !drawer" :isActive="drawer" />
         <q-avatar tag="button" class="col-auto" size="45px">
@@ -164,7 +196,9 @@ import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth'
 import HamburguerElastic from 'components/HamburguerElastic.vue'
 import { QuasarHTMLElement } from '@quasar/app'
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteUpdate } from 'vue-router'
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -173,6 +207,8 @@ export default defineComponent({
     const { productQuantity, loading, toggle } = useCartAnimation()
     const { cart, toggleCartDialog } = useCartDialog()
     const toggleLogo = ref(false)
+    const search = ref(true)
+    const searchText = ref('')
     const {
       logoutUser,
       logoutLoading,
@@ -180,11 +216,24 @@ export default defineComponent({
       deferredPrompt,
       hideBanner
     } = useAuth();
-    const bus = inject<EventBus>('bus', new EventBus());
-    const leftDrawerOpen = ref(null);
-    const cartItemElement: Ref<QuasarHTMLElement | null> = ref(null);
-    const animationMotion = ref(false);
-    const drawer = ref(false);
+    const bus = inject<EventBus>('bus', new EventBus())
+    const leftDrawerOpen = ref(null)
+    const cartItemElement: Ref<QuasarHTMLElement | null> = ref(null)
+    const animationMotion = ref(false)
+    const drawer = ref(false)
+
+    const text = ref('')
+
+    const { result, refetch } = useQuery(gql`
+      query searchProductsByText($text: String!) {
+        searchProductsByText(text: $text) {
+          id
+          name
+        }
+      }
+    `, {
+      text
+    }, { enabled: false })
 
     onBeforeRouteUpdate((to) => {
       if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
@@ -224,20 +273,28 @@ export default defineComponent({
     });
 
     return {
+      result,
+      refetch,
       title,
       drawer,
+      search,
       cart,
       logoutUser,
       loading,
       hideBanner,
       toggleLogo,
       logoutLoading,
+      searchText,
       animationMotion,
       productQuantity,
       toggleCartDialog,
       cartItemElement,
       deferredPrompt,
       leftDrawerOpen,
+      searchFunction: async () => {
+        text.value = searchText.value
+        await refetch()
+      },
       tab: ref('categorias'),
       foooterTabs: ref('home'),
     };
@@ -245,7 +302,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @media (min-width: 768px) {
   .header-tabs .q-tab,
   .q-tab__label {
@@ -291,4 +348,14 @@ export default defineComponent({
 .tab-cart .q-tab__content {
   flex-direction: column-reverse;
 }
+.input-search {
+  border-radius: 8px;
+  border: none;
+  width: 57%;
+}
+.input-search:focus {
+  border: 1px solid $lime-13;
+  box-shadow: none;
+}
+
 </style>
