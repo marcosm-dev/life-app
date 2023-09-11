@@ -29,6 +29,7 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     authenticated: () => {
       const token = LocalStorage.getItem('token')
+      console.log(token)
       if (!token || typeof token === 'undefined') return false
       return true
     },

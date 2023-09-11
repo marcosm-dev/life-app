@@ -19,15 +19,14 @@
             </q-btn>
 
           <q-img
-            v-else
-            height="38.58px"
-            width="57.72px"
-            :ratio="1"
-            fit="contain"
-            @click="$router.push('/')"
-            class="rounded-borders q-ma-sm col-2"
-            src="../assets/logo-removebg.png"
-            no-spinner
+              v-else
+              height="38.58px"
+              width="57.72px"
+              fit="cover"
+              @click="$router.push('/')"
+              class="rounded-borders q-ma-sm col-2"
+              :src="toggleLogo ? 'src/assets/logo-removebg.png' : 'src/assets/aprimatic_logo.png'"
+              no-spinner
           />
         </div>
         <div class="col q-ml-sm q-my-auto text-no-wrap">
@@ -165,13 +164,15 @@ import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth'
 import HamburguerElastic from 'components/HamburguerElastic.vue'
 import { QuasarHTMLElement } from '@quasar/app'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
   name: 'MainLayout',
   components: { 'tasty-burger-button': HamburguerElastic },
   setup() {
-    const { productQuantity, loading, toggle } = useCartAnimation();
-    const { cart, toggleCartDialog } = useCartDialog();
+    const { productQuantity, loading, toggle } = useCartAnimation()
+    const { cart, toggleCartDialog } = useCartDialog()
+    const toggleLogo = ref(false)
     const {
       logoutUser,
       logoutLoading,
@@ -184,6 +185,10 @@ export default defineComponent({
     const cartItemElement: Ref<QuasarHTMLElement | null> = ref(null);
     const animationMotion = ref(false);
     const drawer = ref(false);
+
+    onBeforeRouteUpdate((to) => {
+      if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
+    })
 
     // Incio animación de producto hacia el carrito
     bus.on('product-to-cart', (from: HTMLElement) => {
@@ -225,6 +230,7 @@ export default defineComponent({
       logoutUser,
       loading,
       hideBanner,
+      toggleLogo,
       logoutLoading,
       animationMotion,
       productQuantity,

@@ -24,16 +24,23 @@
                       <path id="Tracciato_150" data-name="Tracciato 150" d="M-8227.488,9763.788h58.435" transform="translate(8360.923 -9685.761)" fill="none" stroke="#b40000" stroke-width="4"></path>
               </svg>
               <q-img
-                v-else
+                v-else-if="product.brand.name === 'Aprimatic'"
                 class="col-3"
                 fit="scale-down"
                 :src="`${url}/${product.brand.image}`"
               />
               <q-img
+                v-else
+                class="col q-mb-md"
+                height="60px"
+                style="border-radius: 26px"
+                fit="scale-down"
+                :src="`${url}/en_stock`"
+              />
+              <q-img
                 class="col q-mb-md"
                 style="border-radius: 26px"
-                folder="productos"
-                :src="`${url}/productos/${product.imagen}.png`"
+                :src="`${url}/productos/${product.imagen}`"
               >
                 <template #error>
                     <q-img

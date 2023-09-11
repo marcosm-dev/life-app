@@ -313,10 +313,7 @@ export default defineComponent({
     })
 
     async function login() {
-      const length = LocalStorage.getLength()
-      if (length) {
         LocalStorage.clear()
-      }
       if (
         Object.values(user).includes('') ||
         Object.values(user).includes(null)

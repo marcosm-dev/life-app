@@ -455,12 +455,12 @@ const getInvoceItems = (products) => {
   return products.map((item) => {
     const line = {
       account: '700000',
-      document: `pro_${item.product.uuid}`,
       quantity: item.quantity,
       unitPrice: item.product.price,
       text: item.product.description,
       tax: [TAXES['igic']]
     }
+    if (item.product.uuid) line.document = `pro_${item.product.uuid}`
     return line
   })
 }

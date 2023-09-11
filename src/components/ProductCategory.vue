@@ -50,7 +50,7 @@
                     size="11px"
                     label="Avísame cuando llegue"
                   />
-                  <order-button v-else :product="product"  dense />
+                <order-button v-else-if="!product.uuid && !product.stock" :product="product"  dense />
               <div v-if="product.stock < 10 && product.stock !== 0" class="text-bold text-accent text-overline q-pt-xs">
                   Quedan {{ product.stock }} {{ product.stock > 1 ? 'Uds' : 'Ud' }}.
               </div>

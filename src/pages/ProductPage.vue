@@ -48,10 +48,10 @@
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import ProductCard from 'src/components/ProductCard.vue'
-import { computed, defineComponent, watch } from 'vue'
+import { computed, defineComponent, watch, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import useAuth from 'src/composables/useAuth'
-import { Product } from '../components/models'
+import { Category } from '../components/models'
 
 export default defineComponent({
   components: { ProductCard },
@@ -60,7 +60,7 @@ export default defineComponent({
     const { store } = useAuth()
     const route = useRoute()
     const { id } = route.params
-
+    // const enabled = ref(false)
 
     const { result, loading } = useQuery(gql`
       query getProductById($productId: ID!) {
@@ -83,14 +83,33 @@ export default defineComponent({
     `, {
       productId: id
     })
-
     const  product = computed(() => result.value?.getProductById)
 
-    watch(product, (val: Product) => {
-       store.title = `Producto: ${val.name}`
-    })
+    // const { result: categoryResult, loading: loadingCategory } = useQuery(
+    //   gql`
+    //     query getCategoryById($id: ID!) {
+    //       getCategoryById(id: $id) {
+    //         id
+    //         name
+    //       }
+    //     }
+    //   `, {
+    //     id: result.value?.getProductById.categoryId ?? 'prueba',
+    //   },
+    //   {
+    //     enabled: true
+    //   }
+    // )
+
+
+
+
+    // watch(categoryResult, (val: Category) => {
+    //    store.title = `Estas viendo: ${val.name}`
+    // })
 
     return {
+      // loadingCategory,
       product,
       loading,
       result
