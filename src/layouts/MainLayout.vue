@@ -22,10 +22,10 @@
               v-else
               height="38.58px"
               width="57.72px"
-              fit="cover"
+              :fit="toggleLogo ? 'scale-down' : 'contain'"
               @click="$router.push('/')"
               class="rounded-borders q-ma-sm col-2"
-              :src="toggleLogo ? './src/assets/logo-removebg.png' : './src/assets/aprimatic_logo.png'"
+              :src="`${url}/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}`"
               no-spinner
           />
         </div>
@@ -273,6 +273,7 @@ export default defineComponent({
     });
 
     return {
+      url: process.env.IMAGES_URL,
       result,
       refetch,
       title,
