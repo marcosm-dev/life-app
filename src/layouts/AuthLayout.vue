@@ -7,7 +7,7 @@
       <aside class="col-12">
         <div class="row items-center">
           <q-separator class="col" size="6px" color="grey-1" />
-          <div class="col-auto q-px-sm text-body2 knockout text-blue-grey-1">
+          <div class="col-auto q-px-sm text-subtitle2 text-blue-grey-1">
             INFORMACIÓN Y CONTACTO
           </div>
           <q-separator
@@ -18,9 +18,9 @@
           />
         </div>
         <div id="social-network" class="row justify-between">
-          <div class="col-auto knockout text-h5 q-ml-md q-pt-xs text-lime-13">
+          <div class="col-auto text-h5 q-ml-md q-pt-xs text-lime-13">
             SERPICA CANARIAS
-            <span class="text-capitalize text-body2 knockout">S.L.</span>
+            <span class="text-capitalize text-body2">S.L.</span>
           </div>
           <div
             class="col-auto q-mr-md q-gutter-x-md"

@@ -4,8 +4,8 @@
       <q-banner
         key="banner-classic"
         v-if="['Payment', 'SignUp'].includes(type)"
-        :class="type === 'SignUp' && 'rounded-banner-bottom '"
-        class="animated fadeIn bg-deep-purple-12 q-py-md full-width"
+        :class="type === 'SignUp' && 'rounded-banner-bottom'"
+        class="animated fadeIn q-py-md full-width bg-primary text-white absolute-bottom"
         style="animation-delay: 0.2s"
         dense
       >
@@ -15,15 +15,15 @@
             color="positive"
             icon="mdi-close"
             class="q-pl-none q-pr-xs"
-            size="18px"
-            v-close-popup
+            size="16px"
+            @click="hideInstallPromotion"
           />
-          <div class="col q-gutter-y-sm text-white">
-            <div class="text-body-1 text-deep-purple-1 text-bold">
+          <div class="col q-gutter-y-sm">
+            <div class="text-bold">
               Serpica Life
             </div>
             <div
-              class="text-caption q-mt-xs q-pr-md"
+              class="text-caption q-mt-xs q-pr-md text-info"
               style="line-height: 1.2; font-weight: 500"
             >
               Instalar nuestra app es gratis y en un solo clic.
@@ -31,13 +31,14 @@
           </div>
           <q-btn
             @click="installApp"
-            class="col-auto q-my-auto q-px-sm q-py-sm bg-deep-purple-1 install-banner-btn"
+            icon-right="mdi-download"
+            class="col-auto q-my-auto q-px-sm q-py-sm text-bold"
             style="animation-delay: , 2s"
             no-caps
-            rounded
-            color="white"
-            padding="15px 30px"
-            outline
+            square
+            text-color="blue-grey-8"
+            color="lime-13"
+            padding="10px 20px"
             label="Instalar ahora"
           />
         </div>
@@ -74,13 +75,12 @@
           v-else-if="type === 'Header'"
           icon-right="mdi-download"
           size="12px"
-          padding="4.5px 24px"
-          class="q-mt-auto q-ml q-mr-sm q-mb-lg text-bold bg-lime-13"
-          color="dark"
+          padding="4px 10px"
+          class="q-mt-auto q-ml q-mr-sm q-mb-lg text-bold"
+          color="lime-13"
           text-color="blue-grey-8"
           dense
           square
-          flat
           @click="installApp"
           label="Instalar"
           no-caps
@@ -179,7 +179,4 @@ export default defineComponent({
   border-top: 5px solid $dark;
 }
 
-.install-banner-btn .q-btn__content * {
-  color: $blue-grey-14 !important;
-}
 </style>

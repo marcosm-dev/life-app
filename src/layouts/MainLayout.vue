@@ -30,9 +30,9 @@
             no-spinner
           />
         </div>
-        <div class="col q-ml-md q-my-auto text-no-wrap">
+        <div class="col q-ml-sm q-my-auto text-no-wrap">
           <a
-              class="serpica-title"
+              class="text-subtitle2"
               target="_blank"
               href="https://www.serpica.org"
               style="letter-spacing: 1px"

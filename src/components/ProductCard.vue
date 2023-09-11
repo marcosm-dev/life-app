@@ -30,7 +30,7 @@
               >
                 <template #error>
                     <q-img
-                      class="col-auto"
+                      class="col-auto border-radius-md"
                       style="border-radius: 26px; border: 1px solid rgba(#455a64, 10)"
                       src="../assets/logo.jpg"
                       width="170px"
@@ -66,9 +66,9 @@
                   </div>
                 </div>
             </div>
-        <q-separator size="1px" spaced="5px" />
+        <q-separator v-if="product.price" size="1px" spaced="5px" />
       </q-card-section>
-      <q-card-actions class="col-12 items-end no-padding text-no-wrap">
+      <q-card-actions v-if="product.price" class="col-12 items-end no-padding text-no-wrap">
         <ProductQuantity
           :product="state"
           @update-item="(e) => (e === '+' ? increase() : decrease())"

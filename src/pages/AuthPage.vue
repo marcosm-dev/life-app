@@ -45,7 +45,7 @@
                   Inicia sesión con tu cuenta en<br><strong class="text-blue-grey-14">{{ name }}</strong>
                   <span class="text-body1" @click="store.toggleRegister">
                     <div class="text-body2 q-mt-sm">¿Aun no trabajas con nosotros?</div>
-                    <u class="cursor-pointer text-body1 knockout text-blue-grey-14">Crear mi cuenta</u>
+                    <u class="cursor-pointer text-subtitle1 knockout text-blue-grey-14">Crear mi cuenta</u>
                   </span>
                 </template>
                 <template v-else> Crea una cuenta en {{ name }} </template>

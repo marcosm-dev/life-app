@@ -1,16 +1,16 @@
 <template>
   <q-dialog position="bottom" ref="dialogRef" @hide="onDialogHide">
     <div class="row items-end">
-          <q-icon
-            v-close-popup
-            name="mdi-close"
-            class="q-ml-auto"
-            color="white"
-            size="40px"
-          />
+            <q-icon
+              v-close-popup
+              name="mdi-close"
+              class="q-ml-auto"
+              color="lime-13"
+              size="40px"
+            />
           <q-card class="rounded-top full-width">
               <q-card-section
-                class="text-weight-light knockout text-body1"
+                class="text-weight-light text-subtitle1"
                 style="letter-spacing: 0.5px"
               >
                 {{ !step ? 'Mi carrito' : 'Resumen' }}
@@ -61,7 +61,7 @@
                           </q-img>
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label class="knockout">{{ product.name }}</q-item-label>
+                        <q-item-label class="text-subtitle2">{{ product.name }}</q-item-label>
                         <q-item-label
                           class="inter text-lowercase text-blue-grey-13"
                           lines="3"
@@ -70,7 +70,7 @@
                         </q-item-label>
                       </q-item-section>
                       <q-item-section class="no-padding" style="max-width: 100px" side>
-                        <q-item-label class="text-body knockout text-blue-grey-13">
+                        <q-item-label class="text-body text-blue-grey-13">
                           {{ product.price.toFixed(2).replace('.', ',') }}
                         </q-item-label>
                         <ProductQuantity
@@ -100,7 +100,7 @@
                       </q-img>
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label caption class="text-dark">{{
+                      <q-item-label caption class="text-subtitle2">{{
                         product.name
                       }}</q-item-label>
                       <q-item-label
@@ -114,11 +114,11 @@
                     </q-item-section>
                     <q-separator vertical />
                     <q-item-section class="text-dark-page" side>
-                      <q-item-label caption class="knockout">
+                      <q-item-label caption>
                         {{ product.quantity }}
                         {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
                       </q-item-label>
-                      <div class="knockout">
+                      <div>
                         {{ (product.price * product.quantity).toFixed(2).replace('.', ',') }}
                       </div>
                     </q-item-section>
@@ -129,24 +129,33 @@
               </q-card-section>
 
               <q-separator class="col-12" size="1px" />
-              <q-card-section class="row text-h6" @click="deleteCartModel = false">
+              <q-card-section class="row" @click="deleteCartModel = false">
                 <div class="col-12 flex justify-between">
                   <div class="inter text-subtitle2 text-capitalize text-blue-grey-13">
                     Unidades:
                   </div>
-                  <div class="knockout text-subtitle1 text-blue-grey-13">
+                  <div class="text-subtitle1 text-blue-grey-13">
                     {{ cartCount }}
                   </div>
                 </div>
                 <div class="col-12 flex justify-between">
-                  <div class="knockout">
+                  <div class="text-subtitle1">
+                      Subtotal
+                  </div>
+                  <div class="text-subtitle3" style="letter-spacing: -0.9px">
+                      {{ amount.toFixed(2).replace('.', ',') }}
+                    <small class="text-caption">EUR</small>
+                  </div>
+                </div>
+                <div class="col-12 flex justify-between">
+                  <div class="text-h6">
                       TOTAL
-                    <span class="text-caption text-capitalize text-blue-grey-13">
+                    <span class="text-caption text-dark-page text-capitalize text-bold">
                       (IGIC incluido)
                     </span>
                   </div>
                   <div
-                    class="knockout text-medium"
+                    class="text-medium"
                     :class="!step ? 'text-h5' : 'text-h4'"
                     style="letter-spacing: -0.9px"
                   >
@@ -246,58 +255,59 @@
     <!-- Fin de la compra -->
 
     <!-- <q-inner-loading :showing="true" color="warning"> -->
-    <q-inner-loading :showing="sendLoading || success" color="warning" class="bg-transparent">
+    <q-inner-loading :showing="sendLoading || success" class="bg-transparent">
       <q-spinner-gears
         v-if="sendLoading && !success"
         size="75px"
         color="blue-grey-14 "
       />
-      <q-card
-        v-if="success"
-        class="text-caption  rounded-top bg-white bg-white"
-      >
-        <q-card-section
-          class="text-body1 text-blue-grey-14 row items-center justify-center"
+
+        <q-card
+          v-if="success"
+          class="text-caption rounded-top full-height"
         >
-          ¡Tu pedido se ha generado con Éxito!
-          <q-img
-            v-if="invoice"
-            width="20px"
-            height="20px"
-            class="q-ml-xs"
-            src="~assets/check.gif"
-          />
-          <p class="text-blue-grey-13">
-            Pronto llegará la factura a tu correo electrónico.
-          </p>
-          <p class="text-lime-14">
-            ¡Gracias por tu
-            compra!
-          </p>
-         <div class="col-12 text-center">
-           <action-button
-              @click="deleteCart"
-              no-caps
-              :label="String(count)"
-              padding="10px 20px"
-              text-color="grey-1"
-              flat
-              class="bg-blue-grey-14 q-mx-auto q-mt-lg text-body"
-              rounded
-              ripple
+          <q-card-section
+            class="text-body2 text-blue-grey-14 row items-center justify-center"
+          >
+            ¡Tu pedido se ha generado con Éxito!
+            <q-img
+              v-if="invoice"
+              width="20px"
+              height="20px"
+              class="q-ml-xs"
+              src="~assets/check.gif"
             />
-         </div>
-          <q-btn
-            class="col-12 q-mt-md"
-            @click="deleteCart"
-            flat
-            no-caps
-            label="Cerrar"
-            rounded
-          />
-        </q-card-section>
-        <banner-install-app type="Payment" class="z-top" />
-      </q-card>
+            <p class="text-blue-grey-13">
+              Pronto llegará la factura a tu correo electrónico.
+            </p>
+            <p class="text-info">
+              ¡Gracias por tu
+              compra!
+            </p>
+           <div class="col-12 text-center">
+             <action-button
+                @click="deleteCart"
+                no-caps
+                :label="String(count)"
+                padding="10px 20px"
+                text-color="grey-1"
+                flat
+                class="bg-blue-grey-14 q-mx-auto q-mt-lg text-body"
+                rounded
+                ripple
+              />
+           </div>
+            <q-btn
+              class="col-12 q-mt-md"
+              @click="deleteCart"
+              flat
+              no-caps
+              label="Cerrar"
+              rounded
+            />
+          </q-card-section>
+          <banner-install-app v-if="!hideBanner" type="Payment" class="z-top" />
+        </q-card>
     </q-inner-loading>
 
     <!-- Fin -->
@@ -321,7 +331,7 @@ const {
   cartCount,
   cart
 } = useProductCart()
-const { user } = useAuthStore()
+const { user, hideBanner } = useAuthStore()
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const deleteCartModel = ref(false)
 const url = process.env.IMAGES_URL
@@ -331,7 +341,7 @@ const invoice = ref(null)
 
 const success = ref(false)
 const step = ref(0)
-const count = ref(8)
+const count = ref(6)
 
 const $q = useQuasar()
 let timer
@@ -465,7 +475,6 @@ async function onOKClick() {
         orderId: order.value.id,
         lines: getInvoceItems(order.value?.products)
       }).then((res) => {
-        step.value = 2
         success.value = true
         resetProcess()
         invoice.value = res

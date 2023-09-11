@@ -45,7 +45,7 @@
                                src="../assets/logo.jpg"
                               fit="scale-down"
                               height="90px"
-                              class="bg-transparent"
+                              class="bg-transparent border-radius-md"
                             />
                           </template>
                         </q-img>
@@ -60,7 +60,7 @@
                 </q-card-section>
 
                 <q-card-actions class="flex justify-end items-end col-3">
-                      <div class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
+                      <div v-if="product.price" class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
                           <div class="q-ml-auto flex text-right">
                               {{ product.price.toFixed(2).replace('.', ',') }}
                             <small class="block q-mr-auto q-mx-sm text-caption">EUR</small>
@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect, Ref } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 
 import { useQuery } from '@vue/apollo-composable'

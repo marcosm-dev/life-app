@@ -1,7 +1,29 @@
 // app global css in SCSS form
 
-* {
+body {
   font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-subtitle1,
+.text-subtitle2,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6 {
+  font-family: 'Knockout' !important;
+}
+
+.text-subtitle3 {
+  font-family: 'Knockout';
+  font-weight: 300;
 }
 
 a {
