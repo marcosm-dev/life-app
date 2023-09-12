@@ -39,7 +39,8 @@
               />
               <q-img
                 class="col q-mb-md"
-                style="border-radius: 26px"
+                fit="scale-down"
+                style="border-radius: 26px; max-height: 200px;"
                 :src="`${url}/productos/${product.imagen}`"
               >
                 <template #error>

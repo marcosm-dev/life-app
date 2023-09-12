@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
     user: {} as User,
     neverShowAppInstallBanner: false,
     temporalHideBanner: false,
-    title: '¿Que tipo de producto buscas?',
+    title: '¿Qué estás buscando?',
     hideBanners: {
       menu: false,
       payment: false,
@@ -29,7 +29,6 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     authenticated: () => {
       const token = LocalStorage.getItem('token')
-      console.log(token)
       if (!token || typeof token === 'undefined') return false
       return true
     },

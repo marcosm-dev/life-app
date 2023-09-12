@@ -27,7 +27,7 @@
           enter-active-class="animated flipInX"
         >
             <div>
-              {{ title }}
+                {{ title }}
              </div>
         </transition>
       </div>
@@ -43,20 +43,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+import useAuth from 'src/composables/useAuth'
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: '¿Que estás buscando?'
-  }
-})
 const router = useRouter()
+const { title } = useAuth()
 const searchModel = ref(false)
 const search = ref('')
 
 
 function emitSeach () {
+  if(searchModel.value) {}
   router.push(`/category/search:${search.value}`)
 }
 </script>

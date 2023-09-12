@@ -14,7 +14,7 @@
                   fit="scale-down"
                   @click="$router.push('/')"
                   class="rounded-borders q-ma-sm col-2"
-                  :src="`${url}/v1/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}`"
+                  :src="`${url}/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}_white`"
                   no-spinner
               />
           </div>
@@ -235,10 +235,17 @@ export default defineComponent({
               animationMotion.value = false;
             }, 1500);
           },
-        });
+        })
         animationMotion.value = false;
         }
-    });
+    })
+
+    onBeforeRouteUpdate((to, from) => {
+      const path = to.path.split('/')
+      if (path.includes('category')) {
+        search.value = false
+      }
+    })
 
     return {
       url: process.env.IMAGES_URL,

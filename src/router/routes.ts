@@ -41,7 +41,6 @@ const routes: RouteRecordRaw[] = [
         path: '/categories',
         meta: {
           transition: 'slideInRight',
-          requiresAuth: true
         },
         component: () => import('pages/CategoriesPage.vue')
       },
@@ -50,7 +49,6 @@ const routes: RouteRecordRaw[] = [
         path: '/category/:id',
         meta: {
           //   transition: 'fadeIn',
-          requiresAuth: true
         },
         component: () => import('pages/CategoryPage.vue'),
       },
@@ -64,7 +62,6 @@ const routes: RouteRecordRaw[] = [
         path: '/manuales',
         meta: {
           //   transition: 'fadeIn',
-          requiresAuth: true
         },
         component: () => import('pages/ManualesPage.vue')
       },

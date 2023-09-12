@@ -83,7 +83,7 @@ export default defineComponent({
     const limit = ref($q.screen.gt.sm ? 8 : 10)
     const url = process.env.IMAGES_URL
     if ($q.platform.is.desktop) limit.value = 15
-    store.title = '¿Qué tipo de producto buscas?'
+    store.title = '¿Qué estás buscando?'
 
     const { result, fetchMore, loading } = useQuery(gql`
         query getAllCategories($limit: Int!, $skip: Int!) {

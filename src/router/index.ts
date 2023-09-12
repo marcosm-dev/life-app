@@ -44,11 +44,15 @@ export default route(function () {
   })
 
   Router.beforeEach((to, from, next) => {
-    const isAuthenticated =
-      to.matched.some((record) => record.meta.requiresAuth) &&
-      store.authenticated
+    const isAuthenticated = to.matched.some((record) => {
+      console.log(record.meta.requiresAuth)
+       return record.meta.requiresAuth
+    }) && store.authenticated
 
-    if (to.name !== 'AuthPage' && !isAuthenticated) {
+    if (from.name === 'AuthPage') next()
+    else if(!isAuthenticated && to.name !== 'AuthPage') {
+  console.log(isAuthenticated)
+      console.log('hola')
       useNotifyError({
         message: 'No estas autenticado, por favor inicia sesión'
       })

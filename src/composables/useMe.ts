@@ -10,7 +10,7 @@ const useMe = () => {
   const router = useRouter()
   const { authenticated, store } = useAuth()
 
-  const { result } = useQuery(
+  const { result, loading } = useQuery(
     gql`
       query me {
         me {
@@ -28,8 +28,7 @@ const useMe = () => {
         }
       }
     `,
-    null,
-    { enabled: authenticated.value }
+    null, () => ({ enabled: authenticated.value })
   )
 
   const me = computed(() => result.value?.me)
@@ -37,8 +36,6 @@ const useMe = () => {
   watchEffect(() => {
     if (result.value) {
        store.setUser(me.value)
-    } else {
-      if (!LocalStorage.getItem('token')) router.push('/auth')
     }
   })
 

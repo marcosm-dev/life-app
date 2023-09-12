@@ -5,7 +5,7 @@ import { reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import useNotifyError from './useNotifyError'
 import { storeToRefs } from 'pinia'
-// import { LocalStorage } from 'quasar'
+import { LocalStorage } from 'quasar'
 
 const useAuth = () => {
   const store = useAuthStore()
@@ -30,17 +30,15 @@ const useAuth = () => {
           const {
             logoutUser: { deleted, error }
           } = result.data
-          if (deleted) {
-            state.data = result.data
-            store.$reset()
-            router.push('/auth/sign-in')
-          } else {
-            useNotifyError({ message: error })
-          }
+          if (!deleted) useNotifyError({ message: error })
         }
       })
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+       useNotifyError({ message: error.toString() })
+    } finally {
+      store.$reset()
+      router.push('/auth/sign-in')
+      LocalStorage.clear()
     }
   }
 
