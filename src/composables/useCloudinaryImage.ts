@@ -1,5 +1,6 @@
 
 import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage'
+import { Cloudinary } from '@cloudinary/url-gen'
 
 const OPTIONS = {
   cloudName: process.env.CLOUDINARY_ID,
@@ -16,9 +17,13 @@ const OPTIONS = {
 //   return thumbnailUrl
 // }
 
-const useCloudinaryImage = (name: string, folder: string) => {
-    const publicId = `/${folder}/${name}`
-      return  new CloudinaryImage(publicId, OPTIONS)
-}
+const cldClient = new Cloudinary({
+  cloud: OPTIONS
+})
 
+const useCloudinaryImage = (name: string, folder: string) => {
+    const publicId = `${folder}/${name}`
+    console.log(cldClient.image(publicId))
+      return cldClient.image(publicId)
+}
 export default useCloudinaryImage

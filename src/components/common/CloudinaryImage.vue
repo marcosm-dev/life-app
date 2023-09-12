@@ -1,6 +1,6 @@
 <template>
      <AdvancedImage
-        :cldImg="useCloudinaryImage(image, folder)"
+        :cldImg="cldImage"
         :plugins="plugins"
      />
 </template>
@@ -17,12 +17,12 @@ export default defineComponent({
   components: { AdvancedImage  },
   name: 'ClodinaryImage',
   props: ['image', 'folder'],
-  setup() {
+  setup(props) {
     const plugins = [responsive()]
 
     return {
       plugins,
-      useCloudinaryImage,
+      cldImage: useCloudinaryImage(props.image, props.folder)
     }
   }
 })

@@ -443,12 +443,9 @@ function startCount(countValue) {
 function resetProcess() {
   order.value = null
   step.value = null
-
+  resetCart()
   startCount(count.value)
 
-  setTimeout(() => {
-    resetCart()
-  }, 9000)
 }
 
 const getInvoceItems = (products) => {

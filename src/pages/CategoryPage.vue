@@ -99,7 +99,6 @@ export default defineComponent({
       }), () => ({ enabled: enabled.value }))
 
       watchEffect(() => {
-        console.log(id)
         if (id.includes('search')) {
           enabled.value = true
         } else {
@@ -113,16 +112,13 @@ export default defineComponent({
           products.value = result.value.getProductsByCategory
         }
         if (searchResult.value) {
-          console.log(searchResult.value)
           products.value = searchResult.value.searchProductsByText
         }
     })
 
     useMeta(() => {
           return {
-            title: `Serpica Canarias ${
-              categoryName.value ? `-${categoryName.value}` : ' '
-            }`,
+            title: `Serpica Canarias ${categoryName.value ? `- ${categoryName.value}` : ' '}`,
           }
       })
 

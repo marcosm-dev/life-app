@@ -54,7 +54,7 @@ const search = ref('')
 
 function emitSeach () {
   if(searchModel.value) {}
-  router.push(`/category/search:${search.value}`)
+    router.push(`/category/search:${search.value}`)
 }
 </script>
 
