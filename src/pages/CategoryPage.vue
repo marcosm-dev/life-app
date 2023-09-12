@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-        <div v-if="loading || !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
+        <div v-if="loading || searchLoading && !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
           <div
             v-for="productCard in 15"
             :key="productCard"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router'
 import { useMeta } from 'quasar'
 
@@ -40,6 +40,7 @@ import gql from 'graphql-tag'
 import useAuth from 'src/composables/useAuth'
 import useCloudinaryImage from 'src/composables/useCloudinaryImage'
 import ProductCategory from 'src/components/ProductCategory.vue'
+import { Product } from '../components/models';
 
 export default defineComponent({
   name: 'CategoryPage',
@@ -48,7 +49,10 @@ export default defineComponent({
     const { store } = useAuth()
     const route = useRoute()
     const categoryName = ref(null)
+    const products = ref<Product[] | null>(null)
     const { id } = route.params
+    const search = id.toString()
+   const enabled = ref(false)
 
       const { result, loading } = useQuery(gql`
         query getProductsByCategory($id: ID!) {
@@ -67,17 +71,50 @@ export default defineComponent({
               uuid
             }
           }
-        `,
-        () => ({
+        `, () => ({
           id
-        })
+        }),
+        () => ({ enabled: !enabled.value })
       )
 
+      const { result: searchResult, loading: searchLoading } = useQuery(gql`
+        query searchProductsByText($text: String) {
+          searchProductsByText(text: $text) {
+              id
+              urlImage
+              name
+              price
+              categoryId {
+                id
+                name
+              }
+              imagen
+              stock
+              description
+              uuid
+          }
+        },
+      `, () => ({
+        text: search.split(':')[1]
+      }), () => ({ enabled: enabled.value }))
+
       watchEffect(() => {
+        console.log(id)
+        if (id.includes('search')) {
+          enabled.value = true
+        } else {
+          enabled.value = false
+        }
+
         if (result.value) {
           const { name } = result.value.getProductsByCategory[0].categoryId
           categoryName.value = name
           store.title = name
+          products.value = result.value.getProductsByCategory
+        }
+        if (searchResult.value) {
+          console.log(searchResult.value)
+          products.value = searchResult.value.searchProductsByText
         }
     })
 
@@ -90,8 +127,9 @@ export default defineComponent({
       })
 
     return {
-      products: computed(() => result.value?.getProductsByCategory),
+      products,
       loading,
+      searchLoading,
       url: process.env.IMAGES_URL,
       useCloudinaryImage,
       categoryName,

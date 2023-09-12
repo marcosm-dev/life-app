@@ -4,77 +4,35 @@
         class="shadow-5 row justify-between z-top bg-primary  border-radius-sm q-ma-sm no-wrap"
         :style="$route.params.id ? 'border-top-left-radius: 22px; border-bottom-left-radius: 22px;' : ''"
       >
-        <div class="col-auto">
-              <q-btn
-                   v-if="$route.params.id"
-                  @click="$router.back()"
-                  size="15px"
-                  class="q-ma-sm bg-white text-blue-grey-14 no-shadow col-2 border-radius-sm"
-                  style="width: 57.72px; height: 74%"
-                  unelevated
-                >
-              <template  #default>
-                  <q-icon name="mdi-arrow-left"  class="animated slideInRight" style="animation-duration: 0.1s;" />
-              </template>
-            </q-btn>
-
-          <q-img
-              v-else
-              height="38.58px"
-              width="57.72px"
-              :fit="toggleLogo ? 'scale-down' : 'contain'"
-              @click="$router.push('/')"
-              class="rounded-borders q-ma-sm col-2"
-              :src="`${url}/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}`"
-              no-spinner
-          />
-        </div>
-        <div class="col q-ml-sm q-my-auto text-no-wrap">
-          <transition
-            appear
-            enter-active-class="animated flipInX"
-          >
+          <div class="col-auto">
+              <back-button v-if="$route.params.id" />
+                <!-- :fit="toggleLogo ? 'scale-down' : 'contain'" -->
+              <q-img
+                  v-else
+                  height="38.58px"
+                  width="57.72px"
+                  fit="scale-down"
+                  @click="$router.push('/')"
+                  class="rounded-borders q-ma-sm col-2"
+                  :src="`${url}/v1/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}`"
+                  no-spinner
+              />
+          </div>
+          <div class="column q-ml-sm q-my-auto text-no-wrap no-wrap q-mr-auto">
               <a
-                v-if="search"
                 class="text-subtitle text-subtitle3 text-white"
+                :class="search && 'no-pointer-events'"
                 target="_blank"
                 href="https://www.serpica.org"
                 style="letter-spacing: 1px"
               >
               SERPICA CANARIAS S.L.
             </a>
-             <input
-                v-else
-                v-model="searchText"
-                class="input-search"
-                type="text"
-                autofocus
-              />
-          </transition>
-          <!-- Implementar buscador en pagina /categorias -->
-          <div v-show="title" class="text-caption text-info">
-            {{ title }}
-          </div>
-          <!-- <q-icon
-            @click="searchFunction"
-            name="mdi-magnify"
-            color="grey-1"
-            size="28px"
-          /> -->
-            <!-- <q-input
-              v-model="productSelected"
-              bg-color="positive"
-              outlined
-              color="lime-13"
-              class="q-my-sm"
-              standout
-              rounded
-              input-style="border-radius: 15px !important"
-              autofocus
-              dense
-            /> -->
-          </div>
-        <banner-install-app type="Header" />
+            <search-bar
+              @isSearching="search = !search"
+            />
+        </div>
+        <banner-install-app class="col-auto" type="Header" />
         <tasty-burger-button @toggle="drawer = !drawer" :isActive="drawer" />
         <q-avatar tag="button" class="col-auto" size="45px">
             <q-menu
@@ -87,9 +45,6 @@
               <div class="row justify-end text-white text-right">
                 <div class="column">
                   <q-list dense class="text-white font-bold">
-                    <q-item clickable v-ripple to="/orders" disable>
-                      <q-item-section> Mis Pedidos </q-item-section>
-                    </q-item>
 
                     <!-- <q-item clickable disable v-ripple>
                       <q-item-section no-wrap>
@@ -97,11 +52,20 @@
                       </q-item-section>
                     </q-item> -->
 
+                    <q-item clickable  v-ripple to="/contacto">
+                      <q-item-section class="text-positive text-no-wrap"> Métodos de pago </q-item-section>
+                    </q-item>
+                    <q-item clickable v-ripple to="/orders" disable>
+                      <q-item-section> Mis Pedidos </q-item-section>
+                    </q-item>
                     <q-item clickable disable v-ripple>
                       <q-item-section> Devoluciones </q-item-section>
                     </q-item>
-                    <q-item clickable disable v-ripple>
+                    <!-- <q-item clickable disable v-ripple>
                       <q-item-section> Reclamaciones </q-item-section>
+                    </q-item> -->
+                    <q-item clickable  v-ripple to="/contacto">
+                      <q-item-section class="text-positive"> Configuración </q-item-section>
                     </q-item>
                     <q-item clickable  v-ripple to="/contacto">
                       <q-item-section class="text-positive"> Contacto </q-item-section>
@@ -190,19 +154,23 @@
 <script lang="ts">
 import { defineComponent, ref, inject, Ref } from 'vue'
 import { EventBus, morph } from 'quasar'
+import gql from 'graphql-tag'
+import { onBeforeRouteUpdate } from 'vue-router'
+import { useQuery } from '@vue/apollo-composable'
+import { QuasarHTMLElement } from '@quasar/app'
 
 import useCartDialog from '../composables/useCartDialog'
 import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth'
+import SearchBar from 'src/components/SearchBar.vue'
 import HamburguerElastic from 'components/HamburguerElastic.vue'
-import { QuasarHTMLElement } from '@quasar/app'
-import { onBeforeRouteUpdate } from 'vue-router'
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { 'tasty-burger-button': HamburguerElastic },
+  components: {
+      'tasty-burger-button': HamburguerElastic,
+      SearchBar,
+  },
   setup() {
     const { productQuantity, loading, toggle } = useCartAnimation()
     const { cart, toggleCartDialog } = useCartDialog()
@@ -223,6 +191,7 @@ export default defineComponent({
     const drawer = ref(false)
 
     const text = ref('')
+    const productSelected  = ref(null)
 
     const { result, refetch } = useQuery(gql`
       query searchProductsByText($text: String!) {
@@ -269,7 +238,6 @@ export default defineComponent({
         });
         animationMotion.value = false;
         }
-
     });
 
     return {
@@ -292,6 +260,7 @@ export default defineComponent({
       cartItemElement,
       deferredPrompt,
       leftDrawerOpen,
+      productSelected,
       searchFunction: async () => {
         text.value = searchText.value
         await refetch()
@@ -303,7 +272,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @media (min-width: 768px) {
   .header-tabs .q-tab,
   .q-tab__label {
@@ -348,15 +317,6 @@ export default defineComponent({
 
 .tab-cart .q-tab__content {
   flex-direction: column-reverse;
-}
-.input-search {
-  border-radius: 8px;
-  border: none;
-  width: 57%;
-}
-.input-search:focus {
-  border: 1px solid $lime-13;
-  box-shadow: none;
 }
 
 </style>
