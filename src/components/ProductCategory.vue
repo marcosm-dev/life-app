@@ -11,20 +11,10 @@
           name="mdi-heart-outline"
         />
           <q-card-section class="border-radius-sm col-3">
-              <q-img
-                :src="`${url}/productos/${product.imagen}`"
-                height="90px"
-                fit="scale-down"
-              >
-                  <template #error>
-                    <q-img
-                        src="../assets/logo.jpg"
-                      fit="scale-down"
-                      height="90px"
-                      class="bg-transparent border-radius-md"
-                    />
-                  </template>
-                </q-img>
+              <ImageWithError
+                  :image="product.imagen"
+                  :brand="product.brand.name"
+              />
           </q-card-section>
           <q-card-section class="q-gutter-y-sm  col-5 q-pa-sm">
             <div class="text-subtitle1 full-width q-pa-sm  border-radius-sm text-grey-10 bg-lime-14">
@@ -96,7 +86,6 @@ export default defineComponent({
 
     return {
       toggleCustomDialog,
-      url: process.env.IMAGES_URL,
     }
   }
 })

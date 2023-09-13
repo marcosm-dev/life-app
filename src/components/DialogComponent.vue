@@ -46,18 +46,19 @@
                     <q-item v-if="!step" class="row bg-white">
                       <q-item-section class="column q-px-none" avatar>
                            <q-img
-                            :src="`${url}/productos/${product.imagen}.png`"
+                            :src="`${url}/productos/${product.imagen}`"
                             width="40px"
                             height="50"
+                            no-spinner
                             class="dialog-image"
                           >
-                          <template #error>
+                          <!-- <template #error>
                               <q-img
                                 src="../assets/logo.jpg"
                                 fit="scale-down"
                                 class="bg-transparent"
                               />
-                            </template>
+                            </template> -->
                           </q-img>
                       </q-item-section>
                       <q-item-section>
@@ -94,11 +95,11 @@
                         class="dialog-image"
                       >
                       <template #error>
-                          <q-img
+                          <!-- <q-img
                             src="../assets/logo.jpg"
                             fit="scale-down"
                             class="bg-transparent"
-                          />
+                          /> -->
                         </template>
                       </q-img>
                     </q-item-section>

@@ -4,10 +4,11 @@
             <!-- :src="`${url}/productos/${product.image}`" -->
             <q-card-section class="row reverse q-gutter-x-lg">
               <svg
+                    id="logo"
+                    :class="hasImageError && 'invisible'"
                     v-if="product.brand?.name === 'Life'"
                     class="col-3"
                     xmlns="http://www.w3.org/2000/svg"
-                    id="logo"
                     width="192.505"
                     height="80.027"
                     viewBox="0 0 192.505 80.027"
@@ -37,22 +38,12 @@
                 fit="scale-down"
                 :src="`${url}/en_stock`"
               />
-              <q-img
+              <ImageWithError
+                @error="hasImageError = true"
                 class="col q-mb-md"
-                fit="scale-down"
-                style="border-radius: 26px; max-height: 200px;"
-                :src="`${url}/productos/${product.imagen}`"
-              >
-                <template #error>
-                    <q-img
-                      class="col-auto border-radius-md"
-                      style="border-radius: 26px; border: 1px solid rgba(#455a64, 10)"
-                      src="../assets/logo.jpg"
-                      width="170px"
-                      height="100px"
-                    />
-                </template>
-              </q-img>
+                :image="product.imagen"
+                :brand="product.brand.name"
+              />
             </q-card-section>
           <div class="text-bold col full-height flex">
             <div class="text-h5 text-blue-grey-10">
@@ -149,13 +140,15 @@ import useProductCart from '../composables/useProductCart'
 import { Product } from './models'
 import useCustomDialog from 'src/composables/useCustomDialog'
 import OrderButton from './OrderButton.vue'
+import ImageWithError from './common/ImageWithError.vue';
 
 export default defineComponent({
   name: 'ProductComponent',
   components: {
     ProductQuantity,
-    OrderButton
-  },
+    OrderButton,
+    ImageWithError
+},
   props: {
     product: {
       type: Object as () => Product,
@@ -197,6 +190,7 @@ export default defineComponent({
       checkIsAdded: computed(() =>
         cart.value.some((p: Product) => p.id === props.product.id)
       ),
+      hasImageError: ref(false),
       url: process.env.IMAGES_URL,
       loading,
       morphGroupModel,

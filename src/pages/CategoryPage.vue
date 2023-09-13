@@ -40,7 +40,7 @@ import gql from 'graphql-tag'
 import useAuth from 'src/composables/useAuth'
 import useCloudinaryImage from 'src/composables/useCloudinaryImage'
 import ProductCategory from 'src/components/ProductCategory.vue'
-import { Product } from '../components/models';
+import { Product } from '../components/models'
 
 export default defineComponent({
   name: 'CategoryPage',
@@ -61,6 +61,10 @@ export default defineComponent({
               urlImage
               name
               price
+              brand {
+                id
+                name
+              }
               categoryId {
                 id
                 name

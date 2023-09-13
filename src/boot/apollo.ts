@@ -32,8 +32,11 @@ export default boot(({ app, router, store }) => {
     if (graphQLErrors?.length) {
       for (const err of graphQLErrors) {
         if (err.message.toLowerCase() === 'unauthorized') {
-          // router.push('/auth')
+          console.log('hola')
+          router.push('/auth')
           authStore.$reset()
+          LocalStorage.clear()
+          apolloClient.clearStore()
         } else {
           useHandleGraphqlErrors(err)
           logErrorMessages(error)

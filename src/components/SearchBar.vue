@@ -8,15 +8,15 @@
               <q-input
                 v-model.trim="search"
                 @blur="emitSeach"
+                @keyup.enter="emitSeach"
+                @focus="search = ''"
                 type="text"
                 bg-color="positive"
                 outlined
                 color="info"
                 class="input-search col-2"
                 input-class="input-search-class"
-                standout
                 rounded
-                autofocus
                 dense
               />
           </transition>
@@ -26,7 +26,7 @@
           appear
           enter-active-class="animated flipInX"
         >
-            <div>
+            <div @click="searchModel = !searchModel">
                 {{ title }}
              </div>
         </transition>
@@ -50,9 +50,11 @@ const router = useRouter()
 const { title } = useAuth()
 const searchModel = ref(false)
 const search = ref('')
+const lastSearch = ref('')
 
 
 function emitSeach () {
+  lastSearch.value = search.value
   if(searchModel.value) {}
     router.push(`/category/search:${search.value}`)
 }
