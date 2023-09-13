@@ -47,7 +47,7 @@ export default route(function () {
     const isAuthenticated = to.matched.some((record) => {
       console.log(record.meta.requiresAuth)
        return record.meta.requiresAuth
-    }) && store.authenticated
+    })
 
     if (from.name === 'AuthPage') next()
     else if(!isAuthenticated && to.name !== 'AuthPage') {

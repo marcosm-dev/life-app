@@ -29,7 +29,7 @@
               SERPICA CANARIAS S.L.
             </a>
             <search-bar
-              @isSearching="search = !search"
+              @searching="(val) => search = val"
             />
         </div>
         <banner-install-app class="col-auto" type="Header" />
@@ -154,9 +154,7 @@
 <script lang="ts">
 import { defineComponent, ref, inject, Ref } from 'vue'
 import { EventBus, morph } from 'quasar'
-import gql from 'graphql-tag'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { useQuery } from '@vue/apollo-composable'
 import { QuasarHTMLElement } from '@quasar/app'
 
 import useCartDialog from '../composables/useCartDialog'
@@ -189,20 +187,7 @@ export default defineComponent({
     const cartItemElement: Ref<QuasarHTMLElement | null> = ref(null)
     const animationMotion = ref(false)
     const drawer = ref(false)
-
-    const text = ref('')
     const productSelected  = ref(null)
-
-    const { result, refetch } = useQuery(gql`
-      query searchProductsByText($text: String!) {
-        searchProductsByText(text: $text) {
-          id
-          name
-        }
-      }
-    `, {
-      text
-    }, { enabled: false })
 
     onBeforeRouteUpdate((to) => {
       if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
@@ -240,7 +225,7 @@ export default defineComponent({
         }
     })
 
-    onBeforeRouteUpdate((to, from) => {
+    onBeforeRouteUpdate((to) => {
       const path = to.path.split('/')
       if (path.includes('category')) {
         search.value = false
@@ -249,8 +234,6 @@ export default defineComponent({
 
     return {
       url: process.env.IMAGES_URL,
-      result,
-      refetch,
       title,
       drawer,
       search,
@@ -268,10 +251,6 @@ export default defineComponent({
       deferredPrompt,
       leftDrawerOpen,
       productSelected,
-      searchFunction: async () => {
-        text.value = searchText.value
-        await refetch()
-      },
       tab: ref('categorias'),
       foooterTabs: ref('home'),
     };

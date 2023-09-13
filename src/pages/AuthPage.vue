@@ -31,16 +31,9 @@
           class="col-12 justify-center q-px-none q-py-md text-dark shadow-15 rounded-card"
           style="max-width: 400px;"
         >
-          <q-card-section class="text-center">
-              <q-img
-                src="~assets/logo.jpg"
-                fetchpriority="high"
-                width="180px"
-                height="70px"
-                alt="serpica life logo"
-                loading="lazy"
-              />
-              <q-card-section class="text-body">
+          <q-card-section class="text-center q-py-none">
+              <q-icon name="svguse:icons.svg#life_logo"  size="100px" />
+              <q-card-section class="text-body q-pt-none">
                 <template v-if="!register">
                   Inicia sesión con tu cuenta en<br><strong class="text-blue-grey-14">{{ name }}</strong>
                   <span class="text-body1" @click="store.toggleRegister">

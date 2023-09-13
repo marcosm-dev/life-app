@@ -45,21 +45,13 @@
                     </template>
                     <q-item v-if="!step" class="row bg-white">
                       <q-item-section class="column q-px-none" avatar>
-                           <q-img
-                            :src="`${url}/productos/${product.imagen}`"
+                          <ImageWithError
                             width="40px"
-                            height="50"
+                            height="50px"
                             no-spinner
-                            class="dialog-image"
-                          >
-                          <!-- <template #error>
-                              <q-img
-                                src="../assets/logo.jpg"
-                                fit="scale-down"
-                                class="bg-transparent"
-                              />
-                            </template> -->
-                          </q-img>
+                            :image="product.imagen"
+                            :brand="product.brand.name"
+                        />
                       </q-item-section>
                       <q-item-section>
                         <q-item-label class="text-subtitle2">
@@ -88,20 +80,12 @@
                   </q-slide-item>
                   <q-item v-else-if="step === 1" class="q-my-sm" clickable v-ripple>
                     <q-item-section avatar>
-                     <q-img
-                        :src="`${url}/productos/${product.imagen}.png`"
-                        width="40px"
-                        height="50"
-                        class="dialog-image"
-                      >
-                      <template #error>
-                          <!-- <q-img
-                            src="../assets/logo.jpg"
-                            fit="scale-down"
-                            class="bg-transparent"
-                          /> -->
-                        </template>
-                      </q-img>
+                      <ImageWithError
+                          width="40px"
+                          height="50px"
+                          :image="product.imagen"
+                          :brand="product.brand.name"
+                      />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label caption class="text-subtitle2">
@@ -339,7 +323,6 @@ const {
 const { user, hideBanner } = useAuthStore()
 const { dialogRef, onDialogHide } = useDialogPluginComponent()
 const deleteCartModel = ref(false)
-const url = process.env.IMAGES_URL
 
 const order = ref(null)
 const invoice = ref(null)
@@ -538,7 +521,5 @@ async function deleteCart() {
 .dialog-card {
   border: 1px solid rgba($color: $dark-page, $alpha: 0.5);
 }
-.dialog-image {
-  width: 60px;
-}
+
 </style>

@@ -20,6 +20,7 @@ export const useAuthStore = defineStore('auth', {
     neverShowAppInstallBanner: false,
     temporalHideBanner: false,
     title: '¿Qué estás buscando?',
+    loading: false,
     hideBanners: {
       menu: false,
       payment: false,
@@ -27,11 +28,6 @@ export const useAuthStore = defineStore('auth', {
     } as Banners
   }),
   getters: {
-    authenticated: () => {
-      const token = LocalStorage.getItem('token')
-      if (!token || typeof token === 'undefined') return false
-      return true
-    },
     hideBanner() {
       if (Object.values(this.hideBanners).includes(true) || !this.deferredPrompt?.prompt) return true
       return false

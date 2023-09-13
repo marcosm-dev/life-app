@@ -3,6 +3,7 @@
         :src="urlImage"
         height="90px"
         fit="scale-down"
+        fetchpriority="high"
       >
           <template #error>
             <q-img
@@ -23,5 +24,5 @@ const props = defineProps({
 })
 const url = process.env.IMAGES_URL
 
-const urlImage = `${url}/productos/${props.image}`
+const urlImage = `${url}/productos/v1/${props.image}`
 </script>

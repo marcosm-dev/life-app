@@ -69,7 +69,6 @@ export default defineComponent({
   background-repeat: no-repeat;
 }
 .footer-background {
-  color: $light-blue-1 !important;
   padding: 2.2rem 0px;
   background: transparent;
   background: linear-gradient(rgb(0, 0, 0, 0.5) 505%, rgb(0, 0, 0, 0.5) 100%);

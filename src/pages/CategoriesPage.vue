@@ -34,11 +34,11 @@
           >
             <q-card-section class="transparent row justify-center">
               <q-img
-                    :src="`${url}/productos/${category.urlImage}`"
-                    :height="!$q.screen.gt.sm ? '100px' : '200px'"
-                    fit="scale-down"
-                    fetchpriority="high"
-                  />
+                  :src="`${url}/productos/${category.urlImage}`"
+                  :height="!$q.screen.gt.sm ? '100px' : '200px'"
+                  fit="scale-down"
+                  fetchpriority="high"
+                />
               <div
                   class="absolute-bottom flex justify-between q-px-md bg-primary text-grey-1 text-no-wrap no-wrap"
                   style="border-radius: 2px 2px 26px 26px; padding: 10px 14px"

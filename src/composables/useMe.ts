@@ -8,7 +8,7 @@ import { LocalStorage } from 'quasar'
 
 const useMe = () => {
   const router = useRouter()
-  const { authenticated, store } = useAuth()
+  const { store } = useAuth()
 
   const { result, loading } = useQuery(
     gql`
@@ -28,7 +28,7 @@ const useMe = () => {
         }
       }
     `,
-    null, () => ({ enabled: authenticated.value })
+    null, () => ({ enabled: !!LocalStorage.getItem('token') })
   )
 
   const me = computed(() => result.value?.me)

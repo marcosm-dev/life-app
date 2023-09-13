@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-        <div v-if="loading || searchLoading && !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
+        <div v-if="resultLoading || searchLoading && !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
           <div
             v-for="productCard in 15"
             :key="productCard"
@@ -46,7 +46,7 @@ export default defineComponent({
   name: 'CategoryPage',
   components: { ProductCategory },
   setup() {
-    const { store } = useAuth()
+    const { store, loading } = useAuth()
     const route = useRoute()
     const categoryName = ref(null)
     const products = ref<Product[] | null>(null)
@@ -54,7 +54,7 @@ export default defineComponent({
     const search = id.toString()
    const enabled = ref(false)
 
-      const { result, loading } = useQuery(gql`
+      const { result, loading: resultLoading } = useQuery(gql`
         query getProductsByCategory($id: ID!) {
             getProductsByCategory(categoryId: $id) {
               id
@@ -88,6 +88,10 @@ export default defineComponent({
               urlImage
               name
               price
+              brand {
+                id
+                name
+              }
               categoryId {
                 id
                 name
@@ -100,7 +104,9 @@ export default defineComponent({
         },
       `, () => ({
         text: search.split(':')[1]
-      }), () => ({ enabled: enabled.value }))
+      }), () => ({
+        enabled: enabled.value,
+      }))
 
       watchEffect(() => {
         if (id.includes('search')) {
@@ -114,9 +120,11 @@ export default defineComponent({
           categoryName.value = name
           store.title = name
           products.value = result.value.getProductsByCategory
+          loading.value = false
         }
         if (searchResult.value) {
           products.value = searchResult.value.searchProductsByText
+          loading.value = false
         }
     })
 
@@ -128,7 +136,7 @@ export default defineComponent({
 
     return {
       products,
-      loading,
+      resultLoading,
       searchLoading,
       url: process.env.IMAGES_URL,
       useCloudinaryImage,
