@@ -255,14 +255,14 @@
 
 <script lang="ts">
 import * as manifest from '../../src-pwa/manifest.json'
-import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
+import { defineComponent, reactive, ref, computed, onMounted } from 'vue'
 import { useQuasar, LocalStorage } from 'quasar'
-import { useRouter, onBeforeRouteLeave, useRoute } from 'vue-router';
+import { useRouter, onBeforeRouteLeave, useRoute } from 'vue-router'
 
 import { resetCaches } from 'graphql-tag'
 import { format } from 'quasar'
 import { User } from 'src/components/models'
-import useNotifyError from '../composables/useNotifyError';
+import useNotifyError from '../composables/useNotifyError'
 import useAuth from '../composables/useAuth'
 import useCustomDialog from 'src/composables/useCustomDialog'
 
@@ -312,7 +312,7 @@ export default defineComponent({
       dense: true,
       placeHolder: 'Dinos tu email ...',
       title: 'Recuperar tu contraseña es muy sencillo.',
-      subtitle: 'Únicamente dinos con que <u>email</u> estás registrado.',
+      subtitle: `Únicamente dinos con que <u>email</u> estás registrado en ${name}.`,
       description: 'Recibiras un email en tu bandeja de entrada con un enlace con el que podrás cambiar tu contraseña.',
       disclaimer: '* No olvides revisar el correo no deseado si no encuentras el correo en tu bandeja de entrada.',
     })

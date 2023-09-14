@@ -53,7 +53,9 @@
                     </q-item> -->
 
                     <q-item clickable  v-ripple to="/contacto">
-                      <q-item-section class="text-positive text-no-wrap"> Métodos de pago </q-item-section>
+                      <q-item-section class="text-positive text-no-wrap">
+                          Métodos de pago
+                      </q-item-section>
                     </q-item>
                     <q-item clickable v-ripple to="/orders" disable>
                       <q-item-section> Mis Pedidos </q-item-section>
@@ -64,7 +66,7 @@
                     <!-- <q-item clickable disable v-ripple>
                       <q-item-section> Reclamaciones </q-item-section>
                     </q-item> -->
-                    <q-item clickable  v-ripple to="/contacto">
+                    <q-item clickable  v-ripple to="/profile">
                       <q-item-section class="text-positive"> Configuración </q-item-section>
                     </q-item>
                     <q-item clickable  v-ripple to="/contacto">

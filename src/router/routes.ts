@@ -83,6 +83,11 @@ const routes: RouteRecordRaw[] = [
         // },
         component: () =>
           import(/* webpackChunkName: "group-user" */ 'pages/MyOrders.vue')
+      },
+      {
+        name: 'UserProfile',
+        path: '/profile',
+        component: () => import('pages/UserProfile.vue')
       }
     ]
   },
