@@ -86,7 +86,7 @@ watch(searchModel, (val) => {
 <style lang="scss">
 .input-search .q-field__control {
   height: 20px;
-  max-width: 136.48px;
+  max-width: 9.76em;
 }
 
 </style>

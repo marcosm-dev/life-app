@@ -48,12 +48,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useAuthStore } from '../stores/auth'
+import useAuth from 'src/composables/useAuth'
 
 export default defineComponent({
   name: 'AuthLayout',
   setup() {
-    const store = useAuthStore()
+    const { store} = useAuth()
 
     return { store }
   }

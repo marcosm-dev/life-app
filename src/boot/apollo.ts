@@ -12,6 +12,7 @@ import { LocalStorage } from 'quasar'
 import { logErrorMessages } from '@vue/apollo-util'
 import useHandleGraphqlErrors from 'src/composables/useHandleError'
 import { useAuthStore } from 'src/stores/auth'
+import useNotifyError from 'src/composables/useNotifyError'
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = LocalStorage.getItem('token')
@@ -36,7 +37,7 @@ export default boot(({ app, router, store }) => {
           LocalStorage.clear()
           apolloClient.clearStore()
           router.push('/auth')
-          useHandleGraphqlErrors(err)
+          useNotifyError({ message: 'No authorizado' })
         } else {
           useHandleGraphqlErrors(err)
           logErrorMessages(error)

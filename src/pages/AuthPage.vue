@@ -170,7 +170,7 @@
               outlined
               color="blue-grey-14"
               clearable
-              v-model="user.email"
+              v-model="userCreedentials.email"
               label="Email"
               rounded
               lazy-rules
@@ -191,7 +191,7 @@
               rounded
               :type="revealPassword ? 'text' : 'password'"
               error-message="Por favor, ingresa bien tu contraseña"
-              v-model="user.password"
+              v-model="userCreedentials.password"
               :error="errorHandler"
               label="Contraseña"
             >
@@ -213,6 +213,7 @@
               neutro
             />
           <action-button
+              @click="toggleCustomDialog"
               label="He olvidado mi contraseña"
               flat
               class="q-mt-lg col-12"
@@ -253,17 +254,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-import { useAuthStore } from '../stores/auth'
-import { useQuasar, LocalStorage } from 'quasar'
-import { useRouter, onBeforeRouteLeave } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import * as manifest from '../../src-pwa/manifest.json'
+import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
+import { useQuasar, LocalStorage } from 'quasar'
+import { useRouter, onBeforeRouteLeave, useRoute } from 'vue-router';
 
-import useAuth from '../composables/useAuth'
 import { resetCaches } from 'graphql-tag'
+import { format } from 'quasar'
 import { User } from 'src/components/models'
 import useNotifyError from '../composables/useNotifyError';
+import useAuth from '../composables/useAuth'
+import useCustomDialog from 'src/composables/useCustomDialog'
 
 export default defineComponent({
   name: 'AuthPage',
@@ -276,18 +277,19 @@ export default defineComponent({
       signUpLoading,
       loginLoading
     } = useAuth()
+    const route = useRoute()
     const router = useRouter()
-    const store = useAuthStore()
+    const { store, register, user } = useAuth()
     const $q = useQuasar()
+    const { capitalize } = format;
     const errors = ref<string[]>([])
     const revealPassword = ref(false)
     const registerSuccess = ref(false)
-    const { register } = storeToRefs(store)
     const { name } = manifest
     const check = ref(false)
     const addressRef = ref(null)
 
-    const user: User = reactive({
+    const userCreedentials: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
       password: process.env.DEV ? '1111' : ''
     })
@@ -305,6 +307,16 @@ export default defineComponent({
       confirmPassword: ''
     })
 
+    const { toggleCustomDialog } = useCustomDialog({
+      action: 'recovery',
+      dense: true,
+      placeHolder: 'Dinos tu email ...',
+      title: 'Recuperar tu contraseña es muy sencillo.',
+      subtitle: 'Únicamente dinos con que <u>email</u> estás registrado.',
+      description: 'Recibiras un email en tu bandeja de entrada con un enlace con el que podrás cambiar tu contraseña.',
+      disclaimer: '* No olvides revisar el correo no deseado si no encuentras el correo en tu bandeja de entrada.',
+    })
+
     async function login() {
         LocalStorage.clear()
       if (
@@ -315,8 +327,8 @@ export default defineComponent({
       errors.value = []
       try {
         const result = await loginMutation({
-          email: user.email.toLowerCase(),
-          password: user.password
+          email: userCreedentials.email.toLowerCase(),
+          password: userCreedentials.password
         })
         if (result?.data?.loginUser?.token) {
           const { token, user } = result?.data.loginUser
@@ -330,7 +342,6 @@ export default defineComponent({
     }
 
     async function signUp() {
-      console.log('signuip')
       errors.value = []
       if (!check.value) {
          useNotifyError({ message: 'Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.' })
@@ -366,6 +377,13 @@ export default defineComponent({
       resetCaches()
     })
 
+    onMounted(() => {
+      if (route.query.token) {
+        toggleCustomDialog(true)
+        LocalStorage.set('token', route.query.token)
+      }
+    })
+
     return {
       async onSubmit() {
         if (register.value) await signUp()
@@ -382,6 +400,9 @@ export default defineComponent({
         }
         return false
       }),
+      user,
+      capitalize,
+      toggleCustomDialog,
       reset,
       loginLoading,
       signUpLoading,
@@ -396,7 +417,7 @@ export default defineComponent({
       register,
       newUser,
       errors,
-      user,
+      userCreedentials,
       store
     }
   }

@@ -1,5 +1,5 @@
 import { useQuasar } from 'quasar'
-import { reactive, watchEffect } from 'vue';
+import { reactive } from 'vue';
 
 import CustomDialogComponent from 'components/common/CustomDialogComponent.vue'
 
