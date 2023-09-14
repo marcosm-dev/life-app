@@ -225,13 +225,6 @@ export default defineComponent({
         }
     })
 
-    onBeforeRouteUpdate((to) => {
-      const path = to.path.split('/')
-      if (path.includes('category')) {
-        search.value = false
-      }
-    })
-
     return {
       url: process.env.IMAGES_URL,
       title,
