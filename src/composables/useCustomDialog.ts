@@ -8,8 +8,7 @@ const useCustomDialog = (props: any) => {
   const state = reactive({
     open: false
   })
-  function toggleCustomDialog(val: boolean) {
-    console.log(props)
+  function toggleCustomDialog(val: boolean = state.open) {
     if (val) state.open = val
    else {
      state.open = !state.open

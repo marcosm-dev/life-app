@@ -1,0 +1,44 @@
+{
+	"auth": {
+		"errors": {
+			"email": "",
+			"password": "",
+			"privacyPolicy": "",
+			"wrongPassword": ""
+		},
+		"form": {
+			"address": "",
+			"city": "",
+			"confirm": "",
+			"email": "",
+			"lastName": "",
+			"name": "",
+			"password": "",
+			"phone": "",
+			"postalCode": "",
+			"VATIN": ""
+		},
+		"login": {
+			"signUpAction": "",
+			"subtitle": "",
+			"title": "Inicia sesión con tu cuenta en {name}"
+		},
+		"privacyPolicyMessage": "",
+		"recovery": "",
+		"signUp": {
+			"title": ""
+		}
+	},
+	"common": {
+		"access": "",
+		"back": "",
+		"privacyPolicy": ""
+	},
+	"recovery": {
+		"description": "",
+		"disclaimer": "",
+		"placeHolder": "",
+		"subtitle": "",
+		"title": ""
+	}
+}

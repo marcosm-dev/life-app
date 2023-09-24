@@ -35,33 +35,39 @@
               <q-icon name="svguse:icons.svg#life_logo"  size="100px" />
               <q-card-section class="text-body q-pt-none">
                 <template v-if="!register">
-                  Inicia sesión con tu cuenta en<br><strong class="text-blue-grey-14">{{ name }}</strong>
+                  <!-- {{ t('auth.login.title', { name }) }} -->
+                  <i18n-t keypath="auth.login.title" scope="global">
+                    <template #name>
+                      <b>{{  name  }}</b>
+                    </template>
+                  </i18n-t>
+                  <!-- Inicia sesión con tu cuenta en<br><strong class="text-blue-grey-14">{{ name }}</strong> -->
                   <span class="text-body1" @click="store.toggleRegister">
-                    <div class="text-body2 q-mt-sm">¿Aun no trabajas con nosotros?</div>
-                    <u class="cursor-pointer text-subtitle1 knockout text-blue-grey-14">Crear mi cuenta</u>
+                    <div class="text-body2 q-mt-sm">{{ $t('auth.login.subtitle') }}</div>
+                    <u class="cursor-pointer text-subtitle1 knockout text-blue-grey-14">{{ $t('auth.login.signUpAction') }}</u>
                   </span>
                 </template>
-                <template v-else> Crea una cuenta en {{ name }} </template>
+                <template v-else> {{ $t('auth.signUp.title', { name }) }} </template>
               </q-card-section>
           </q-card-section>
           <q-card-section v-if="register" class="col-12 q-gutter-y-md q-py-none">
             <q-input
+              v-model="newUser.name"
               outlined
               color="blue-grey-14"
               clearable
-              v-model="newUser.name"
-              label="Nombre"
+              :label="$t('auth.form.name')"
               rounded
               lazy-rules
             />
             <q-input
+              v-model="newUser.lastName"
               outlined
               color="blue-grey-14"
               rounded
               clearable
+              :label="$t('auth.form.lastName')"
               type="text"
-              v-model="newUser.lastName"
-              label="Apellidos"
             />
             <q-input
               outlined
@@ -69,7 +75,7 @@
               rounded
               clearable
               v-model="newUser.VATIN"
-              label="CIF o DNI"
+              :label="$t('auth.form.VATIN')"
               lazy-rules
             />
             <q-input
@@ -79,9 +85,8 @@
               clearable
               type="text"
               v-model="newUser.phone"
-              error-message="Por favor ingresa un email válido."
               :error="errorHandler"
-              label="Teléfono"
+              :label="$t('auth.form.phone')"
             />
             <q-input
               rounded
@@ -90,7 +95,7 @@
               type="text"
               clearable
               v-model="newUser.address"
-              label="Dirección"
+              :label="$t('auth.form.address')"
             />
             <q-input
               rounded
@@ -98,7 +103,7 @@
               outlined
               clearable
               v-model="newUser.zipCode"
-              label="Código Postal"
+              :label="$t('auth.form.postalCode')"
             />
             <q-input
               rounded
@@ -106,7 +111,7 @@
               outlined
               clearable
               v-model="newUser.city"
-              label="Ciudad"
+              :label="$t('auth.form.city')"
             />
             <q-input
               rounded
@@ -114,9 +119,10 @@
               outlined
               clearable
               type="text"
+              :error-message="$t('auth.errors.email')"
               v-model="newUser.email"
               :error="heandleEmailError"
-              label="Email"
+              :label="$t('auth.form.email')"
               :rules="[
                 (val) =>
                   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
@@ -131,10 +137,10 @@
               outlined
               clearable
               v-model="newUser.password"
-              label="Contraseña"
+              :label="$t('auth.form.password')"
               lazy-rules
               :type="revealPassword ? 'text' : 'password'"
-              error-message="Las contraseñas no coinciden"
+              :error-message="$t('auth.errors.password')"
             >
               <template #append>
                 <q-icon
@@ -148,11 +154,11 @@
               rounded
               color="blue-grey-14"
               :type="revealPassword ? 'text' : 'password'"
-              label="Confirmar contraseña"
+              :label="$t('auth.form.confirm')"
               outlined
               clearable
               lazy-rules
-              error-message="Las contraseñas no coinciden"
+              :error-message="$t('auth.errrors.password')"
               v-model="newUser.confirmPassword"
               :rules="[(val) => val === newUser.password]"
             >
@@ -175,7 +181,7 @@
               rounded
               lazy-rules
               item-aligned
-              error-message="Por favor ingresa un email válido."
+              :error-message="$t('auth.errors.email')"
               :rules="[
                 (val) =>
                   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
@@ -190,10 +196,10 @@
               item-aligned
               rounded
               :type="revealPassword ? 'text' : 'password'"
-              error-message="Por favor, ingresa bien tu contraseña"
+              :error-message="$t('auth.form.wrongPassword')"
               v-model="userCreedentials.password"
               :error="errorHandler"
-              label="Contraseña"
+              :label="$t('auth.form.password')"
             >
               <template #append>
                 <q-icon
@@ -206,7 +212,7 @@
           </q-card-section>
           <q-card-actions v-if="!register" class="row justify-center">
             <action-button
-              label="Acceder"
+              :label="$t('common.access')"
               type="submit"
               style="width: 50%"
               :loading="loginLoading"
@@ -214,7 +220,7 @@
             />
           <action-button
               @click="toggleCustomDialog"
-              label="He olvidado mi contraseña"
+              :label="$t('auth.recovery')"
               flat
               class="q-mt-lg col-12"
               text-color="blue-grey-14"
@@ -227,7 +233,11 @@
               v-model="check"
               class="text-body2 col-12 text-no-wrap q-mb-lg"
             >
-              He leído y acepto la <u>política de privacidad</u>.
+            <i18n-t keypath="auth.privacyPolicyMessage" scope="global">
+              <template #privacy>
+                  <u>{{ $t('common.privacyPolicy') }}</u>
+              </template>
+            </i18n-t>
             </q-checkbox>
             <action-button
                 @click="store.toggleRegister"
@@ -235,7 +245,7 @@
                 outline
                 neutro
                 rounded
-                label="Atras"
+                :label="$t('common.back')"
                 no-caps
                 class="col"
                 color="blue-grey-13"
@@ -258,6 +268,7 @@ import * as manifest from '../../src-pwa/manifest.json'
 import { defineComponent, reactive, ref, computed, onMounted } from 'vue'
 import { useQuasar, LocalStorage } from 'quasar'
 import { useRouter, onBeforeRouteLeave, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 import { resetCaches } from 'graphql-tag'
 import { format } from 'quasar'
@@ -277,6 +288,7 @@ export default defineComponent({
       signUpLoading,
       loginLoading
     } = useAuth()
+    const { t } = useI18n()
     const route = useRoute()
     const router = useRouter()
     const { store, register, user } = useAuth()
@@ -287,7 +299,6 @@ export default defineComponent({
     const registerSuccess = ref(false)
     const { name } = manifest
     const check = ref(false)
-    const addressRef = ref(null)
 
     const userCreedentials: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
@@ -310,11 +321,11 @@ export default defineComponent({
     const { toggleCustomDialog } = useCustomDialog({
       action: 'recovery',
       dense: true,
-      placeHolder: 'Dinos tu email ...',
-      title: 'Recuperar tu contraseña es muy sencillo.',
-      subtitle: `Únicamente dinos con que <u>email</u> estás registrado en ${name}.`,
-      description: 'Recibiras un email en tu bandeja de entrada con un enlace con el que podrás cambiar tu contraseña.',
-      disclaimer: '* No olvides revisar el correo no deseado si no encuentras el correo en tu bandeja de entrada.',
+      placeHolder: t('recovery.placeHolder'),
+      title: t('recovery.title'),
+      subtitle: t('recovery.subtitle', { name }),
+      description: t('recovery.description'),
+      disclaimer: t('recovery.disclaimer'),
     })
 
     async function login() {
@@ -344,7 +355,7 @@ export default defineComponent({
     async function signUp() {
       errors.value = []
       if (!check.value) {
-         useNotifyError({ message: 'Debes leer y aceptar nuestra política de privacidad para continuar tu regisro.' })
+         useNotifyError({ message: t('auth.errors.privacyPolicy', { privacy: t('common.privacyPolicy')}) })
          return
       }
       if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
@@ -400,6 +411,7 @@ export default defineComponent({
         }
         return false
       }),
+      t,
       user,
       capitalize,
       toggleCustomDialog,
@@ -409,7 +421,6 @@ export default defineComponent({
       logoutUser,
       apiKey: process.env.GOOGLE_MAPS_API_KEY,
       loading,
-      addressRef,
       check,
       name,
       registerSuccess,

@@ -8,7 +8,7 @@
             color="blue-grey-1"
             size="40px"
           />
-        <q-card class="border-radius-md bg-grey-1">
+        <q-card class="border-radius-md bg-grey-1 col-12">
           <q-form @submit="onOKClick" class="row">
               <q-card-section class="q-mb-none q-pb-none col-12">
                   <p
@@ -16,46 +16,46 @@
                   v-html="$route.query.token ? 'Introduce tu nueva contraseña' : title"
                   />
               </q-card-section>
-              <template  v-if="$route.query.token">
+              <template  v-if="$route.query.token || type === 'password'">
                   <q-card-section class="q-pt-none q-px-none col-12">
-                  <q-input
-                      outlined
-                      color="blue-grey-14"
-                      clearable
-                      item-aligned
-                      rounded
-                      :type="revealPassword ? 'text' : 'password'"
-                      error-message="Por favor, ingresa bien tu contraseña"
-                      v-model="reset.password"
-                      label="Nueva contraseña"
-                    >
-                  <template #append>
-                    <q-icon
-                      :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                      class="cursor-pointer"
-                      @click="revealPassword = !revealPassword"
-                    />
-                  </template>
-                </q-input>
-                  <q-input
-                    outlined
-                    color="blue-grey-14"
-                    clearable
-                    item-aligned
-                    rounded
-                    :type="revealPassword ? 'text' : 'password'"
-                    error-message="Por favor, ingresa bien tu contraseña"
-                    v-model="reset.passwordConfirm"
-                    label="Repite la nueva contraseña"
-                  >
-                  <template #append>
-                    <q-icon
-                      :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                      class="cursor-pointer"
-                      @click="revealPassword = !revealPassword"
-                    />
-                  </template>
-                </q-input>
+                      <q-input
+                          outlined
+                          color="blue-grey-14"
+                          clearable
+                          item-aligned
+                          rounded
+                          :type="revealPassword ? 'text' : 'password'"
+                          error-message="Por favor, ingresa bien tu contraseña"
+                          v-model="reset.password"
+                          :label="type === 'password' ? 'Antigua contraseña' : 'Nueva contraseña'"
+                        >
+                      <template #append>
+                        <q-icon
+                          :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                          class="cursor-pointer"
+                          @click="revealPassword = !revealPassword"
+                        />
+                      </template>
+                      </q-input>
+                        <q-input
+                          outlined
+                          color="blue-grey-14"
+                          clearable
+                          item-aligned
+                          rounded
+                          :type="revealPassword ? 'text' : 'password'"
+                          error-message="Por favor, ingresa bien tu contraseña"
+                          v-model="reset.passwordConfirm"
+                          :label="type === 'password' ? 'Nueva contraseña' : 'Repite la nueva contraseña'"
+                        >
+                        <template #append>
+                          <q-icon
+                            :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                            class="cursor-pointer"
+                            @click="revealPassword = !revealPassword"
+                          />
+                        </template>
+                      </q-input>
                   </q-card-section>
               </template>
               <template v-else>
@@ -85,9 +85,19 @@
                 <action-button
                     type="submit"
                     class="full-width"
-                    :label="success ? `Cerrar (${count})` : 'Continuar'"
+                    :label="success ? `Cerrar (${count})` : type === 'password' ? 'Guardar' : 'Continuar'"
                     :loading="loading"
-                  />
+                >
+                  <template #icon>
+                      <q-img
+                          v-if="success"
+                          width="20px"
+                          height="20px"
+                          class="q-ml-xs"
+                          src="~assets/check.gif"
+                      />
+                  </template>
+                </action-button>
               </q-card-actions>
           </q-form>
         </q-card>
@@ -125,6 +135,7 @@ const props = defineProps({
     type: String,
     default: 'sendEmail'
   },
+  type: String,
   dense: Boolean,
   title: String,
   subtitle: String,
@@ -209,24 +220,25 @@ async function onOKClick() {
     switch (props.action) {
       case 'sendEmail':
           await sendEmail(variables)
-          break;
-          case 'recovery':
-           if (route.query.token) {
-             await updateUser({ input: { password: reset.password} })
-            LocalStorage.clear()
-            store.$reset()
-            router.push('/auth')
-            return
-          }
-            await recoveryPassword({ email: input.value })
-
-            break;
-            case 'add-to-with':
-              await addToWish({ productId: props.product.id })
-              await sendEmail(variables)
-        break;
+      break;
+      case 'recovery':
+        if (route.query.token) {
+          LocalStorage.clear()
+          store.$reset()
+          router.push('/auth')
+          return
+        }
+        await recoveryPassword({ email: input.value })
+      break;
+      case 'add-to-with':
+        await addToWish({ productId: props.product.id })
+        await sendEmail(variables)
+      break;
+      case 'update':
+          await updateUser({ input: { password: reset.password } })
+      break;
         default:
-          break;
+      break;
   }
   } catch (error) {
   } finally {
@@ -238,11 +250,11 @@ async function onOKClick() {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .disclaimer {
   border: 2px solid $lime-14;
 }
 .custom-dialog .q-dialog__backdrop {
-  background: rgba($color: #000000, $alpha: .8);
+  background: rgba($color: #000000, $alpha: .7);
 }
 </style>

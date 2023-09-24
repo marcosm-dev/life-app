@@ -14,7 +14,7 @@
                   fit="scale-down"
                   @click="$router.push('/')"
                   class="rounded-borders q-ma-sm col-2"
-                  :src="`${url}/${toggleLogo ? 'life_logo' : 'aprimatic_logo'}_white`"
+                  :src="logo"
                   no-spinner
               />
           </div>
@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, Ref } from 'vue'
+import { defineComponent, ref, inject, Ref, computed } from 'vue';
 import { EventBus, morph } from 'quasar'
 import { onBeforeRouteUpdate } from 'vue-router'
 import { QuasarHTMLElement } from '@quasar/app'
@@ -164,6 +164,7 @@ import useCartAnimation from '../composables/useCartAnimation'
 import useAuth from '../composables/useAuth'
 import SearchBar from 'src/components/SearchBar.vue'
 import HamburguerElastic from 'components/HamburguerElastic.vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -177,6 +178,8 @@ export default defineComponent({
     const toggleLogo = ref(false)
     const search = ref(true)
     const searchText = ref('')
+    const { locale } = useI18n()
+
     const {
       logoutUser,
       logoutLoading,
@@ -190,6 +193,7 @@ export default defineComponent({
     const animationMotion = ref(false)
     const drawer = ref(false)
     const productSelected  = ref(null)
+    const url = process.env.IMAGES_URL
 
     onBeforeRouteUpdate((to) => {
       if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
@@ -228,7 +232,10 @@ export default defineComponent({
     })
 
     return {
-      url: process.env.IMAGES_URL,
+      logo: computed(() => {
+        if (locale.value === 'it') return `${url}/life_logo_white`
+        return `${url}/${toggleLogo.value ? 'aprimatic_logo' : 'life_logo'}_white`
+      }),
       title,
       drawer,
       search,

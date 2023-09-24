@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,0 +1,44 @@
+{
+	"auth": {
+		"errors": {
+			"email": "Por favor ingresa un email válido.",
+			"password": "Las contraseñas no coinciden.",
+			"privacyPolicy": "Debes leer y aceptar nuestra {privacy} para continuar tu registro.",
+			"wrongPassword": "Por favor, ingresa bien tu contraseña."
+		},
+		"form": {
+			"address": "Dirección",
+			"city": "Ciudad",
+			"confirm": "Confirmar contraseña",
+			"email": "Email",
+			"lastName": "Apellidos",
+			"name": "Nombre",
+			"password": "Contraseña",
+			"phone": "Teléfono",
+			"postalCode": "Código Postal",
+			"VATIN": "CIF o DNI"
+		},
+		"login": {
+			"signUpAction": "Crear mi cuenta",
+			"subtitle": "¿Aun no trabajas con nosotros?",
+			"title": "Inicia sesión con tu cuenta en {name}"
+		},
+		"privacyPolicyMessage": "He leído y acepto la {privacy}",
+		"recovery": "He olvidado mi contraseña",
+		"signUp": {
+			"title": "Crea una cuenta en {name}"
+		}
+	},
+	"common": {
+		"access": "Acceder",
+		"back": "Atrás",
+		"privacyPolicy": "Política de privacidad"
+	},
+	"recovery": {
+		"description": "Recibiras un email en tu bandeja de entrada con un enlace con el que podrás cambiar tu contraseña.",
+		"disclaimer": "* No olvides revisar el correo no deseado si no encuentras el correo en tu bandeja de entrada.",
+		"placeHolder": "Escribe tu email ...",
+		"subtitle": "Únicamente dinos con que <u>email</u> estás registrado en {name}.",
+		"title": "Recuperar tu contraseña es muy sencillo."
+	}
+}

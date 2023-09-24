@@ -26,7 +26,7 @@
         </q-card-section>
 
         <q-card-actions class="flex justify-end items-end col-3">
-              <div v-if="product.price && product.uuid" class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
+              <div v-if="product.price && product.uuid || product.stock" class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
                   <div class="q-ml-auto flex text-right">
                       {{ product.price.toFixed(2).replace('.', ',') }}
                     <small class="block q-mr-auto q-mx-sm text-caption">EUR</small>
@@ -42,7 +42,7 @@
                   />
                 <order-button v-else-if="!product.uuid && !product.stock" :product="product"  dense />
               <div v-if="product.stock < 10 && product.stock !== 0" class="text-bold text-accent text-overline q-pt-xs">
-                  Quedan {{ product.stock }} {{ product.stock > 1 ? 'Uds' : 'Ud' }}.
+                 {{ product.stock > 1 ? 'Quedan' : 'Queda' }} {{ product.stock }} {{ product.stock > 1 ? 'uds' : 'ud' }}.
               </div>
             <div class="full-width q-pt-md">
                   <action-button
