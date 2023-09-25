@@ -19,7 +19,7 @@
       </div>
 
       <h5 class="mobile-only text-center text-weight-medium q-mb-none">
-        Contacto
+         {{  $t('menu.contact') }}
       </h5>
       <q-separator
         :vertical="$q.screen.width > 768"
@@ -31,19 +31,19 @@
         class="col text-bold text-dark contact"
         style="list-style: none; line-height: 2"
       >
-        <li class="text-subtitle2">C/ Ctra Almatriche alto, 198</li>
-        <li>35018 Las Palmas - Tamaraceite</li>
-        <li class="text-weight-medium">Las Palmas de Gran Canaria</li>
+        <li class="text-subtitle2">{{ address }}</li>
+        <li>{{ postalCode }} {{ location }}</li>
+        <li class="text-weight-medium">{{ province }}</li>
         <li>
-          <q-icon name="mdi-email-outline" size="20px" />
-          <a href="mailto:serpica.sa@hotmail.com" class="text-subtitle2">
-            serpica.sa@hotmail.com
+          <q-icon class="q-mr-xs" name="mdi-email-outline" size="20px" />
+          <a href="mailto:serpica.sa@hotmail.com" class="text-subtitle2 q-mr-xs">
+            {{ email }}
           </a>
         </li>
         <li>
           <a href="tel:+34657422132" class="text-subtitle2">
             <q-icon name="mdi-phone-outline" size="20px" />
-            +34657422132
+            +{{phone}}
           </a>
         </li>
       </ul>
@@ -51,22 +51,22 @@
   </q-page>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { GoogleMap, Marker as MapMarker } from 'vue3-google-map'
+import * as config from '../../user.config'
+const {
+  phone,
+  email,
+  province,
+  address,
+  postalCode,
+  location
+} = config.default
 
-export default defineComponent({
-  name: 'ContactoPage',
-  setup() {
-    const center = { lat: 28.080605855696696, lng: -15.461903973725459 }
+const center = { lat: 28.080605855696696, lng: -15.461903973725459 }
+const apiKey = process.env.GOOGLE_MAPS_API_KEY
 
-    return {
-      center,
-      apiKey: process.env.GOOGLE_MAPS_API_KEY
-    }
-  },
-  components: { GoogleMap, MapMarker }
-})
+
 </script>
 
 <style lang="scss">

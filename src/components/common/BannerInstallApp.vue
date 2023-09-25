@@ -20,13 +20,13 @@
           />
           <div class="col q-gutter-y-sm">
             <div class="text-bold">
-              Serpica Life
+              {{  name }}
             </div>
             <div
               class="text-caption q-mt-xs q-pr-md text-info"
               style="line-height: 1.2; font-weight: 500"
             >
-              Instalar nuestra app es gratis y en un solo clic.
+              {{ $t('banner.title') }}
             </div>
           </div>
           <q-btn
@@ -39,7 +39,7 @@
             text-color="blue-grey-8"
             color="lime-13"
             padding="10px 20px"
-            label="Instalar ahora"
+            :label="$t('banner.actionButtonLabel')"
           />
         </div>
       </q-banner>
@@ -62,7 +62,9 @@
                 color="blue-grey-10"
               />
           </q-btn>
-            <label class="q-ml-auto">Instalar</label>
+            <label class="q-ml-auto">
+              {{ $t('banner.install') }}
+            </label>
             <q-btn
               @click="installApp"
               flat
@@ -82,7 +84,7 @@
           dense
           square
           @click="installApp"
-          label="Instalar"
+          :label="$t('banner.install')"
           no-caps
       />
     </template>
@@ -93,6 +95,7 @@
 import { computed, defineComponent } from 'vue'
 import { LocalStorage } from 'quasar'
 import useAuth from 'src/composables/useAuth'
+import { name } from '../../../src-pwa/manifest.json'
 
 export default defineComponent({
   name: 'App',
@@ -155,6 +158,7 @@ export default defineComponent({
           neverShowAppInstallBanner.value ||
           !deferredPrompt.value?.prompt
       ),
+      name,
       temporalHideBanner,
       LocalStorage,
       hideInstallPromotion,

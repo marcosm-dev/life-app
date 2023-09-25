@@ -55,7 +55,7 @@
               class="text-info cursor-pointer col-auto text-caption q-mt-auto q-ml-auto"
               :class="$q.screen.width < 768 ? '' : ''"
             >
-              Mas información
+              {{ $t('common.moreInfo') }}
             </a>
           </div>
           <q-separator size="1px" spaced="10px" />
@@ -65,7 +65,7 @@
                     {{ product.description }}.
                   </div>
                   <div v-if="product.accessories" class="col-12 text-blue-grey-10 text-bold">
-                    Incluye:
+                    {{ $t('common.include') }}:
                   </div>
                   <div class="col-auto text-blue-grey-13 capitalize-first">
                     {{ product.accessories?.toLowerCase() }}
@@ -84,7 +84,7 @@
               v-if="product.stock < 10 && product.stock !== 0"
               class="text-accent q-my-auto  col text-right text-accent"
             >
-              {{  product.stock === 1 ?  `Queda ${product.stock} ud.` :  `Quedan ${product.stock} uds.`}}
+              {{ $t('product.stockMessage', { stock: product.stock }, product.stock)}}
             </div>
           </template>
         </ProductQuantity>
@@ -92,7 +92,7 @@
       <q-card-actions v-if="product.stock" class="row justify-between full-width q-pa-md">
         <action-button
           @click="addToCart(); bus.emit('product-to-cart', countItemElement)"
-          :label="$q.screen.width < 300 ? 'Añadir' : 'Al carrito'"
+          :label="$q.screen.width < 300 ? $t('common.add') : $t('purchase.toCart')"
           neutro
           class="transition-slow col"
         >
@@ -138,9 +138,8 @@ import useCartAnimation from 'src/composables/useCartAnimation'
 import { EventBus } from 'quasar';
 import useProductCart from '../composables/useProductCart'
 import { Product } from './models'
-import useCustomDialog from 'src/composables/useCustomDialog'
 import OrderButton from './OrderButton.vue'
-import ImageWithError from './common/ImageWithError.vue';
+import ImageWithError from './common/ImageWithError.vue'
 
 export default defineComponent({
   name: 'ProductComponent',
@@ -157,12 +156,6 @@ export default defineComponent({
   },
   emits: ['product-to-cart'],
   setup(props) {
-    const { toggleCustomDialog } = useCustomDialog({
-      title: `Hola, vemos que estas interesado en <span class="text-capitalize text-bold">${props.product?.name.toLowerCase()}.</span>`,
-      subtitle: 'Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo en la mayor brevedad.',
-      product: props.product
-    })
-
     const { cart, increase, decrease, state, addToCart } = useProductCart(props.product)
     const { toggle, loading } = useCartAnimation()
     const { toggleCartDialog } = useCartDialog()
@@ -171,7 +164,6 @@ export default defineComponent({
     const morphGroupModel = ref('topleft')
 
     return {
-      toggleCustomDialog,
       bus,
       increase,
       decrease,

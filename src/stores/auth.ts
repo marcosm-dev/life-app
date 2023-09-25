@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
     user: {} as User,
     neverShowAppInstallBanner: false,
     temporalHideBanner: false,
-    title: '¿Qué estás buscando?',
+    title: null as string | null,
     loading: false,
     hideBanners: {
       menu: false,

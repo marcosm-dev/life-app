@@ -7,9 +7,10 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-const { locale } = useI18n({ useScope: 'global' })
+const { locale, t } = useI18n({ useScope: 'global' })
 const  localeOptions = [
-        { value: 'en-US', label: 'English' },
-        { value: 'it', label: 'Italian' }
+        { value: 'es', label: t('lang.options.ES')},
+        { value: 'en-US', label: t('lang.options.US') },
+        { value: 'it', label: t('lang.options.IT') }
   ]
 </script>

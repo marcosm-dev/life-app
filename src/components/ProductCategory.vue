@@ -1,6 +1,6 @@
 <template>
     <q-card
-        class="border-radius-md q-px-sm q-pb-sm bg-grey-1 shadow-5  column justify-end"
+        class="border-radius-md q-px-sm q-pb-sm bg-grey-1 shadow-5  column justify-end full-height"
         bordered
         outline
       >
@@ -10,13 +10,13 @@
           color="blue-grey-13"
           name="mdi-heart-outline"
         />
-          <q-card-section class="border-radius-sm col-3">
+          <q-card-section class="border-radius-sm col-auto">
               <ImageWithError
                   :image="product.imagen"
                   :brand="product.brand.name"
               />
           </q-card-section>
-          <q-card-section class="q-gutter-y-sm  col-5 q-pa-sm">
+          <q-card-section class="q-gutter-y-sm  col q-pa-sm">
             <div class="text-subtitle1 full-width q-pa-sm  border-radius-sm text-grey-10 bg-lime-14">
                 {{ product.name }}
             </div>
@@ -25,7 +25,7 @@
             </div>
         </q-card-section>
 
-        <q-card-actions class="flex justify-end items-end col-3">
+        <q-card-actions class="flex justify-end items-end col">
               <div v-if="product.price && product.uuid || product.stock" class="bg-lime-13 text-grey-10 text-bold q-pa-sm border-radius-sm col-12 flex items-end">
                   <div class="q-ml-auto flex text-right">
                       {{ product.price.toFixed(2).replace('.', ',') }}
@@ -38,19 +38,19 @@
                     class="text-no-wrap q-pa-sm col-12 text-bold"
                     padding="5px 10px"
                     size="11px"
-                    label="Avísame cuando llegue"
+                    :label="$t('product.noStockMessage')"
                   />
                 <order-button v-else-if="!product.uuid && !product.stock" :product="product"  dense />
               <div v-if="product.stock < 10 && product.stock !== 0" class="text-bold text-accent text-overline q-pt-xs">
-                 {{ product.stock > 1 ? 'Quedan' : 'Queda' }} {{ product.stock }} {{ product.stock > 1 ? 'uds' : 'ud' }}.
+                 {{ $t('product.stockMessage', { stock: product.stock}, product.stock) }}
               </div>
-            <div class="full-width q-pt-md">
+            <div class="full-width">
                   <action-button
                     :to="`/product/${product.id}`"
                     class="text-no-wrap full-width"
                     neutro
                     padding="5px 20px"
-                    label="Ver producto"
+                    :label="$t('product.view')"
                   />
             </div>
         </q-card-actions>

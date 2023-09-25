@@ -41,7 +41,7 @@
                   >
                     <template v-slot:left>
                       <q-icon name="mdi-delete" color="light-blue-1" />
-                      Borrar
+                        {{ $t('common.delete') }}
                     </template>
                     <q-item v-if="!step" class="row bg-white">
                       <q-item-section class="column q-px-none" avatar>
@@ -54,15 +54,19 @@
                         />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label class="text-subtitle2">
+                        <q-item-label class="text-subtitle2 flex items-center">
                           {{ product.name }}
-                          <small>- {{ product.brand.name }}</small>
+                          <small class="bg-lime-13 q-px-xs q-my-auto q-ml-sm" style="border-radius: 4px;">
+                            {{ product.brand.name }}
+                          </small>
                         </q-item-label>
                         <q-item-label
                           class="inter text-lowercase text-blue-grey-13"
                           lines="3"
                         >
-                          <div class="description">{{ product.description }}</div>
+                          <div class="description">
+                            {{ product.description }}
+                          </div>
                         </q-item-label>
                       </q-item-section>
                       <q-item-section class="no-padding" style="max-width: 100px" side>
@@ -104,8 +108,7 @@
                     <q-separator vertical />
                     <q-item-section class="text-subtitle3" side>
                       <q-item-label caption>
-                        {{ product.quantity }}
-                        {{ product.quantity > 1 ? 'uds.' : 'ud.' }}
+                        {{ $t('common.shortUnits', { stock: product.stock}, product.stock) }}
                       </q-item-label>
                       <div>
                         {{ (product.price * product.quantity).toFixed(2).replace('.', ',') }}
@@ -121,7 +124,7 @@
               <q-card-section class="row" @click="deleteCartModel = false">
                 <div class="col-12 flex justify-between">
                   <div class="text-caption text-grey-10">
-                    Unidades:
+                    {{ $t('common.units') }}:
                   </div>
                   <div class="text-subtitle3 text-grey-10">
                     {{ cartCount }}
@@ -129,7 +132,7 @@
                 </div>
                 <div class="col-12 flex justify-between">
                   <div class="text-subtitle1">
-                      Subtotal
+                      {{ $t('common.subtotal') }}
                   </div>
                   <div class="text-subtitle3">
                       {{ amount.toFixed(2).replace('.', ',') }}
@@ -139,9 +142,9 @@
                 <q-separator class="col-12 q-mb-sm q-mt-xs" size="1px"  />
                 <div class="col-12 flex justify-between">
                   <div class="text-subtitle1">
-                      TOTAL
+                      {{ $t('common.total') }}
                     <span class="text-caption text-dark-page text-capitalize text-bold">
-                      (IGIC incluido)
+                      {{ $t('purchase.includedTax', { TAX: 'IGIC'}) }}
                     </span>
                   </div>
                   <div
@@ -231,7 +234,7 @@
                   class="col"
                   padding="10px 20px"
                   dense
-                  :label="!step ? 'Continuar' : 'Realizar pedido'"
+                  :label="!step ? $t('common.continue') : $t('puchase.action')"
                   @click="onOKClick"
                   no-caps
                   :loading="loading"
@@ -258,7 +261,7 @@
           <q-card-section
             class="text-body2 text-blue-grey-14 row items-center justify-center"
           >
-            ¡Tu pedido se ha generado con Éxito!
+            ¡{{ $t('purchase.success.title') }}!
             <q-img
               v-if="invoice"
               width="20px"
@@ -267,11 +270,10 @@
               src="~assets/check.gif"
             />
             <p class="text-blue-grey-13">
-              Pronto llegará la factura a tu correo electrónico.
+              {{ $t('purchase.success.subtitle') }}
             </p>
             <p class="text-info">
-              ¡Gracias por tu
-              compra!
+              ¡{{ $t('purchase.success.message') }}!
             </p>
            <div class="col-12 text-center">
              <action-button
@@ -291,7 +293,7 @@
               @click="deleteCart"
               flat
               no-caps
-              label="Cerrar"
+              :label="$q.lang.label.close"
               rounded
             />
           </q-card-section>

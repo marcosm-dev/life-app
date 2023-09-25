@@ -6,39 +6,143 @@
 			"privacyPolicy": "",
 			"wrongPassword": ""
 		},
+		"footer": {
+			"information": ""
+		},
 		"form": {
 			"address": "",
 			"city": "",
 			"confirm": "",
-			"email": "",
+			"email": "Email",
 			"lastName": "",
 			"name": "",
 			"password": "",
 			"phone": "",
 			"postalCode": "",
+			"businessName": "",
 			"VATIN": ""
 		},
 		"login": {
 			"signUpAction": "",
 			"subtitle": "",
-			"title": "Inicia sesión con tu cuenta en {name}"
+			"title": ""
 		},
 		"privacyPolicyMessage": "",
 		"recovery": "",
 		"signUp": {
+			"fullProfile": "",
+			"preferLater": "",
+			"success": {
+				"subtitle": "",
+				"title": ""
+			},
 			"title": ""
 		}
 	},
+	"banner": {
+		"actionButtonLabel": "",
+		"install": "",
+		"title": ""
+	},
 	"common": {
+		"accept": "Accetto le {privacy}",
 		"access": "",
+		"acept": "",
+		"add": "Aggiungi",
+		"and": "e",
 		"back": "",
-		"privacyPolicy": ""
+		"continue": "Continua",
+		"default": "Predefinita",
+		"delete": "",
+		"help": "Aiuto",
+		"include": "",
+		"modify": "Modifica",
+		"moreInfo": "",
+		"privacyPolicy": "Politica sulla privacy",
+		"reload": "Ricarica",
+		"save": "Salva",
+		"saveChanges": "Salva modifiche",
+		"searchTitle": "",
+		"shortUnits": "",
+		"subtotal": "",
+		"total": "Totale",
+		"units": ""
+	},
+	"dialogs": {
+		"custom": {
+			"inputPlaceHolder": ""
+		},
+		"product": {
+			"subtitle": "",
+			"title": ""
+		},
+		"recovery": {
+			"currentPassword": "Password attuale",
+			"errors": {
+				"samePassword": ""
+			},
+			"newPassword": "",
+			"newPasswordRepeat": "",
+			"oldPassword": "",
+			"title": ""
+		}
+	},
+	"footer": {
+		"tabs": {
+			"cart": "",
+			"home": "Home",
+			"manuals": ""
+		}
+	},
+	"lang": {
+		"options": {
+			"ES": "",
+			"IT": "",
+			"US": ""
+		}
+	},
+	"menu": {
+		"config": "",
+		"contact": "",
+		"logout": "Chiudi Sessione",
+		"myOrders": "",
+		"paymentMethods": "",
+		"refund": ""
+	},
+	"product": {
+		"noStockMessage": "",
+		"onlyByOrder": "",
+		"onlyByOrderShort": "",
+		"stockMessage": "",
+		"view": ""
+	},
+	"profile": {
+		"changePassword": "Modifica password",
+		"credentials": "",
+		"label": {
+			"uuid": ""
+		},
+		"personalData": "",
+		"title": ""
+	},
+	"purchase": {
+		"action": "",
+		"includedTax": "",
+		"success": {
+			"message": "",
+			"subtitle": "",
+			"title": ""
+		},
+		"toCart": ""
 	},
 	"recovery": {
 		"description": "",
 		"disclaimer": "",
 		"placeHolder": "",
 		"subtitle": "",
+		"success": {
+			"title": ""
+		},
 		"title": ""
 	}
 }

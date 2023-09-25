@@ -30,13 +30,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [
-      'i18n',
-      'global-components',
-      'bus',
-      'axios',
-      'apollo',
-    ],
+    boot: ['i18n', 'global-components', 'bus', 'axios', 'apollo'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['fonts.sass', 'app.scss', 'global.scss'],
@@ -85,7 +79,7 @@ module.exports = configure(function (ctx) {
         CLOUDINARY_KEY: process.env.CLOUDINARY_API_KEY,
         CLOUDINARY_SECRET: process.env.CLOUDINARY_API_SECRET,
         CLOUDINARY_ID: process.env.CLOUDINARY_API_ID,
-        IMAGES_URL: process.env.IMAGES_URI
+        IMAGES_URL: process.env.IMAGES_URI,
       }
       // rawDefine: {}
       // ignorePublicFolder: true,
@@ -133,7 +127,6 @@ module.exports = configure(function (ctx) {
       'slideInDown',
       'slideOutDown',
       'slideInUp',
-      'slideInDown',
       'slideOutLeft',
       'slideInRight',
       'slideInLeft',

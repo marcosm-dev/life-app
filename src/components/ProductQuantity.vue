@@ -9,7 +9,6 @@
       outline
       :icon="product.quantity === 1 ? 'mdi-delete-outline' : 'mdi-minus'"
       unelevated
-      rounded
       size="10px"
       ripple
     />
@@ -29,7 +28,6 @@
       size="10px"
       icon="mdi-plus"
       ripple
-      rounded
     />
   </q-card-section>
 

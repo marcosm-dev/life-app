@@ -4,16 +4,15 @@
     <q-dialog v-model="registerSuccess">
       <q-card class="column rounded-card q-pb-none">
         <q-card-section class="text-h6 text-center col">
-          Gracias por registrarte
+          {{ $t('auth.signUp.success.title') }}
         </q-card-section>
         <q-card-section class="q-pt-none col">
-          Su registro ha finalizado con éxito, recibira un email con la
-          confirmación, en menos de 24 horas le daremos acceso a nuestra app.
+          {{  $t('auth.signUp.success.subtitle') }}
         </q-card-section>
         <q-card-actions class="col q-pb-lg justify-center">
           <action-button
             @click="reset"
-            :label="'Cerrar'"
+            :label="$q.lang.label.close"
             padding="10px 40px"
             outline
             dense
@@ -47,10 +46,12 @@
                     <u class="cursor-pointer text-subtitle1 knockout text-blue-grey-14">{{ $t('auth.login.signUpAction') }}</u>
                   </span>
                 </template>
-                <template v-else> {{ $t('auth.signUp.title', { name }) }} </template>
+                <template v-else>
+                  {{ $t('auth.signUp.title', { name }) }}
+                </template>
               </q-card-section>
           </q-card-section>
-          <q-card-section v-if="register" class="col-12 q-gutter-y-md q-py-none">
+          <q-card-section v-if="register" class="col-12 q-gutter-y-md q-pb-none">
             <q-input
               v-model="newUser.name"
               outlined
@@ -59,59 +60,6 @@
               :label="$t('auth.form.name')"
               rounded
               lazy-rules
-            />
-            <q-input
-              v-model="newUser.lastName"
-              outlined
-              color="blue-grey-14"
-              rounded
-              clearable
-              :label="$t('auth.form.lastName')"
-              type="text"
-            />
-            <q-input
-              outlined
-              color="blue-grey-14"
-              rounded
-              clearable
-              v-model="newUser.VATIN"
-              :label="$t('auth.form.VATIN')"
-              lazy-rules
-            />
-            <q-input
-              outlined
-              color="blue-grey-14"
-              rounded
-              clearable
-              type="text"
-              v-model="newUser.phone"
-              :error="errorHandler"
-              :label="$t('auth.form.phone')"
-            />
-            <q-input
-              rounded
-              color="blue-grey-14"
-              outlined
-              type="text"
-              clearable
-              v-model="newUser.address"
-              :label="$t('auth.form.address')"
-            />
-            <q-input
-              rounded
-              color="blue-grey-14"
-              outlined
-              clearable
-              v-model="newUser.zipCode"
-              :label="$t('auth.form.postalCode')"
-            />
-            <q-input
-              rounded
-              color="blue-grey-14"
-              outlined
-              clearable
-              v-model="newUser.city"
-              :label="$t('auth.form.city')"
             />
             <q-input
               rounded
@@ -132,44 +80,105 @@
               lazy-rules
             />
             <q-input
-              rounded
-              color="blue-grey-14"
-              outlined
-              clearable
-              v-model="newUser.password"
-              :label="$t('auth.form.password')"
-              lazy-rules
-              :type="revealPassword ? 'text' : 'password'"
-              :error-message="$t('auth.errors.password')"
-            >
-              <template #append>
-                <q-icon
-                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                  class="cursor-pointer"
-                  @click="revealPassword = !revealPassword"
-                />
-              </template>
+                rounded
+                color="blue-grey-14"
+                outlined
+                clearable
+                v-model="newUser.password"
+                :label="$t('auth.form.password')"
+                lazy-rules
+                :type="revealPassword ? 'text' : 'password'"
+                :error-message="$t('auth.errors.password')"
+              >
+                <template #append>
+                  <q-icon
+                    :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                    class="cursor-pointer"
+                    @click="revealPassword = !revealPassword"
+                  />
+                </template>
             </q-input>
-            <q-input
-              rounded
-              color="blue-grey-14"
-              :type="revealPassword ? 'text' : 'password'"
-              :label="$t('auth.form.confirm')"
-              outlined
-              clearable
-              lazy-rules
-              :error-message="$t('auth.errrors.password')"
-              v-model="newUser.confirmPassword"
-              :rules="[(val) => val === newUser.password]"
-            >
-              <template #append>
-                <q-icon
-                  :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                  class="cursor-pointer"
-                  @click="revealPassword = !revealPassword"
-                />
-              </template>
-            </q-input>
+            <q-card-section class="no-padding q-gutter-y-md">
+                  <div class="text-center">
+                    <q-btn
+                      rounded
+                      @click="extraForm = !extraForm"
+                      class="q-mx-auto"
+                      :label="extraForm ? $t('auth.signUp.preferLater') : $t('auth.signUp.fullProfile')"
+                      text-color="info"
+                      no-caps
+                      flat
+                      :icon-right="extraForm ? 'mdi-arrow-up-circle' : 'mdi-arrow-down-circle'"
+                    />
+                  </div>
+                  <transition-group
+                    appear
+                    tag="div"
+                    enter-active-class="animated slideInDown"
+                    v-if="extraForm"
+                    class="q-gutter-y-md extra-form q-mt-lg"
+                  >
+                      <q-input
+                          key="lastName"
+                          v-model="newUser.lastName"
+                          outlined
+                          color="blue-grey-14"
+                          rounded
+                          clearable
+                          :label="$t('auth.form.lastName')"
+                          type="text"
+                        />
+                        <q-input
+                          key="VATIN"
+                          outlined
+                          color="blue-grey-14"
+                          rounded
+                          clearable
+                          v-model="newUser.VATIN"
+                          :label="$t('auth.form.VATIN')"
+                          lazy-rules
+                        />
+                        <q-input
+                          key="phone"
+                          outlined
+                          color="blue-grey-14"
+                          rounded
+                          clearable
+                          type="text"
+                          v-model="newUser.phone"
+                          :error="errorHandler"
+                          :label="$t('auth.form.phone')"
+                        />
+                        <q-input
+                          key="address"
+                          rounded
+                          color="blue-grey-14"
+                          outlined
+                          type="text"
+                          clearable
+                          v-model="newUser.address"
+                          :label="$t('auth.form.address')"
+                        />
+                        <q-input
+                          key="zipCode"
+                          rounded
+                          color="blue-grey-14"
+                          outlined
+                          clearable
+                          v-model="newUser.zipCode"
+                          :label="$t('auth.form.postalCode')"
+                        />
+                        <q-input
+                          key="city"
+                          rounded
+                          color="blue-grey-14"
+                          outlined
+                          clearable
+                          v-model="newUser.city"
+                          :label="$t('auth.form.city')"
+                        />
+                  </transition-group>
+            </q-card-section>
           </q-card-section>
           <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
             <q-input
@@ -196,7 +205,7 @@
               item-aligned
               rounded
               :type="revealPassword ? 'text' : 'password'"
-              :error-message="$t('auth.form.wrongPassword')"
+              :error-message="$t('auth.errors.wrongPassword')"
               v-model="userCreedentials.password"
               :error="errorHandler"
               :label="$t('auth.form.password')"
@@ -231,7 +240,8 @@
           <q-card-actions class="row justify-between q-mx-sm" v-else>
             <q-checkbox
               v-model="check"
-              class="text-body2 col-12 text-no-wrap q-mb-lg"
+              color="lime-13"
+              class="text-body2 col-12 text-no-wrap q-mb-xl q-mt-md"
             >
             <i18n-t keypath="auth.privacyPolicyMessage" scope="global">
               <template #privacy>
@@ -299,6 +309,7 @@ export default defineComponent({
     const registerSuccess = ref(false)
     const { name } = manifest
     const check = ref(false)
+    const extraForm = ref(false)
 
     const userCreedentials: User = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
@@ -412,6 +423,7 @@ export default defineComponent({
         return false
       }),
       t,
+      extraForm,
       user,
       capitalize,
       toggleCustomDialog,

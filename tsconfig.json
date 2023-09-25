@@ -11,5 +11,5 @@
     "src-pwa/**/*.d.ts",
     "src-pwa/**/*.json",
     "src-pwa/*.json"
-  ]
+, "user.config.ts"  ]
 }

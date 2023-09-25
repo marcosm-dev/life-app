@@ -4,8 +4,8 @@
       :padding="dense ? '5px 15px' : '20px'"
       :size="dense ? '11px' : '16px'"
       :class="dense ? 'border-radius-sm' : ''"
-      class="Aeít-no- cuando lleguewrap col-12"
-      :label="dense ? 'Solo bajo pedido' : 'Solo disponible bajo pedido'"
+      class="no-wrap col-12"
+      :label="dense ? $t('product.onlyByOrderShort') : $t('product.onlyByOrder')"
     />
 </template>
 
@@ -13,6 +13,7 @@
 import { defineComponent } from 'vue'
 import useCustomDialog from 'src/composables/useCustomDialog'
 import { Product } from './models'
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'OrderButton',
@@ -27,9 +28,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+      const { t } = useI18n()
       const { toggleCustomDialog } = useCustomDialog({
-        title: `Hola, vemos que estas interesado en <span class="text-capitalize text-bold">${props.product?.name.toLowerCase()}.</span>`,
-        subtitle: 'Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo en la mayor brevedad.',
+        title: t('dialogs.product.title', { name: props.product.name?.toLowerCase()}),
+        subtitle: t('dialogs.product.subtitle'),
         product: props.product
       })
     return {

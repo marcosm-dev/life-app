@@ -6,6 +6,9 @@
 			"privacyPolicy": "Debes leer y aceptar nuestra {privacy} para continuar tu registro.",
 			"wrongPassword": "Por favor, ingresa bien tu contraseña."
 		},
+		"footer": {
+			"information": "INFORMACIÓN Y CONTACTO"
+		},
 		"form": {
 			"address": "Dirección",
 			"city": "Ciudad",
@@ -16,7 +19,8 @@
 			"password": "Contraseña",
 			"phone": "Teléfono",
 			"postalCode": "Código Postal",
-			"VATIN": "CIF o DNI"
+			"businessName": "Razón social",
+			"VATIN": "CIF/DNI"
 		},
 		"login": {
 			"signUpAction": "Crear mi cuenta",
@@ -26,19 +30,119 @@
 		"privacyPolicyMessage": "He leído y acepto la {privacy}",
 		"recovery": "He olvidado mi contraseña",
 		"signUp": {
+			"fullProfile": "Completar mi perfil ahora",
+			"preferLater": "Prefiero completarlo más tarde",
+			"success": {
+				"subtitle": "Su registro ha finalizado con éxito, recibira un email con la confirmación, en menos de 24 horas le daremos acceso a nuestra app.",
+				"title": "Gracias por registrarte"
+			},
 			"title": "Crea una cuenta en {name}"
 		}
 	},
+	"banner": {
+		"actionButtonLabel": "Instalar ahora",
+		"install": "Instalar",
+		"title": "Instalar nuestra app es gratis y en un solo clic."
+	},
 	"common": {
+		"accept": "Acepto la {privacy}",
 		"access": "Acceder",
+		"acept": "Accetta",
+		"add": "Añadir",
+		"and": "y",
 		"back": "Atrás",
-		"privacyPolicy": "Política de privacidad"
+		"continue": "Continuar",
+		"default": "Por defecto",
+		"delete": "Borrar",
+		"help": "Ayuda",
+		"include": "Incluye",
+		"modify": "Modificar",
+		"moreInfo": "Mas información",
+		"privacyPolicy": "Política de privacidad",
+		"reload": "Recargar",
+		"save": "Guardar",
+		"saveChanges": "Guardar cambios",
+		"searchTitle": "¿Qué estás buscando?",
+		"shortUnits": "{stock} Ud. | {stock} Uds.",
+		"subtotal": "Subtotal",
+		"total": "TOTAL",
+		"units": "Unidades"
+	},
+	"dialogs": {
+		"custom": {
+			"inputPlaceHolder": "Escribe algo.... (opcional)."
+		},
+		"product": {
+			"subtitle": "Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo en la mayor brevedad",
+			"title": "Hola, vemos que estas interesado en nuestro: <br> <span class=\"text-lime-13 text-uppercase\">{name}.<span>"
+		},
+		"recovery": {
+			"currentPassword": "Contraseña actual",
+			"errors": {
+				"samePassword": "Las contraseñas deben de ser iguales."
+			},
+			"newPassword": "Nueva contraseña",
+			"newPasswordRepeat": "Repite la nueva contraseña",
+			"oldPassword": "Antigua contraseña",
+			"title": "Introduce tu nueva contraseña"
+		}
+	},
+	"footer": {
+		"tabs": {
+			"cart": "Carrito",
+			"home": "Inicio",
+			"manuals": "Manuales"
+		}
+	},
+	"lang": {
+		"options": {
+			"ES": "Español",
+			"IT": "Italiano",
+			"US": "Inglés"
+		}
+	},
+	"menu": {
+		"config": "Configuración",
+		"contact": "Contacto",
+		"logout": "Cerrar sesión",
+		"myOrders": "Mis Pedidos",
+		"paymentMethods": "Métodos de pago",
+		"refund": "Devoluciones"
+	},
+	"product": {
+		"noStockMessage": "Avísame cuando llegue",
+		"onlyByOrder": "Solo disponible bajo pedido",
+		"onlyByOrderShort": "Solo bajo pedido",
+		"stockMessage": "Queda {stock} ud. | Quedan {stock} uds.",
+		"view": "Ver producto"
+	},
+	"profile": {
+		"changePassword": "Cambiar contraseña",
+		"credentials": "Identificación y contraseña",
+		"label": {
+			"uuid": "Factura directa identificación (uuid)"
+		},
+		"personalData": "Datos personales",
+		"title": "Tu perfil"
+	},
+	"purchase": {
+		"action": "Realizar pedido",
+		"includedTax": "({TAX} incluido)",
+		"success": {
+			"message": "Gracias por tu compra",
+			"subtitle": "Pronto llegará la factura a tu correo electrónico.",
+			"title": "Tu pedido se ha generado con Éxito"
+		},
+		"toCart": "Al carrito"
 	},
 	"recovery": {
 		"description": "Recibiras un email en tu bandeja de entrada con un enlace con el que podrás cambiar tu contraseña.",
 		"disclaimer": "* No olvides revisar el correo no deseado si no encuentras el correo en tu bandeja de entrada.",
 		"placeHolder": "Escribe tu email ...",
 		"subtitle": "Únicamente dinos con que <u>email</u> estás registrado en {name}.",
+		"success": {
+			"title": "Todo ha salido bien"
+		},
 		"title": "Recuperar tu contraseña es muy sencillo."
 	}
 }

@@ -41,6 +41,7 @@ import useAuth from 'src/composables/useAuth'
 import useCloudinaryImage from 'src/composables/useCloudinaryImage'
 import ProductCategory from 'src/components/ProductCategory.vue'
 import { Product } from '../components/models'
+import { name } from '../../src-pwa/manifest.json'
 
 export default defineComponent({
   name: 'CategoryPage',
@@ -130,7 +131,7 @@ export default defineComponent({
 
     useMeta(() => {
           return {
-            title: `Serpica Canarias ${categoryName.value ? `- ${categoryName.value}` : ' '}`,
+            title: `${name} ${categoryName.value ? `- ${categoryName.value}` : ' '}`,
           }
       })
 

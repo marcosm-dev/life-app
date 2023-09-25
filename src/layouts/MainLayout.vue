@@ -23,10 +23,10 @@
                 class="text-subtitle text-subtitle3 text-white"
                 :class="search && 'no-pointer-events'"
                 target="_blank"
-                href="https://www.serpica.org"
+                :href="clientWebsite"
                 style="letter-spacing: 1px"
               >
-              SERPICA CANARIAS S.L.
+              {{ name }}
             </a>
             <search-bar
               @searching="(val) => search = val"
@@ -42,9 +42,9 @@
               transition-hide="slide-right"
               class="border-radius-sm q-pa-sm bg-primary"
             >
-              <div class="row justify-end text-white text-right">
+              <div class="row justify-end text-right">
                 <div class="column">
-                  <q-list dense class="text-white font-bold">
+                  <q-list dense class="font-bold text-grey-2">
 
                     <!-- <q-item clickable disable v-ripple>
                       <q-item-section no-wrap>
@@ -53,29 +53,39 @@
                     </q-item> -->
 
                     <q-item clickable  v-ripple to="/contacto">
-                      <q-item-section class="text-positive text-no-wrap">
-                          Métodos de pago
+                      <q-item-section class="text-no-wrap">
+                          {{ $t('menu.paymentMethods') }}
                       </q-item-section>
                     </q-item>
                     <q-item clickable v-ripple to="/orders" disable>
-                      <q-item-section> Mis Pedidos </q-item-section>
+                      <q-item-section>
+                          {{ $t('menu.myOrders') }}
+                      </q-item-section>
                     </q-item>
                     <q-item clickable disable v-ripple>
-                      <q-item-section> Devoluciones </q-item-section>
+                      <q-item-section>
+                        {{  $t('menu.refund') }}
+                      </q-item-section>
                     </q-item>
                     <!-- <q-item clickable disable v-ripple>
                       <q-item-section> Reclamaciones </q-item-section>
                     </q-item> -->
                     <q-item clickable  v-ripple to="/profile">
-                      <q-item-section class="text-positive"> Configuración </q-item-section>
+                      <q-item-section>
+                        {{ $t('menu.config') }}
+                      </q-item-section>
                     </q-item>
                     <q-item clickable  v-ripple to="/contacto">
-                      <q-item-section class="text-positive"> Contacto </q-item-section>
+                      <q-item-section>
+                        {{ $t('menu.contact') }}
+                      </q-item-section>
                     </q-item>
                     <q-item class="q-mt-sm" clickable @click="logoutUser">
                       <q-item-section>
                         <q-spinner v-if="logoutLoading" color="positive" size="1.5em" class="q-ml-auto q-mr-md" />
-                        <template v-else>Cerrar sesión</template>
+                        <template v-else>
+                          {{  $t('menu.logout') }}
+                        </template>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -109,14 +119,14 @@
             name="Home"
             icon="mdi-home"
             no-caps
-            label="Inicio"
+            :label="$t('footer.tabs.home')"
           />
           <q-route-tab
             to="/manuales"
             name="mails"
             no-caps
             icon="mdi-library"
-            label="Manuales"
+            :label="$t('footer.tabs.manuals')"
           />
           <q-route-tab
             v-if="cart.length"
@@ -124,7 +134,7 @@
             @click="toggleCartDialog"
             name="Carrito"
             no-caps
-            label="Carrito"
+            :label="$t('footer.tabs.cart')"
           >
             <div class="flex">
                 <q-icon
@@ -165,6 +175,8 @@ import useAuth from '../composables/useAuth'
 import SearchBar from 'src/components/SearchBar.vue'
 import HamburguerElastic from 'components/HamburguerElastic.vue'
 import { useI18n } from 'vue-i18n'
+import * as config from '../../user.config'
+const { name } = config.default
 
 export default defineComponent({
   name: 'MainLayout',
@@ -195,7 +207,9 @@ export default defineComponent({
     const productSelected  = ref(null)
     const url = process.env.IMAGES_URL
 
-    onBeforeRouteUpdate((to) => {
+    onBeforeRouteUpdate((to, from) => {
+      const fromSplit = from.path.split('/')
+      if (!title.value || fromSplit.includes('category' || 'product')) title.value = 'Buscar algo'
       if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
     })
 
@@ -236,7 +250,9 @@ export default defineComponent({
         if (locale.value === 'it') return `${url}/life_logo_white`
         return `${url}/${toggleLogo.value ? 'aprimatic_logo' : 'life_logo'}_white`
       }),
+      clientWebsite: process.env.CLIENT_WEBSITE,
       title,
+      name,
       drawer,
       search,
       cart,

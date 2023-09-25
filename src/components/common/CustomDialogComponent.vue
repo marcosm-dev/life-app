@@ -9,59 +9,34 @@
             size="40px"
           />
         <q-card class="border-radius-md bg-grey-1 col-12">
-          <q-form @submit="onOKClick" class="row">
-              <q-card-section class="q-mb-none q-pb-none col-12">
-                  <p
-                  class="text-h7 q-pa-sm bg-lime-14 q-px-sm border-radius-sm text-grey-10"
-                  v-html="$route.query.token ? 'Introduce tu nueva contraseña' : title"
-                  />
-              </q-card-section>
+          <q-card-section class="q-mb-none q-pb-none col-12">
+              <p
+                v-if="success"
+                class="text-body2 q-pa-sm bg-dark-page  q-px-sm border-radius-sm text-grey-2"
+              >
+                {{ successTitle ? successTitle : $t('recovery.success.title') }}:
+              </p>
+              <p
+                v-else
+                class="text-body2 q-pa-sm bg-dark-page  q-px-sm border-radius-sm text-grey-2"
+                v-html="$route.query.token ? $t('dialogs.recovery.title') : title"
+              />
+          </q-card-section>
+          <q-form  @submit="onOKClick" class="row">
               <template  v-if="$route.query.token || type === 'password'">
-                  <q-card-section class="q-pt-none q-px-none col-12">
-                      <q-input
-                          outlined
-                          color="blue-grey-14"
-                          clearable
-                          item-aligned
-                          rounded
-                          :type="revealPassword ? 'text' : 'password'"
-                          error-message="Por favor, ingresa bien tu contraseña"
-                          v-model="reset.password"
-                          :label="type === 'password' ? 'Antigua contraseña' : 'Nueva contraseña'"
-                        >
-                      <template #append>
-                        <q-icon
-                          :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                          class="cursor-pointer"
-                          @click="revealPassword = !revealPassword"
-                        />
-                      </template>
-                      </q-input>
-                        <q-input
-                          outlined
-                          color="blue-grey-14"
-                          clearable
-                          item-aligned
-                          rounded
-                          :type="revealPassword ? 'text' : 'password'"
-                          error-message="Por favor, ingresa bien tu contraseña"
-                          v-model="reset.passwordConfirm"
-                          :label="type === 'password' ? 'Nueva contraseña' : 'Repite la nueva contraseña'"
-                        >
-                        <template #append>
-                          <q-icon
-                            :name="revealPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                            class="cursor-pointer"
-                            @click="revealPassword = !revealPassword"
-                          />
-                        </template>
-                      </q-input>
-                  </q-card-section>
+                  <change-password
+                    :type="type"
+                    v-model:password="reset.password"
+                    v-model:oldPassword="reset.oldPassword"
+                  />
               </template>
-              <template v-else>
-                <q-card-section v-if="subtitle || description" class="q-pa-sm q-mx-md text-grey-10">
-                  <p v-html="subtitle" />
-                  <p v-html="description" />
+              <template v-else-if="!success">
+                <q-card-section v-if="subtitle || description" class="text-grey-10 q-py-none q-px-lg">
+                  <p
+                    class="text-body2 border-radius-sm text-grey-8 subtitle"
+                    v-html="subtitle"
+                   />
+                  <p class="text-caption" v-html="description" />
                 </q-card-section>
                 <q-card-section class="q-gutter-y-lg col-12 q-pt-none">
                     <q-input
@@ -74,59 +49,61 @@
                       dense
                       :type="dense ? 'text' : 'textarea'"
                     />
-                  <p
-                      v-if="disclaimer && !success"
-                      class="text-bold text-caption border-radius-sm q-pa-md disclaimer"
-                      v-html="disclaimer"
-                    />
                 </q-card-section>
               </template>
-              <q-card-actions class="q-px-lg q-pb-lg col-10 q-mx-auto">
-                <action-button
-                    type="submit"
-                    class="full-width"
-                    :label="success ? `Cerrar (${count})` : type === 'password' ? 'Guardar' : 'Continuar'"
-                    :loading="loading"
-                >
-                  <template #icon>
-                      <q-img
-                          v-if="success"
-                          width="20px"
-                          height="20px"
-                          class="q-ml-xs"
-                          src="~assets/check.gif"
-                      />
-                  </template>
-                </action-button>
+              <q-card-actions class="q-pa-md q-gutter-y-md col-12">
+                <p
+                  v-if="disclaimer && success"
+                  class="text-caption border-radius-sm q-pa-md disclaimer"
+                  v-html="disclaimer"
+                />
+                  <action-button
+                      type="submit"
+                      class="full-width"
+                      neutro
+                      :label="success ? `Cerrar (${count})` : type === 'password' ? $t('common.save') : $t('common.continue')"
+                      :loading="loading"
+                  >
+                    <template #icon>
+                        <q-img
+                            v-if="success"
+                            width="20px"
+                            height="20px"
+                            class="q-ml-xs"
+                            src="~assets/check.gif"
+                        />
+                    </template>
+                  </action-button>
               </q-card-actions>
           </q-form>
         </q-card>
     </div>
   </q-dialog>
 </template>
-
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useDialogPluginComponent, LocalStorage } from 'quasar';
+import { useDialogPluginComponent, LocalStorage } from 'quasar'
 import { useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { Product } from '../models'
 import useAuth from 'src/composables/useAuth'
 import { useRoute, useRouter } from 'vue-router'
+import ChangePassword from '../ChangePassword.vue'
 
 const { user, store } = useAuth()
 const { dialogRef } = useDialogPluginComponent()
 const route = useRoute()
 const router = useRouter()
-const revealPassword = ref(false)
 const count = ref(5)
 
 const reset = reactive({
+  oldPassword: '',
   password: '',
-  passwordConfirm: ''
 })
 
+
 const props = defineProps({
+  successTitle: String,
   placeHolder: {
     type: String,
     default:  'Escribe algo.... (opcional).'
@@ -203,17 +180,21 @@ const variables = {
 }
 
 function startCount(countValue: number) {
-  if (!countValue) dialogRef.value?.hide()
+  if (countValue === 0) return dialogRef.value?.hide()
   if  (countValue >= 0) {
     setTimeout(() => {
         startCount(count.value--)
       },
-      count.value === 4 ? 1500 : 1000
+      1000
     )
   }
 }
 
 async function onOKClick() {
+  if (success.value) {
+    dialogRef.value?.hide()
+    return
+  }
   loading.value = true
 
   try {
@@ -223,6 +204,7 @@ async function onOKClick() {
       break;
       case 'recovery':
         if (route.query.token) {
+          await updateUser({ input: { password: reset.password, oldPassword: reset.oldPassword } })
           LocalStorage.clear()
           store.$reset()
           router.push('/auth')
@@ -235,26 +217,28 @@ async function onOKClick() {
         await sendEmail(variables)
       break;
       case 'update':
-          await updateUser({ input: { password: reset.password } })
+          await updateUser({ input: reset })
       break;
         default:
       break;
   }
   } catch (error) {
+    console.log(error)
   } finally {
-    startCount(count.value)
-    success.value = true
     loading.value = false
+    success.value = true
+    startCount(count.value)
   }
 
 }
 </script>
 
 <style lang="scss" scoped>
-.disclaimer {
-  border: 2px solid $lime-14;
-}
 .custom-dialog .q-dialog__backdrop {
   background: rgba($color: #000000, $alpha: .7);
+}
+.custom-dialog .disclaimer {
+  border-color: $lime-14;
+  border-style: dashed solid none;
 }
 </style>

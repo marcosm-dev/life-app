@@ -10,6 +10,7 @@ export interface User {
   VATIN?: string
   phone?: string
   address?: string
+  businessName?: string
   zipCode?: string
   city?: string
   email: string

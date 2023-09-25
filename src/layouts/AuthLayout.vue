@@ -8,7 +8,7 @@
         <div class="row items-center">
           <q-separator class="col" size="6px" color="grey-1" />
           <div class="col-auto q-px-sm text-subtitle2 text-blue-grey-1">
-            INFORMACIÓN Y CONTACTO
+              {{ $t('auth.footer.information') }}
           </div>
           <q-separator
             class="col-auto"
@@ -18,8 +18,8 @@
           />
         </div>
         <div id="social-network" class="row justify-between">
-          <div class="col-auto text-h5 q-ml-md q-pt-xs text-lime-13">
-            SERPICA CANARIAS
+          <div class="col-auto text-h5 q-ml-md q-pt-xs text-lime-13 text-uppercase">
+              {{ name }}
             <span class="text-capitalize text-body2">S.L.</span>
           </div>
           <div
@@ -34,7 +34,7 @@
             </a>
             <q-icon
               tag="a"
-              href="https://api.whatsapp.com/send?phone=657422136"
+              :href="`https://api.whatsapp.com/send?phone=${phone}`"
               size="30px"
               color="light-green-13"
               name="mdi-whatsapp"
@@ -49,13 +49,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useAuth from 'src/composables/useAuth'
+import { name } from '../../src-pwa/manifest.json'
 
 export default defineComponent({
   name: 'AuthLayout',
   setup() {
     const { store} = useAuth()
 
-    return { store }
+    return {
+      name,
+      store,
+      phone: process.env.CLIENT_PHONE
+  }
   }
 })
 </script>

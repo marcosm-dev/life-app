@@ -25,7 +25,7 @@
       <div v-else class="text-caption text-info flex">
         <transition
           appear
-          enter-active-class="animated flipInX"
+          :enter-active-class="searchModel ? 'animated flipInX' : 'animatecd fadeIn'"
         >
             <div @click="searchModel = !searchModel">
                 {{ title }}
@@ -57,9 +57,8 @@
 const emit = defineEmits(['searching'])
 
 import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import useAuth from 'src/composables/useAuth'
-
 
 const router = useRouter()
 const { title, loading } = useAuth()
@@ -80,6 +79,13 @@ watch(searchModel, (val) => {
     emit('searching', val)
 })
 
+onBeforeRouteUpdate((to, from) => {
+  if(from.path.includes('/categories')) {
+    search.value = ''
+    lastSearch.value = ''
+    searchModel.value = false
+  }
+})
 
 </script>
 
