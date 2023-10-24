@@ -5,10 +5,11 @@
         :for="label"
         :name="label"
         class="q-pt-xs input-profile text-caption"
-        :model-value="modelValue"
+        :model-value="modelValue ?? '----------------------------------------------------'"
         dense
-        standout
-        :readonly="readonly"
+        outlined
+        color="info"
+        :readonly="!readonly"
         :clearable="!label.includes('uuid')"
       >
         <!-- <template v-if="icon" #prepend>
@@ -27,18 +28,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-const props = defineProps(['modelValue', 'label', 'icon', 'no-edit', 'readonly'])
+// import { reactive } from 'vue';
+defineProps(['modelValue', 'label', 'icon', 'no-edit', 'readonly'])
 
-const editState = reactive({
-  personal: false,
-  address: false
-})
+// const editState = reactive({
+//   personal: false,
+//   address: false
+// })
 
 </script>
 
 <style lang="scss">
 .input-profile .q-field__inner .q-field__control {
-  border-radius: 18px;
+  border-radius: 8px;
 }
 </style>

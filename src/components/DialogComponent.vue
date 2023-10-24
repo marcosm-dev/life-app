@@ -234,7 +234,7 @@
                   class="col"
                   padding="10px 20px"
                   dense
-                  :label="!step ? $t('common.continue') : $t('puchase.action')"
+                  :label="!step ? $t('common.continue') : $t('purchase.action')"
                   @click="onOKClick"
                   no-caps
                   :loading="loading"

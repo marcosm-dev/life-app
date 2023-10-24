@@ -29,11 +29,7 @@ export default defineComponent({
   },
   setup(props) {
       const { t } = useI18n()
-      const { toggleCustomDialog } = useCustomDialog({
-        title: t('dialogs.product.title', { name: props.product.name?.toLowerCase()}),
-        subtitle: t('dialogs.product.subtitle'),
-        product: props.product
-      })
+      const { toggleCustomDialog } = useCustomDialog('request', props.product)
     return {
       toggleCustomDialog
     }

@@ -1,16 +1,37 @@
 <template>
-  <!-- ...... -->
-  <q-select v-model="locale" :options="localeOptions" label="Quasar Language" dense borderless emit-value map-options
-    options-dense style="min-width: 150px" />
-  <!-- ...... -->
+    <q-select
+      v-model="locale"
+      :options="langOptions"
+      dense
+      emit-value
+      outlined
+      :display-value="appLanguages.find(el => el.isoName === $q.lang.isoName)?.nativeName"
+      behavior="menu"
+      borderless
+      popup-content-class="bg-primary text-white"
+      emit-valuemap-options
+      options-dens
+    />
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-const { locale, t } = useI18n({ useScope: 'global' })
-const  localeOptions = [
-        { value: 'es', label: t('lang.options.ES')},
-        { value: 'en-US', label: t('lang.options.US') },
-        { value: 'it', label: t('lang.options.IT') }
-  ]
+import languages from 'quasar/lang/index.json'
+import { watch } from 'vue'
+import { useQuasar } from 'quasar'
+
+const { locale } = useI18n({ useScope: 'global' })
+const $q = useQuasar()
+
+const appLanguages = languages.filter(lang =>
+  ['es', 'it'].includes(lang.isoName)
+)
+const langOptions = appLanguages.map(lang => ({
+  label: lang.nativeName, value: lang.isoName
+}))
+watch(locale, async () => {
+  const langModule = await import(`../../../node_modules/quasar/lang/${locale.value}.mjs`)
+  $q.lang.set(langModule.default)
+})
+
 </script>

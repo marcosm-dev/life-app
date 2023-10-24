@@ -7,9 +7,6 @@ import {
 } from 'vue-router'
 
 import routes from './routes'
-import { useAuthStore } from 'src/stores/auth'
-import useNotifyError from 'src/composables/useNotifyError'
-
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -20,7 +17,6 @@ import useNotifyError from 'src/composables/useNotifyError'
  */
 
 export default route(function () {
-  const store = useAuthStore()
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -41,24 +37,6 @@ export default route(function () {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
-  })
-
-  Router.beforeEach((to, from, next) => {
-    const isAuthenticated = to.matched.some((record) => {
-      console.log(record.meta.requiresAuth)
-       return record.meta.requiresAuth
-    })
-
-    if (from.name === 'AuthPage') next()
-    else if(!isAuthenticated && to.name !== 'AuthPage') {
-  console.log(isAuthenticated)
-      console.log('hola')
-      useNotifyError({
-        message: 'No estas autenticado, por favor inicia sesión'
-      })
-      next({ name: 'AuthPage' })
-    }
-    next()
   })
 
   return Router

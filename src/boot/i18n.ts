@@ -7,7 +7,7 @@ export default boot(({ app }) => {
   const i18n = createI18n({
     locale: 'es',
     legacy: false,
-    fallbackLocale: 'es',
+    // fallbackLocale: 'es',
     globalInjection: true,
     messages
   })

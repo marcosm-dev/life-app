@@ -2,8 +2,9 @@ import { storeToRefs } from 'pinia'
 import { useCartStore } from 'src/stores/cart'
 import { reactive, toRefs } from 'vue'
 import { uid } from 'quasar'
+import { Product } from 'src/components/models'
 
-const useProductCart = (product: any) => {
+const useProductCart = (product: Product) => {
   const state = reactive({
     ...product,
     quantity: product?.stock ? 1 : 0

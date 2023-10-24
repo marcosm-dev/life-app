@@ -190,7 +190,7 @@ export default defineComponent({
     const toggleLogo = ref(false)
     const search = ref(true)
     const searchText = ref('')
-    const { locale } = useI18n()
+    const { locale, t } = useI18n()
 
     const {
       logoutUser,
@@ -209,7 +209,7 @@ export default defineComponent({
 
     onBeforeRouteUpdate((to, from) => {
       const fromSplit = from.path.split('/')
-      if (!title.value || fromSplit.includes('category' || 'product')) title.value = 'Buscar algo'
+      if (title.value === '' || !fromSplit.includes('category' || 'product')) title.value = t('common.anySearch')
       if (to.path === '/categories') toggleLogo.value = !toggleLogo.value
     })
 
@@ -234,7 +234,6 @@ export default defineComponent({
           // waitFor: 'transitionend',
 
           onEnd: () => {
-            console.log('enta')
             toggle(false)
             setTimeout(() => {
               animationMotion.value = false;

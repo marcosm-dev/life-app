@@ -8,7 +8,8 @@ const useNotifyError = ({ message, html }: NotifyError) => {
     textColor: 'dark',
     classes: 'text-lowercase border-radius-md q-pa-md',
     icon: 'mdi-alert-outline',
-    iconColor: 'accent'
+    iconColor: 'accent',
+    html
   })
 }
 

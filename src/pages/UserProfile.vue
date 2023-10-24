@@ -5,17 +5,20 @@
         class="text-secondary border-radius-sm form-profile q-mx-auto"
         style="max-width: 400px;"
       >
-      <q-card class="row justify-between bg-transparent" flat>
+      <q-card  class="row justify-between bg-transparent" flat >
           <q-card-section class="col-12">
-              <div class="text-h7 flex items-center text-grey-10 justify-between">
+              <div
+                @click="edit ? edit = false : null"
+                class="text-h7 flex items-center text-grey-10 justify-between"
+              >
                 <q-icon
                   name="mdi-account-circle"
                   size="38px"
-                  color="blue-grey-14"
+                  color="blue-grey"
                 />
                  &nbsp;{{ $t('profile.title').toUpperCase() }}:
                 <q-btn
-                    @click="edit = !edit"
+                    @click.stop.prevent="edit = !edit"
                     class="col-auto"
                     round
                     outline
@@ -28,11 +31,11 @@
               <q-separator  inset spaced="10px" />
               <q-card-section class="text-body2 row q-col-gutter-y-md ful">
                   <div class="flex justify-between full-width">
-                    <p class="q-mb-sm col no-margin">
+                    <p class="q-mb-sm col q-mt-none text-grey-8">
                         {{ $t('profile.personalData') }}:
                     </p>
                   </div>
-                  <q-separator class="col-12" />
+                  <q-separator class="col-12" color="blue-grey" />
                   <input-profile
                       v-model="userModel.name"
                       :label="$t('auth.form.name')"
@@ -58,8 +61,10 @@
                       :label="$t('auth.form.phone')"
                       :readonly="edit"
                     />
-                    <p class="q-mb-sm q-mt-lg">{{ $t('auth.form.address') }} {{ $t('common.and') }} {{ $t('auth.form.postalCode') }}:</p>
-                    <q-separator class="col-12" />
+                    <p class="q-mb-sm q-mt-lg text-grey-8 q-mt-none">
+                      {{ $t('auth.form.address') }} {{ $t('common.and') }} {{ $t('auth.form.postalCode') }}:
+                    </p>
+                    <q-separator class="col-12" color="blue-grey" />
                     <input-profile
                       v-model="userModel.address"
                       icon="address"
@@ -71,15 +76,26 @@
                       :label="$t('auth.form.postalCode')"
                       :readonly="edit"
                     />
-                    <p class="q-mb-sm q-mt-lg">
+
+                    <p class="q-mb-sm q-mt-lg text-grey-8 q-mt-none">
                       {{ $t('profile.credentials') }}:
                     </p>
-                    <q-separator  class="col-12" />
+                    <q-separator  class="col-12" color="blue-grey" />
+                    <input-profile
+                      v-model="userModel.email"
+                      :label="$t('auth.form.email')"
+                      :readonly="edit"
+                    />
                     <input-profile
                       v-model="userModel.uuid"
                       :label="$t('profile.label.uuid')"
                       no-edit
                     />
+                    <p class="q-mb-sm q-mt-lg text-grey-8 q-mt-none">
+                        {{ $t('profile.label.language') }}:
+                      </p>
+                    <q-separator  class="col-12" color="blue-grey" />
+                    <switcher-language class="col-12" />
               </q-card-section>
           </q-card-section>
           <q-card-actions class="col-12 justify-center">
@@ -91,9 +107,9 @@
                 :label="$t('profile.changePassword')"
               />
           </q-card-actions>
-          <q-card-actions class="col-12 q-pa-xl">
+          <q-card-actions class="col-12 " :class="edit ? 'q-pa-xl' : ''">
             <action-button
-              :disable="!edit"
+              v-if="edit"
               :neutro="edit"
               class="full-width"
               type="submit"
@@ -106,22 +122,21 @@
 </template>
 
 <script setup lang="ts">
-import { User } from 'src/components/models'
-import { reactive, ref } from 'vue';
+import { IUser } from 'src/components/models'
+import { reactive, ref } from 'vue'
 import useAuth from 'src/composables/useAuth'
 import useCustomDialog from '../composables/useCustomDialog'
 
 const { toggleCustomDialog } = useCustomDialog('password')
-
-const edit = ref(true)
-
 const { user } = useAuth()
 
-const userModel = reactive({}) as User
+const edit = ref(false)
+const userModel = reactive({}) as IUser
 
 Object.assign(userModel, user.value)
 
 function onSubmit() {
+  edit.value = false
   console.log(userModel)
 }
 

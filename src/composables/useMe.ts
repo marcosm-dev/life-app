@@ -3,14 +3,14 @@ import useAuth from './useAuth'
 import gql from 'graphql-tag'
 
 import { computed, toRef, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import { LocalStorage } from 'quasar'
 
 const useMe = () => {
-  const router = useRouter()
+  // const router = useRouter()
   const { store } = useAuth()
 
-  const { result, loading } = useQuery(
+  const { result } = useQuery(
     gql`
       query me {
         me {

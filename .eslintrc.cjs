@@ -1,27 +1,17 @@
-const { resolve } = require('node:path');
-
 module.exports = {
   // https://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy
   // This option interrupts the configuration hierarchy at this file
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
+
   // https://eslint.vuejs.org/user-guide/#how-to-use-a-custom-parser
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
     parser: require.resolve('@typescript-eslint/parser'),
-    extraFileExtensions: ['.vue'],
-    parser: '@typescript-eslint/parser',
-    project: resolve(__dirname, './tsconfig.json'),
-    tsconfigRootDir: __dirname,
-    ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
+    extraFileExtensions: ['.vue']
   },
-  //  lint: [
-  //   "src/**/*.ts",
-  //   "src/**/*.vue",
-  //   "!volar.config.js" // Excluir el archivo volar.config.js
-  // ],
+
   env: {
     browser: true,
     es2021: true,
@@ -32,12 +22,13 @@ module.exports = {
   // Rules order is important, please avoid shuffling them
   extends: [
     // Base ESLint recommended rules
-    // 'eslint:recommendesd',
+    // 'eslint:recommended',
 
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+
+    // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
     // See https://eslint.vuejs.org/rules/#available-rules
     'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
@@ -60,7 +51,6 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
     // Prettier has not been included as plugin to avoid performance impact
     // add it as an extension for your IDE
-
   ],
 
   globals: {
@@ -78,10 +68,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-
     'prefer-promise-reject-errors': 'off',
-
-    '@typescript-eslint/explicit-function-return-type': 'off',
 
     quotes: ['warn', 'single', { avoidEscape: true }],
 

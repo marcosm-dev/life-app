@@ -80,6 +80,15 @@
               lazy-rules
             />
             <q-input
+                v-model="newUser.phone"
+                outlined
+                color="blue-grey-14"
+                clearable
+                :label="$t('auth.form.phone')"
+                rounded
+                lazy-rules
+              />
+            <q-input
                 rounded
                 color="blue-grey-14"
                 outlined
@@ -137,17 +146,6 @@
                           v-model="newUser.VATIN"
                           :label="$t('auth.form.VATIN')"
                           lazy-rules
-                        />
-                        <q-input
-                          key="phone"
-                          outlined
-                          color="blue-grey-14"
-                          rounded
-                          clearable
-                          type="text"
-                          v-model="newUser.phone"
-                          :error="errorHandler"
-                          :label="$t('auth.form.phone')"
                         />
                         <q-input
                           key="address"
@@ -274,7 +272,6 @@
 </template>
 
 <script lang="ts">
-import * as manifest from '../../src-pwa/manifest.json'
 import { defineComponent, reactive, ref, computed, onMounted } from 'vue'
 import { useQuasar, LocalStorage } from 'quasar'
 import { useRouter, onBeforeRouteLeave, useRoute } from 'vue-router'
@@ -282,10 +279,19 @@ import { useI18n } from 'vue-i18n'
 
 import { resetCaches } from 'graphql-tag'
 import { format } from 'quasar'
-import { User } from 'src/components/models'
 import useNotifyError from '../composables/useNotifyError'
 import useAuth from '../composables/useAuth'
 import useCustomDialog from 'src/composables/useCustomDialog'
+import { ISignUpUser, ILoginUser } from 'components/models'
+
+function cleanEmptyValues(obj: any) {
+  for (const key in obj) {
+    if (/^\s*$/.test(obj[key])) {
+      delete obj[key];
+    }
+  }
+  return obj;
+}
 
 export default defineComponent({
   name: 'AuthPage',
@@ -307,16 +313,16 @@ export default defineComponent({
     const errors = ref<string[]>([])
     const revealPassword = ref(false)
     const registerSuccess = ref(false)
-    const { name } = manifest
+
     const check = ref(false)
     const extraForm = ref(false)
 
-    const userCreedentials: User = reactive({
+    const userCreedentials: ILoginUser = reactive({
       email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
       password: process.env.DEV ? '1111' : ''
     })
 
-    const newUser: User = reactive({
+    const newUser: ISignUpUser = reactive({
       name: '',
       lastName: '',
       VATIN: '',
@@ -329,15 +335,7 @@ export default defineComponent({
       confirmPassword: ''
     })
 
-    const { toggleCustomDialog } = useCustomDialog({
-      action: 'recovery',
-      dense: true,
-      placeHolder: t('recovery.placeHolder'),
-      title: t('recovery.title'),
-      subtitle: t('recovery.subtitle', { name }),
-      description: t('recovery.description'),
-      disclaimer: t('recovery.disclaimer'),
-    })
+    const { toggleCustomDialog } = useCustomDialog('recovery')
 
     async function login() {
         LocalStorage.clear()
@@ -357,8 +355,10 @@ export default defineComponent({
           store.setUser({ ...user, token })
           router.push('/')
         }
-      } catch (error: any) {
-        errors.value.push(error.message)
+      } catch (error) {
+        if (error) {
+          errors.value.push((error as Error).message)
+        }
       }
       $q.loading.hide()
     }
@@ -369,22 +369,23 @@ export default defineComponent({
          useNotifyError({ message: t('auth.errors.privacyPolicy', { privacy: t('common.privacyPolicy')}) })
          return
       }
-      if (Object.values(newUser).includes('') || Object.values(newUser).includes(null)) return
+
       errors.value = []
       newUser.email = newUser.email.toLowerCase()
 
       try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...userClean } = newUser
-        const data = await signUpMutation({ input: userClean })
+
+        const data = await signUpMutation({ input: cleanEmptyValues(userClean) })
 
         const signUp = data?.data.signUp
         if (signUp.error) {
           errors.value.push(signUp.error)
         } else store.setUser(signUp.user)
         registerSuccess.value = true
-      } catch (error: any) {
-        errors.value.push(error.message)
+      } catch (error) {
+        errors.value.push((error as Error).message)
       }
       $q.loading.hide()
     }
@@ -408,6 +409,7 @@ export default defineComponent({
 
     return {
       async onSubmit() {
+        console.log('hola')
         if (register.value) await signUp()
         else await login()
       },

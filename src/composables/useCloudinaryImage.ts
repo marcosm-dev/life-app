@@ -1,5 +1,5 @@
 
-import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage'
+// import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage'
 import { Cloudinary } from '@cloudinary/url-gen'
 
 const OPTIONS = {

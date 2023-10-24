@@ -11,6 +11,7 @@
 		},
 		"form": {
 			"address": "Dirección",
+			"businessName": "Razón social",
 			"city": "Ciudad",
 			"confirm": "Confirmar contraseña",
 			"email": "Email",
@@ -19,7 +20,6 @@
 			"password": "Contraseña",
 			"phone": "Teléfono",
 			"postalCode": "Código Postal",
-			"businessName": "Razón social",
 			"VATIN": "CIF/DNI"
 		},
 		"login": {
@@ -50,6 +50,7 @@
 		"acept": "Accetta",
 		"add": "Añadir",
 		"and": "y",
+		"anySearch": "Buscar algo",
 		"back": "Atrás",
 		"continue": "Continuar",
 		"default": "Por defecto",
@@ -70,7 +71,11 @@
 	},
 	"dialogs": {
 		"custom": {
-			"inputPlaceHolder": "Escribe algo.... (opcional)."
+			"inputPlaceHolder": "Escribe algo.... (opcional).",
+			"noStock": {
+				"subtitle": "Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo cuando volvamos a tener stock de {name}.",
+				"title": "Hola {name}, ¡lamentamos la falta de stock!. "
+			}
 		},
 		"product": {
 			"subtitle": "Puedes contarnos algo más o simplemente darle a enviar y nosotros contactaremos contigo en la mayor brevedad",
@@ -118,8 +123,10 @@
 	},
 	"profile": {
 		"changePassword": "Cambiar contraseña",
-		"credentials": "Identificación y contraseña",
+		"credentials": "Identificación",
 		"label": {
+			"language": "Idioma",
+			"selectLanguage": "Selecciona tu idioma",
 			"uuid": "Factura directa identificación (uuid)"
 		},
 		"personalData": "Datos personales",

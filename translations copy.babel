@@ -126,6 +126,21 @@
 										</translations>
 									</concept_node>
 									<concept_node>
+										<name>businessName</name>
+										<description/>
+										<comment/>
+										<translations>
+											<translation>
+												<language>es-ES</language>
+												<approved>true</approved>
+											</translation>
+											<translation>
+												<language>it-IT</language>
+												<approved>false</approved>
+											</translation>
+										</translations>
+									</concept_node>
+									<concept_node>
 										<name>city</name>
 										<description/>
 										<comment/>
@@ -232,21 +247,6 @@
 									</concept_node>
 									<concept_node>
 										<name>postalCode</name>
-										<description/>
-										<comment/>
-										<translations>
-											<translation>
-												<language>es-ES</language>
-												<approved>true</approved>
-											</translation>
-											<translation>
-												<language>it-IT</language>
-												<approved>false</approved>
-											</translation>
-										</translations>
-									</concept_node>
-									<concept_node>
-										<name>businessName</name>
 										<description/>
 										<comment/>
 										<translations>
@@ -573,6 +573,21 @@
 								</translations>
 							</concept_node>
 							<concept_node>
+								<name>anySearch</name>
+								<description/>
+								<comment/>
+								<translations>
+									<translation>
+										<language>es-ES</language>
+										<approved>true</approved>
+									</translation>
+									<translation>
+										<language>it-IT</language>
+										<approved>false</approved>
+									</translation>
+								</translations>
+							</concept_node>
+							<concept_node>
 								<name>back</name>
 								<description/>
 								<comment/>
@@ -850,6 +865,41 @@
 											</translation>
 										</translations>
 									</concept_node>
+									<folder_node>
+										<name>noStock</name>
+										<children>
+											<concept_node>
+												<name>subtitle</name>
+												<description/>
+												<comment/>
+												<translations>
+													<translation>
+														<language>es-ES</language>
+														<approved>true</approved>
+													</translation>
+													<translation>
+														<language>it-IT</language>
+														<approved>false</approved>
+													</translation>
+												</translations>
+											</concept_node>
+											<concept_node>
+												<name>title</name>
+												<description/>
+												<comment/>
+												<translations>
+													<translation>
+														<language>es-ES</language>
+														<approved>true</approved>
+													</translation>
+													<translation>
+														<language>it-IT</language>
+														<approved>false</approved>
+													</translation>
+												</translations>
+											</concept_node>
+										</children>
+									</folder_node>
 								</children>
 							</folder_node>
 							<folder_node>
@@ -1310,6 +1360,36 @@
 							<folder_node>
 								<name>label</name>
 								<children>
+									<concept_node>
+										<name>language</name>
+										<description/>
+										<comment/>
+										<translations>
+											<translation>
+												<language>es-ES</language>
+												<approved>true</approved>
+											</translation>
+											<translation>
+												<language>it-IT</language>
+												<approved>true</approved>
+											</translation>
+										</translations>
+									</concept_node>
+									<concept_node>
+										<name>selectLanguage</name>
+										<description/>
+										<comment/>
+										<translations>
+											<translation>
+												<language>es-ES</language>
+												<approved>true</approved>
+											</translation>
+											<translation>
+												<language>it-IT</language>
+												<approved>false</approved>
+											</translation>
+										</translations>
+									</concept_node>
 									<concept_node>
 										<name>uuid</name>
 										<description/>

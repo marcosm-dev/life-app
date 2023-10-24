@@ -6,6 +6,7 @@
             enter-active-class="animated flipInX"
           >
               <q-input
+                v-if="true"
                 v-model.trim="search"
                 @blur="emitSeach"
                 @keyup.enter="emitSeach"
@@ -27,7 +28,7 @@
           appear
           :enter-active-class="searchModel ? 'animated flipInX' : 'animatecd fadeIn'"
         >
-            <div @click="searchModel = !searchModel">
+            <div v-if="title" @click="searchModel = !searchModel">
                 {{ title }}
              </div>
         </transition>

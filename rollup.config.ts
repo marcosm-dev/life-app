@@ -1,5 +1,10 @@
 // rollup.config.js
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars'
+
 export default {
+  plugins: [
+    dynamicImportVars()
+  ],
   // other Rollup configuration options...
   build: {
     rollupOptions: {
@@ -15,5 +20,9 @@ export default {
         '@apollo/client/core'
       ]
     }
+  },
+  output: {
+    // Indica a Rollup que genere módulos dinámicos
+    format: 'esm'
   }
 }

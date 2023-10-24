@@ -9,7 +9,7 @@
             <q-img
               :src="`${brand.toLowerCase()}_logo.png`"
               fit="scale-down"
-              height="90px"
+              fetchpriority="high"
               class="bg-transparent border-radius-md"
             />
           </template>

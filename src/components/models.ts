@@ -3,23 +3,29 @@ export interface Category {
   name: string
   urlImage: string | null
 }
-export interface User {
-  id?: string
-  name?: string
-  lastName?: string
-  VATIN?: string
-  phone?: string
-  address?: string
-  businessName?: string
-  zipCode?: string
-  city?: string
+
+export interface ILoginUser {
   email: string
-  password?: string
-  confirmPassword?: string
-  token?: string
-  uuid?: string | null
+  password: string
 }
 
+export interface ISignUpUser extends ILoginUser {
+  name: string
+  lastName?: string
+  VATIN?: string
+  phone: string
+  address?: string
+  zipCode?: string
+  city?: string
+  confirmPassword?: string
+}
+
+export interface IUser extends ISignUpUser {
+  id: string
+  businessName: string
+  token: string
+  uuid: string | null
+}
 export interface Product {
   id: string
   quantity: number
@@ -66,7 +72,7 @@ export interface SignUpData {
 
 export interface SignUp {
   token: string
-  user: User
+  user: IUser
   error: string
 }
 
@@ -118,4 +124,11 @@ export interface Lines {
 export interface Brand {
   name: string,
   image: string
+}
+
+export interface ResponseError {
+  message: string
+}
+export interface CustomMessages {
+  [key: string]: string
 }

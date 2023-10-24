@@ -33,8 +33,8 @@ const useAuth = () => {
           if (!deleted) useNotifyError({ message: error })
         }
       })
-    } catch (error: any) {
-       useNotifyError({ message: error.toString() })
+    } catch (error: unknown) {
+      if (error)  useNotifyError({ message: error.toString() })
     } finally {
       store.$reset()
       router.push('/auth/sign-in')

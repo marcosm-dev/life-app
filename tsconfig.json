@@ -1,7 +1,8 @@
 {
   "extends": "@quasar/app-vite/tsconfig-preset.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",
@@ -10,6 +11,8 @@
     "src-pwa/**/*.ts",
     "src-pwa/**/*.d.ts",
     "src-pwa/**/*.json",
-    "src-pwa/*.json"
-, "user.config.ts"  ]
+    "src-pwa/*.json",
+    "user.config.ts",
+    ".eslintrc.cjs"
+  ]
 }

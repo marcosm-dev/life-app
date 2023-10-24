@@ -10,7 +10,7 @@
     :loading="loading"
   >
     <transition enter-active-class="animated flipInX">
-      <slot name="badge" />
+      <slot v-if="true" name="badge" />
     </transition>
     <slot name="icon" />
 

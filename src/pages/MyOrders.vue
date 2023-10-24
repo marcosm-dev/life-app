@@ -55,7 +55,7 @@ import { Order, Orders } from '../components/models'
 export default defineComponent({
   name: 'OrdersPage',
   setup() {
-    const { result, loading } = useQuery(gql`
+    const { result } = useQuery(gql`
       query getMyOrders {
         getMyOrders {
           id
