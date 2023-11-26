@@ -2,6 +2,7 @@ export interface Category {
   id: string
   name: string
   urlImage: string | null
+  productsCount: number
 }
 
 export interface ILoginUser {
@@ -122,7 +123,7 @@ export interface Lines {
 }
 
 export interface Brand {
-  name: string,
+  name: string
   image: string
 }
 

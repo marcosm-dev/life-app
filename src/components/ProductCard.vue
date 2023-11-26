@@ -36,7 +36,7 @@
                 height="60px"
                 style="border-radius: 26px"
                 fit="scale-down"
-                :src="`${url}/en_stock`"
+                :src="`${url}/${product.brand.name}.png`"
               />
               <ImageWithError
                 @error="hasImageError = true"

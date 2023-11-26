@@ -1,7 +1,7 @@
 <template>
-  <q-page padding>
+  <q-page padding v-scroll="onScroll">
     <div class="row q-col-gutter-x-sm  q-col-gutter-y-lg">
-      <template  v-if="loading && !categories" >
+      <template v-if="loading && !categories" >
         <div
           v-for="skeleton in 10"
           class="col-6 col-sm-6 col-md-4 col-lg-3"
@@ -23,7 +23,7 @@
       </template>
       <template v-else>
         <div
-          v-for="category in categories"
+          v-for="category in categories.filter((el: Category) => el.productsCount > 0)"
           class="col-6 col-sm-6 col-md-6 col-lg-4"
           :key="category.id"
         >
@@ -43,7 +43,7 @@
                   class="absolute-bottom flex justify-between q-px-md bg-primary text-grey-1 text-no-wrap no-wrap"
                   style="border-radius: 2px 2px 26px 26px; padding: 10px 14px"
                 >
-                  <div class="text-lime-13" style="text-transform: none">
+                  <div class="text-lime-13 ellipsis" style="text-transform: none">
                     {{ category.name }}
                   </div>
                   <transition
@@ -74,6 +74,7 @@ import gql from 'graphql-tag'
 import { useQuasar } from 'quasar';
 import { onBeforeRouteLeave } from 'vue-router';
 import useAuth from 'src/composables/useAuth';
+import { Category } from '../components/models';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -91,6 +92,7 @@ export default defineComponent({
             id
             urlImage
             name
+            productsCount
           }
         }
       `, () => ({
@@ -130,7 +132,7 @@ export default defineComponent({
       onScroll: async () => {
         const scrolledHeight = Math.round(window.scrollY + window.innerHeight)
         const totalHeight = Math.round(document.documentElement.scrollHeight)
-
+        console.log('on scroll')
         if (scrolledHeight === totalHeight && !loading.value) {
           await loadMore()
         }
