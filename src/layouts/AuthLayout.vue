@@ -29,7 +29,7 @@
             <a target="_blank" href="https://www.instagram.com/serpica.sa">
               <q-icon size="25px" name="mdi-instagram" color="grey-1" />
             </a>
-            <a target="_blank" href="https://www.homelife.it/es/download">
+            <a target="_blank" href="https://www.serpica.org">
               <q-icon size="25px" name="mdi-web" color="grey-1" />
             </a>
             <q-icon

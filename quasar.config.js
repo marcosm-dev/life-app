@@ -67,7 +67,7 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         API_URL: ctx.dev
-          ? ' http://localhost:4000' // http://localhost:3000
+          ? 'http://localhost:4000' // http://localhost:3000
           : process.env.API_URL,
         APOLLO_URI: ctx.dev
           ? 'http://localhost:4000/graphql'

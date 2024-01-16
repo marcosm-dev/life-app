@@ -3,7 +3,7 @@
       <q-card-section class="col-12">
             <!-- :src="`${url}/productos/${product.image}`" -->
             <q-card-section class="row reverse q-gutter-x-lg">
-            <q-icon v-if="product.brand?.name === 'Life'" class="col-3">
+            <!-- <q-icon v-if="product.brand?.name === 'Life'" class="col-3">
               <svg
                 id="logo"
                 :class="hasImageError && 'invisible'"
@@ -23,21 +23,20 @@
                     <path id="Tracciato_149" data-name="Tracciato 149" d="M-8227.488,9763.788h58.435" transform="translate(8302.489 -9685.761)" fill="none" stroke="#fff" stroke-width="4"></path>
                     <path id="Tracciato_150" data-name="Tracciato 150" d="M-8227.488,9763.788h58.435" transform="translate(8360.923 -9685.761)" fill="none" stroke="#b40000" stroke-width="4"></path>
                 </svg>
-            </q-icon>
+            </q-icon> -->
               <q-img
-                v-else-if="product.brand.name === 'Aprimatic'"
                 class="col-3"
                 fit="scale-down"
                 :src="`${url}/${product.brand.image}`"
               />
-              <q-img
+              <!-- <q-img
                 v-else
                 class="col q-mb-md"
                 height="60px"
                 style="border-radius: 26px"
                 fit="scale-down"
                 :src="`${url}/${product.brand.name}.png`"
-              />
+              /> -->
               <ImageWithError
                 @error="hasImageError = true"
                 class="col q-mb-md"
