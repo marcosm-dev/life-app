@@ -31,7 +31,7 @@
         style="max-width: 400px"
       >
         <q-card-section class="text-center q-py-none">
-          <q-icon name="svguse:icons.svg#life_logo" size="100px" />
+          <q-img src="aprimatic_logo.png" width="150px" height="80px" />
           <q-card-section class="text-body q-pt-none">
             <template v-if="!register">
               <!-- {{ t('auth.login.title', { name }) }} -->
@@ -67,6 +67,16 @@
             lazy-rules
           />
           <q-input
+              key="VATIN"
+              outlined
+              color="blue-grey-14"
+              rounded
+              clearable
+              v-model="newUser.VATIN"
+              :label="$t('auth.form.VATIN')"
+              lazy-rules
+            />
+          <q-input
             rounded
             color="blue-grey-14"
             outlined
@@ -85,6 +95,7 @@
             lazy-rules
           />
           <q-input
+            type="text"
             v-model="newUser.phone"
             outlined
             color="blue-grey-14"
@@ -112,7 +123,7 @@
               />
             </template>
           </q-input>
-          <q-card-section class="no-padding q-gutter-y-md">
+          <!-- <q-card-section class="no-padding q-gutter-y-md">
             <div class="text-center">
               <q-btn
                 rounded
@@ -187,7 +198,7 @@
                 :label="$t('auth.form.city')"
               />
             </transition-group>
-          </q-card-section>
+          </q-card-section> -->
         </q-card-section>
         <q-card-section v-else class="col-12 q-gutter-y-md q-pt-none">
           <q-input
@@ -293,15 +304,8 @@ import useNotifyError from '../composables/useNotifyError'
 import useAuth from '../composables/useAuth'
 import useCustomDialog from 'src/composables/useCustomDialog'
 import { ISignUpUser, ILoginUser } from 'components/models'
+import { cleanEmptyValues } from '../utils/utilities';
 
-function cleanEmptyValues(obj: any) {
-  for (const key in obj) {
-    if (/^\s*$/.test(obj[key])) {
-      delete obj[key]
-    }
-  }
-  return obj
-}
 
 export default defineComponent({
   name: 'AuthPage',
@@ -328,7 +332,7 @@ export default defineComponent({
     const extraForm = ref(false)
 
     const userCreedentials: ILoginUser = reactive({
-      email: process.env.DEV ? 'marcosm.lp86@gmail.com' : '',
+      email: process.env.DEV ? 'marcosa.mm@icloud.com' : '',
       password: process.env.DEV ? '1111' : ''
     })
 

@@ -29,17 +29,18 @@
                   />
               </div>
               <q-separator  inset spaced="10px" />
-              <q-card-section class="text-body2 row q-col-gutter-y-md ful">
+              <q-card-section class="text-body2 row q-col-gutter-y-md ful" >
                   <div class="flex justify-between full-width">
                     <p class="q-mb-sm col q-mt-none text-grey-8">
                         {{ $t('profile.personalData') }}:
                     </p>
                   </div>
+                  {{  userModel.name }}
                   <q-separator class="col-12" color="blue-grey" />
                   <input-profile
-                      v-model="userModel.name"
-                      :label="$t('auth.form.name')"
-                      :readonly="edit"
+                    v-model:modelValue="userModel.name"
+                    :label="$t('auth.form.name')"
+                    :readonly="edit"
                   />
                     <input-profile
                       v-model="userModel.lastName"
@@ -47,17 +48,17 @@
                       :readonly="edit"
                     />
                     <input-profile
-                      v-model="userModel.businessName"
+                      v-model:modelValue="userModel.businessName"
                       :label="$t('auth.form.businessName')"
                       :readonly="edit"
                     />
                     <input-profile
-                      v-model="userModel.VATIN"
+                      v-model:modelValue="userModel.VATIN"
                       :label="$t('auth.form.VATIN')"
                       :readonly="edit"
                     />
                     <input-profile
-                      v-model="userModel.phone"
+                      v-model:modelValue="userModel.phone"
                       :label="$t('auth.form.phone')"
                       :readonly="edit"
                     />
@@ -66,13 +67,13 @@
                     </p>
                     <q-separator class="col-12" color="blue-grey" />
                     <input-profile
-                      v-model="userModel.address"
+                      v-model:modelValue="userModel.address"
                       icon="address"
                       :label="$t('auth.form.address')"
                       :readonly="edit"
                     />
                     <input-profile
-                      v-model="userModel.zipCode"
+                      v-model:modelValue="userModel.zipCode"
                       :label="$t('auth.form.postalCode')"
                       :readonly="edit"
                     />
@@ -82,14 +83,15 @@
                     </p>
                     <q-separator  class="col-12" color="blue-grey" />
                     <input-profile
-                      v-model="userModel.email"
+                      v-model:modelValue="user.email"
                       :label="$t('auth.form.email')"
-                      :readonly="edit"
+                      readonly
                     />
                     <input-profile
-                      v-model="userModel.uuid"
+                      v-model:modelValue="user.uuid"
                       :label="$t('profile.label.uuid')"
                       no-edit
+                      readonly
                     />
                     <p class="q-mb-sm q-mt-lg text-grey-8 q-mt-none">
                         {{ $t('profile.label.language') }}:
@@ -109,7 +111,6 @@
           </q-card-actions>
           <q-card-actions class="col-12 " :class="edit ? 'q-pa-xl' : ''">
             <action-button
-              v-if="edit"
               :neutro="edit"
               class="full-width"
               type="submit"
@@ -123,22 +124,54 @@
 
 <script setup lang="ts">
 import { IUser } from 'src/components/models'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watchEffect } from 'vue';
 import useAuth from 'src/composables/useAuth'
 import useCustomDialog from '../composables/useCustomDialog'
+import { cleanEmptyValues } from '../utils/utilities';
+import useNotifyError from 'src/composables/useNotifyError';
 
 const { toggleCustomDialog } = useCustomDialog('password')
-const { user } = useAuth()
+const { user, updateUser, updateUserLoading } = useAuth()
 
 const edit = ref(false)
-const userModel = reactive({}) as IUser
+const userModel = reactive({
+  name: '',
+  lastName: '',
+  businessName: '',
+  VATIN: '',
+  phone: '',
+  address: '',
+  zipCode: '',
+  language: '',
+}) as Partial<IUser>
 
-Object.assign(userModel, user.value)
-
-function onSubmit() {
+async function onSubmit() {
   edit.value = false
-  console.log(userModel)
+  const payload = cleanEmptyValues({...userModel})
+  delete payload.id
+  delete payload.token
+  delete payload.__typename
+
+  try {
+    await updateUser({ input: payload })
+    useNotifyError({ message: 'Perfil actualizado correctamente' })
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
 }
+
+watchEffect(() => {
+    Object.entries(userModel).forEach(([key, value]) => {
+      if (!value) {
+        console.log(value)
+        userModel[key as keyof IUser] = user.value[key]
+      }
+    })
+  })
+
 
 </script>
 

@@ -110,8 +110,10 @@ export interface BeforeInstallPromptEvent extends Event {
 }
 
 export interface NotifyError {
+  icon?: string
   message: string
   html?: boolean
+  iconColor?: string
 }
 export interface Lines {
   document: string

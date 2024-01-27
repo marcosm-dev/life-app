@@ -82,10 +82,20 @@ const useAuth = () => {
     }
   `)
 
+const { mutate: updateUser, loading: updateUserLoading } = useMutation(gql`
+  mutation updateUser($input: UserInput!) {
+    updateUser(input: $input) {
+      id
+    }
+  }
+`)
+
   return {
     ...toRefs(state),
     ...storeToRefs(store),
+    updateUser,
     store,
+    updateUserLoading,
     loginMutation,
     logoutUser,
     signUpMutation,

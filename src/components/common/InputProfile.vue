@@ -5,7 +5,7 @@
         :for="label"
         :name="label"
         class="q-pt-xs input-profile text-caption"
-        :model-value="modelValue ?? '----------------------------------------------------'"
+        v-model="modelValue"
         dense
         outlined
         color="info"
@@ -28,13 +28,10 @@
 </template>
 
 <script setup lang="ts">
-// import { reactive } from 'vue';
-defineProps(['modelValue', 'label', 'icon', 'no-edit', 'readonly'])
+import { ModelRef } from 'vue';
 
-// const editState = reactive({
-//   personal: false,
-//   address: false
-// })
+defineProps(['label', 'icon', 'no-edit', 'readonly'])
+const modelValue = defineModel('modelValue') as ModelRef<string>
 
 </script>
 
