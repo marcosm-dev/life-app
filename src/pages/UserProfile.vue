@@ -154,12 +154,10 @@ async function onSubmit() {
 
   try {
     await updateUser({ input: payload })
-    useNotifyError({ message: 'Perfil actualizado correctamente' })
+    useNotifyError({ message: 'Perfil actualizado correctamente', icon: 'mdi-check' })
   } catch (error) {
     console.log(error)
   }
-
-
 
 }
 

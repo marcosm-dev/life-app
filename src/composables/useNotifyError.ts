@@ -7,7 +7,7 @@ const useNotifyError = ({ message, html, icon = 'mdi-alert-outline', iconColor =
     color: 'white',
     textColor: 'dark',
     classes: 'text-lowercase border-radius-md q-pa-md',
-    icon: 'mdi-check',
+    icon,
     iconColor,
     html
   })
