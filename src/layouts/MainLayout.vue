@@ -8,14 +8,14 @@
               <back-button v-if="$route.params.id" />
                 <!-- :fit="toggleLogo ? 'scale-down' : 'contain'" -->
               <q-img
-                  v-else
-                  height="38.58px"
-                  width="57.72px"
-                  fit="scale-down"
-                  @click="$router.push('/')"
-                  class="rounded-borders q-ma-sm col-2"
-                  :src="logo"
-                  no-spinner
+                v-else
+                height="38.58px"
+                width="57.72px"
+                fit="scale-down"
+                @click="$router.push('/')"
+                class="rounded-borders q-ma-sm col-2"
+                :src="logo"
+                no-spinner
               />
           </div>
           <div class="column q-ml-sm q-my-auto text-no-wrap no-wrap q-mr-auto">
@@ -246,8 +246,8 @@ export default defineComponent({
 
     return {
       logo: computed(() => {
-        if (locale.value === 'it') return `${url}/life_logo_white`
-        return `${url}/${toggleLogo.value ? 'aprimatic_logo' : 'life_logo'}_white`
+        // if (locale.value === 'it') return `${url}/life_logo_white`
+        return `${url}/${'aprimatic_logo'}_white`
       }),
       clientWebsite: process.env.CLIENT_WEBSITE,
       title,
