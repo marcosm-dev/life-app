@@ -35,7 +35,6 @@
                         {{ $t('profile.personalData') }}:
                     </p>
                   </div>
-                  {{  userModel.name }}
                   <q-separator class="col-12" color="blue-grey" />
                   <input-profile
                     v-model:modelValue="userModel.name"

@@ -1,5 +1,6 @@
 <template>
     <q-card
+        @click="$router.push(`/product/${product.id}`)"
         class="border-radius-md q-px-sm q-pb-sm bg-grey-1 shadow-5  column justify-end full-height"
         bordered
         outline
