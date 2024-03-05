@@ -3,7 +3,7 @@
     <!-- Iframe for Life Manual -->
     <iframe
       class="full-width full-height iframe-manuales"
-      src="https://www.homelife.it/es/download"
+      src="https://www.aprimatic.es/documentacion/documentacion-tecnica/manuales"
       frameborder="0"
       allowfullscreen
       :onload="iframeVisible"
