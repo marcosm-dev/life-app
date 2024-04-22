@@ -7,7 +7,7 @@
       color="blue-grey-1"
       size="40px"
     />
-    <div v-for="{product, amount} in products" :key="product.id">
+    <div v-for="{product, amount} in products" :key="product.id" class="flex col-12 q-gutter-xs">
       <order-item :product="{ ...product, amount }" />
     </div>
   </q-dialog>

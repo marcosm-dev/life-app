@@ -12,18 +12,26 @@ const urlImage = `${url}/productos/${product.imagen}`
 </script>
 
 <template>
+  <!-- <pre class="bg-black text-white">{{ product }}</pre> -->
   <q-card class="my-card " flat bordered>
      <q-card-section>
-        <q-item>
-          <q-item-section avatar>
+        <q-item class="row">
+          <q-item-section class="col-auto" avatar>
             <q-avatar square>
               <img :src="urlImage">
             </q-avatar>
           </q-item-section>
-          <q-item-section>
-            <q-item-label class="text-weight-bold">{{ product.name }}</q-item-label>
+          <q-item-section class="col-auto">
+            <q-item-label class="text-weight-bold">
+              {{ product.name }}
+            </q-item-label>
             <q-item-label caption>
               {{ capitalizeFirstLetter(product.accessories.toLowerCase()) }}
+            </q-item-label>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold flex justify-end text-subtitle2">
+              {{ product.amount }} uds
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -35,7 +43,7 @@ const urlImage = `${url}/productos/${product.imagen}`
         <q-card-section>
           <q-item>
             <q-item-section>
-              <q-item-label class="text-no-wrap">
+              <q-item-label class="text-no-wrap text-weight-bolder">
                 {{ product.price.toFixed(2).replace('.', ',') }} €
               </q-item-label>
             </q-item-section>
