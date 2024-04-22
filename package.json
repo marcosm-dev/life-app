@@ -16,6 +16,7 @@
     "@apollo/client": "^3.8.10",
     "@cloudinary/url-gen": "^1.16.0",
     "@cloudinary/vue": "^1.11.2",
+    "@quasar/cli": "^2.4.0",
     "@quasar/extras": "^1.16.9",
     "@vue/apollo-composable": "^4.0.1",
     "@vue/apollo-util": "4.0.0-beta.6",
