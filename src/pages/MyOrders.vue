@@ -42,7 +42,7 @@ import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
 import { date, useQuasar } from 'quasar'
-import { Order, Orders } from '../components/models';
+import { Order, Orders } from '../components/models'
 import OrderDialog from '../components/common/OrderDialog.vue'
 
 export default defineComponent({
@@ -65,9 +65,6 @@ export default defineComponent({
               accessories
               urlImage
               description
-              brand {
-                image
-              }
             }
           }
         }
@@ -84,9 +81,6 @@ export default defineComponent({
         console.log('dismissed')
       })
     }
-
-    watchEffect(() => {
-    })
 
     return {
       date,
