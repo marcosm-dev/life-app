@@ -23,7 +23,7 @@
       </template>
       <template v-else>
         <div
-          v-for="category in categories.filter((el: Category) => el.productsCount > 0)"
+          v-for="category in categories.filter((el: any) => el.productsCount > 0)"
           class="col-6 col-sm-6 col-md-6 col-lg-4"
           :key="category.id"
         >
@@ -40,25 +40,25 @@
                   fetchpriority="high"
                 />
               <div
-                  class="absolute-bottom flex justify-between q-px-md bg-primary text-grey-1 text-no-wrap no-wrap"
-                  style="border-radius: 2px 2px 26px 26px; padding: 10px 14px"
-                >
-                  <div class="text-lime-13 ellipsis" style="text-transform: none">
-                    {{ category.name }}
-                  </div>
-                  <transition
-                    name="arrow-left"
-                    appear
-                    appear-active-class="animated slideInLeft"
-                  >
-                    <q-icon
-                      class="transition-arrow q-ml-auto"
-                      color="white"
-                      size="20px"
-                      name="mdi-arrow-right"
-                    />
-                  </transition>
-                </div>
+                class="absolute-bottom flex justify-between q-px-md bg-primary text-grey-1 text-no-wrap no-wrap"
+                style="border-radius: 2px 2px 26px 26px; padding: 10px 14px"
+              >
+            <div class="text-lime-13 ellipsis" style="text-transform: none">
+              {{ category.name }}
+            </div>
+            <transition
+              name="arrow-left"
+              appear
+              appear-active-class="animated slideInLeft"
+            >
+              <q-icon
+                class="transition-arrow q-ml-auto"
+                color="white"
+                size="20px"
+                name="mdi-arrow-right"
+              />
+            </transition>
+          </div>
             </q-card-section>
           </q-card>
         </div>
@@ -74,7 +74,6 @@ import gql from 'graphql-tag'
 import { useQuasar } from 'quasar';
 import { onBeforeRouteLeave } from 'vue-router';
 import useAuth from 'src/composables/useAuth';
-import { Category } from '../components/models';
 
 export default defineComponent({
   name: 'IndexPage',

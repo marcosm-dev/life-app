@@ -13,20 +13,20 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
 
-const route = useRoute()
+// const route = useRoute()
 const router = useRouter()
 
-const { path } = route
-const splitPath = path.split('/')
+// const { path } = route
+// const splitPath = path.split('/')
 
 function handleBack() {
-  if (splitPath.includes('category')) {
-     router.push('/categories')
-  } else {
-    router.back()
-  }
+  // if (splitPath.includes('category')) {
+  //    router.push('/categories')
+  // } else {
+  // }
+  router.back()
 }
 
 onBeforeRouteUpdate((to, from) => {

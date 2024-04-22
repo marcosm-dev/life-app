@@ -6,3 +6,9 @@ export function cleanEmptyValues(obj: any) {
   }
   return obj
 }
+
+export function capitalizeFirstLetter(string: string) {
+  if (!isNaN(+string)) return string
+  if (!string) return ''
+  return string?.charAt(0).toUpperCase() + string.slice(1) ?? ''
+}

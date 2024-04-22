@@ -1,13 +1,13 @@
 <template>
-  <q-dialog  position="bottom"  ref="dialogRef" class="custom-dialog">
+  <q-dialog position="bottom" ref="dialogRef" >
     <div class="row">
         <q-icon
-            v-close-popup
-            name="mdi-close"
-            class="q-ml-auto"
-            color="blue-grey-1"
-            size="40px"
-          />
+          v-close-popup
+          name="mdi-close"
+          class="q-ml-auto"
+          color="blue-grey-1"
+          size="40px"
+        />
         <q-card class="border-radius-md bg-grey-1 col-12">
             <q-card-section class="col-12 text-body2 text-weight-bold text-grey-10 q-pb-none">
                 <p

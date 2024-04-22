@@ -1,31 +1,31 @@
 <template>
   <q-page padding>
-        <div v-if="resultLoading || searchLoading && !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
-          <div
-            v-for="productCard in 15"
-            :key="productCard"
-            class="col-6 col-sm-6 col-md-4 col-lg-4"
-          >
-              <q-card class="border-radius-md q-px-sm">
-                <q-card-section class="q-pb-none">
-                  <q-skeleton height="90px" width="100%" />
-                </q-card-section>
-                <q-card-section class="q-py-none">
-                  <q-skeleton type="text" height="80px" class="border-radius-sm" />
-                  <q-skeleton type="text" height="60px" />
-                </q-card-section>
-                <q-card-section class="q-py-none">
-                  <q-skeleton type="text" width="90px" class="q-ml-auto" />
-                  <q-skeleton type="text" height="60px" />
-                </q-card-section>
-              </q-card>
-          </div>
-        </div>
-        <div class="row  q-col-gutter-x-sm q-gutter-y-lg justify-center">
-          <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4 " :key="product.id">
-              <product-category :product="product" />
-          </div>
-        </div>
+    <div v-if="resultLoading || searchLoading && !products" class="row q-col-gutter-x-sm q-gutter-y-lg justify-center">
+      <div
+        v-for="productCard in 15"
+        :key="productCard"
+        class="col-6 col-sm-6 col-md-4 col-lg-4"
+      >
+          <q-card class="border-radius-md q-px-sm">
+            <q-card-section class="q-pb-none">
+              <q-skeleton height="90px" width="100%" />
+            </q-card-section>
+            <q-card-section class="q-py-none">
+              <q-skeleton type="text" height="80px" class="border-radius-sm" />
+              <q-skeleton type="text" height="60px" />
+            </q-card-section>
+            <q-card-section class="q-py-none">
+              <q-skeleton type="text" width="90px" class="q-ml-auto" />
+              <q-skeleton type="text" height="60px" />
+            </q-card-section>
+          </q-card>
+      </div>
+    </div>
+    <div class="row  q-col-gutter-x-sm q-gutter-y-lg justify-center">
+      <div v-for="product in products" class="border-radius-md col-6 col-sm-6 col-md-4 col-lg-4 " :key="product.id">
+          <product-category :product="product" />
+      </div>
+    </div>
   </q-page>
 </template>
 

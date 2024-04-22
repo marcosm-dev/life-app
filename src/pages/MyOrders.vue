@@ -1,60 +1,80 @@
 <template>
   <q-page padding>
-    <q-card-section>
-      <!-- @click="dialogRef.hide(); success = false" -->
-      <q-btn
-        no-caps
-        padding="10px 20px"
-        text-color="positive"
-        style="background: rgb(0, 0, 0, 0.3)"
-        flat
-        square
-        ripple
-      >
-        <div class="text-body1 knockout">
-          {{ $q.lang.label.close }}
-          <div
-            class="text-body text-dark-page knockout"
-            style="color: rgb(255, 255, 255, 0.75)"
-          >
-            {{ 0 }}
-          </div>
-        </div>
-      </q-btn>
-    </q-card-section>
     <q-list
-      v-for="(order, i) in Object.keys(orders)[0]?.split('/')"
+      v-for="(orderDate, i) in Object.keys(orders)"
       bordered
       class="rounded-borders"
       :key="i"
     >
       <q-expansion-item
         expand-separator
-        class="text-blue-grey-14"
+        class="text-blue-grey-14 text-bold"
         icon="mdi-file-document-outline"
-        :label="date.formatDate(Object.keys(orders)[0], 'MMMM YYYY')"
         default-opened
+        :label="orderDate"
       >
-        <pre>{{ Object.keys(orders)[0].split('/') }}</pre>
-        <q-expansion-item switch-toggle-side dense-toggle label="Today">
-          <q-card> </q-card>
-        </q-expansion-item>
+      <q-separator spaced inset />
+
+      <q-list separator>
+         <q-item v-for="(order, idx) in orders[orderDate]" :key="idx" class="q-py-md">
+            <q-item-section class="flex">
+              <q-item-label class="text-deep-orange-14">
+                {{ date.formatDate(new Date(+order.createdAt), 'dddd, HH:mm:ss')}}
+              </q-item-label>
+              <q-item-label class="text-h6 text-black">
+                {{ order.products.reduce((acc, el) => acc + el.amount, 0).toFixed(2).replace('.', ',') }}€
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side top>
+                <q-btn @click="handleView(order)" icon="mdi-eye" flat size="12px" class="q-pa-none" color="blue-grey-14" rounded />
+            </q-item-section>
+          </q-item>
+      </q-list>
+      <!-- <q-card>
+        <q-card-section class="q-pa-sm">
+          <q-item
+            v-for="(product, i) in orders[order][0].products"
+            :key="i"
+            clickable
+            class="bg-grey-1"
+          >
+            <q-item-section>
+              <q-item-label>
+                {{ product.product.name }}
+              </q-item-label>
+              <q-item-label caption>
+                {{ product.product.price.toFixed(2).replace('.', ',') }} €
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side top>
+              <q-item-label class="flex items-center">
+                <h4 class="text-subtitle1 q-ma-none q-pr-sm">Total:</h4>
+                {{ product.amount }} €
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+      </q-card> -->
+
       </q-expansion-item>
     </q-list>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, watchEffect } from 'vue';
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
-import { date } from 'quasar'
-import { Order, Orders } from '../components/models'
+import { date, useQuasar } from 'quasar'
+import { Order, Orders } from '../components/models';
+import OrderDialog from '../components/common/OrderDialog.vue'
 
 export default defineComponent({
   name: 'OrdersPage',
   setup() {
+    const $q = useQuasar()
     const { result } = useQuery(gql`
       query getMyOrders {
         getMyOrders {
@@ -67,21 +87,43 @@ export default defineComponent({
               id
               name
               price
+              imagen
               accessories
+              urlImage
+              description
+              brand {
+                image
+              }
             }
           }
         }
       }
     `)
 
+    const handleView = ({ products }: Order) => {
+      $q.dialog({
+        title: 'Positioned',
+        position: 'bottom',
+        component: OrderDialog,
+        componentProps: { products }
+      }).onDismiss(() => {
+        console.log('dismissed')
+      })
+    }
+
+    watchEffect(() => {
+      console.log(result.value)
+    })
+
     return {
       date,
+      handleView,
       orders: computed(() => {
         const ordersObject: Orders = {}
 
         result.value?.getMyOrders.forEach((el: Order) => {
           const formatDate = (newDate: number) =>
-            date.formatDate(newDate, 'YYYY/MM')
+            date.formatDate(newDate, 'YYYY - MMMM')
 
           const formattedDate = formatDate(+el.createdAt) // Formatear la fecha actual
 

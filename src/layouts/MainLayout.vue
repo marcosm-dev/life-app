@@ -57,7 +57,7 @@
                           {{ $t('menu.paymentMethods') }}
                       </q-item-section>
                     </q-item>
-                    <q-item clickable v-ripple to="/orders" disable>
+                    <q-item clickable v-ripple to="/orders">
                       <q-item-section>
                           {{ $t('menu.myOrders') }}
                       </q-item-section>

@@ -69,7 +69,7 @@ import { ref } from 'vue'
 
 const confirm = ref('')
 defineProps(['type', 'password', 'oldPassword'])
-defineEmits(['update:password', 'update:confirm'])
+defineEmits(['update:password', 'update:confirm', 'update:oldPassword'])
 const revealPassword = ref(false)
 
 </script>

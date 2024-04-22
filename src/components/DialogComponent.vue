@@ -1,248 +1,248 @@
 <template>
   <q-dialog position="bottom" ref="dialogRef" @hide="onDialogHide">
     <div class="row items-end">
-            <q-icon
-              v-close-popup
-              name="mdi-close"
-              class="q-ml-auto"
-              color="blue-grey-1"
-              size="40px"
-            />
-          <q-card class="rounded-top full-width">
-              <q-card-section
-                class="text-subtitle1"
-                style="letter-spacing: 0.5px"
+      <q-icon
+        v-close-popup
+        name="mdi-close"
+        class="q-ml-auto"
+        color="blue-grey-1"
+        size="40px"
+      />
+      <q-card class="rounded-top full-width">
+          <q-card-section
+            class="text-subtitle1"
+            style="letter-spacing: 0.5px"
+          >
+            {{ !step ? 'Mi carrito' : 'Resumen' }}
+          </q-card-section>
+          <q-separator inset />
+
+          <!-- <transition-group
+              appear
+              :enter-active-class="!loading && 'animated fadeOut'"
+            > -->
+
+          <q-card-section class="q-py-none q-px-none">
+            <transition-group
+                appear
+                :duration="150"
+                leave-active-class="animated fadeOut"
               >
-                {{ !step ? 'Mi carrito' : 'Resumen' }}
-              </q-card-section>
-              <q-separator inset />
-
-              <!-- <transition-group
-                  appear
-                  :enter-active-class="!loading && 'animated fadeOut'"
-                > -->
-
-              <q-card-section class="q-py-none q-px-none">
-                <transition-group
-                    appear
-                    :duration="150"
-                    leave-active-class="animated fadeOut"
-                  >
-                <q-list
-                  v-for="product in cart"
-                  :key="product.cartUid"
-                  style="transition-duration: all"
-                >
-                  <q-slide-item
-                    v-if="!step"
-                    left-color="red-14"
-                    @left="onLeft(product.cartUid)"
-                    @right="onRight"
-                  >
-                    <template v-slot:left>
-                      <q-icon name="mdi-delete" color="light-blue-1" />
-                        {{ $t('common.delete') }}
-                    </template>
-                    <q-item v-if="!step" class="row bg-white">
-                      <q-item-section class="column q-px-none" avatar>
-                          <ImageWithError
-                            width="40px"
-                            height="50px"
-                            no-spinner
-                            :image="product.imagen"
-                            :brand="product.brand.name"
-                        />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label class="text-subtitle2 flex items-center">
-                          {{ product.name }}
-                          <small class="bg-lime-13 q-px-xs q-my-auto q-ml-sm" style="border-radius: 4px;">
-                            {{ product.brand.name }}
-                          </small>
-                        </q-item-label>
-                        <q-item-label
-                          class="inter text-lowercase text-blue-grey-13"
-                          lines="3"
-                        >
-                          <div class="description">
-                            {{ product.description }}
-                          </div>
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section class="no-padding" style="max-width: 100px" side>
-                        <q-item-label class="text-subtitle3">
-                          {{ product.price.toFixed(2).replace('.', ',') }}
-                        </q-item-label>
-                        <ProductQuantity
-                          class="q-pr-none q-ml-auto"
-                          @update-item="(e) => updateCartItem(product.cartUid, e)"
-                          :product="product"
-                          :dense="true"
-                        />
-                      </q-item-section>
-                    </q-item>
-                  </q-slide-item>
-                  <q-item v-else-if="step === 1" class="q-my-sm" clickable v-ripple>
-                    <q-item-section avatar>
+            <q-list
+              v-for="product in cart"
+              :key="product.cartUid"
+              style="transition-duration: all"
+            >
+              <q-slide-item
+                v-if="!step"
+                left-color="red-14"
+                @left="onLeft(product.cartUid)"
+                @right="onRight"
+              >
+                <template v-slot:left>
+                  <q-icon name="mdi-delete" color="light-blue-1" />
+                    {{ $t('common.delete') }}
+                </template>
+                <q-item v-if="!step" class="row bg-white">
+                  <q-item-section class="column q-px-none" avatar>
                       <ImageWithError
-                          width="40px"
-                          height="50px"
-                          :image="product.imagen"
-                          :brand="product.brand.name"
-                      />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label caption class="text-subtitle2">
-                        {{ product.name }}
-                        <small>- {{ product.brand.name }}</small>
-                      </q-item-label>
-                      <q-item-label
-                        class="inter text-lowercase text-blue-grey-13"
-                        lines="3"
-                      >
-                        <div class="description">
-                          {{ product.accessories ?? product.description }}
-                        </div>
-                      </q-item-label>
-                    </q-item-section>
-                    <q-separator vertical />
-                    <q-item-section class="text-subtitle3" side>
-                      <q-item-label caption>
-                        {{ $t('common.shortUnits', { stock: product.stock}, product.stock) }}
-                      </q-item-label>
-                      <div>
-                        {{ (product.price * product.quantity).toFixed(2).replace('.', ',') }}
+                        width="40px"
+                        height="50px"
+                        no-spinner
+                        :image="product.imagen"
+                        :brand="product.brand.name"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-subtitle2 flex items-center">
+                      {{ product.name }}
+                      <small class="bg-lime-13 q-px-xs q-my-auto q-ml-sm" style="border-radius: 4px;">
+                        {{ product.brand.name }}
+                      </small>
+                    </q-item-label>
+                    <q-item-label
+                      class="inter text-lowercase text-blue-grey-13"
+                      lines="3"
+                    >
+                      <div class="description">
+                        {{ product.description }}
                       </div>
-                    </q-item-section>
-                  </q-item>
-                  <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
-                </q-list>
-                </transition-group>
-              </q-card-section>
-
-              <q-separator class="col-12" size="1px" />
-              <q-card-section class="row" @click="deleteCartModel = false">
-                <div class="col-12 flex justify-between">
-                  <div class="text-caption text-grey-10">
-                    {{ $t('common.units') }}:
-                  </div>
-                  <div class="text-subtitle3 text-grey-10">
-                    {{ cartCount }}
-                  </div>
-                </div>
-                <div class="col-12 flex justify-between">
-                  <div class="text-subtitle1">
-                      {{ $t('common.subtotal') }}
-                  </div>
-                  <div class="text-subtitle3">
-                      {{ amount.toFixed(2).replace('.', ',') }}
-                    <small class="text-caption">EUR</small>
-                  </div>
-                </div>
-                <q-separator class="col-12 q-mb-sm q-mt-xs" size="1px"  />
-                <div class="col-12 flex justify-between">
-                  <div class="text-subtitle1">
-                      {{ $t('common.total') }}
-                    <span class="text-caption text-dark-page text-capitalize text-bold">
-                      {{ $t('purchase.includedTax', { TAX: 'IGIC'}) }}
-                    </span>
-                  </div>
-                  <div
-                    class="text-medium"
-                    :class="!step ? 'text-h5' : 'text-h4'"
-                    style="letter-spacing: -0.9px"
+                    </q-item-label>
+                  </q-item-section>
+                  <q-item-section class="no-padding" style="max-width: 100px" side>
+                    <q-item-label class="text-subtitle3">
+                      {{ product.price.toFixed(2).replace('.', ',') }}
+                    </q-item-label>
+                    <ProductQuantity
+                      class="q-pr-none q-ml-auto"
+                      @update-item="(e) => updateCartItem(product.cartUid, e)"
+                      :product="product"
+                      :dense="true"
+                    />
+                  </q-item-section>
+                </q-item>
+              </q-slide-item>
+              <q-item v-else-if="step === 1" class="q-my-sm" clickable v-ripple>
+                <q-item-section avatar>
+                  <ImageWithError
+                      width="40px"
+                      height="50px"
+                      :image="product.imagen"
+                      :brand="product.brand.name"
+                  />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label caption class="text-subtitle2">
+                    {{ product.name }}
+                    <small>- {{ product.brand.name }}</small>
+                  </q-item-label>
+                  <q-item-label
+                    class="inter text-lowercase text-blue-grey-13"
+                    lines="3"
                   >
-                      {{ ((amount * 7) / 100 + amount).toFixed(2).replace('.', ',') }}
-                    <small class="text-caption">EUR</small>
+                    <div class="description">
+                      {{ product.accessories ?? product.description }}
+                    </div>
+                  </q-item-label>
+                </q-item-section>
+                <q-separator vertical />
+                <q-item-section class="text-subtitle3" side>
+                  <q-item-label caption>
+                    {{ $t('common.shortUnits', { stock: product.stock}, product.stock) }}
+                  </q-item-label>
+                  <div>
+                    {{ (product.price * product.quantity).toFixed(2).replace('.', ',') }}
                   </div>
-                </div>
-              </q-card-section>
+                </q-item-section>
+              </q-item>
+              <q-separator v-if="product.cartUid !== cart.at(-1).cartUid" inset />
+            </q-list>
+            </transition-group>
+          </q-card-section>
 
-              <!-- </transition-group> -->
-
-              <!-- Step 1 -->
-
-              <q-card-actions
-                class="q-px-md q-py-lg row justify-between"
+          <q-separator class="col-12" size="1px" />
+          <q-card-section class="row" @click="deleteCartModel = false">
+            <div class="col-12 flex justify-between">
+              <div class="text-caption text-grey-10">
+                {{ $t('common.units') }}:
+              </div>
+              <div class="text-subtitle3 text-grey-10">
+                {{ cartCount }}
+              </div>
+            </div>
+            <div class="col-12 flex justify-between">
+              <div class="text-subtitle1">
+                  {{ $t('common.subtotal') }}
+              </div>
+              <div class="text-subtitle3">
+                  {{ amount.toFixed(2).replace('.', ',') }}
+                <small class="text-caption">EUR</small>
+              </div>
+            </div>
+            <q-separator class="col-12 q-mb-sm q-mt-xs" size="1px"  />
+            <div class="col-12 flex justify-between">
+              <div class="text-subtitle1">
+                  {{ $t('common.total') }}
+                <span class="text-caption text-dark-page text-capitalize text-bold">
+                  {{ $t('purchase.includedTax', { TAX: 'IGIC'}) }}
+                </span>
+              </div>
+              <div
+                class="text-medium"
+                :class="!step ? 'text-h5' : 'text-h4'"
+                style="letter-spacing: -0.9px"
               >
-               <transition-group
-                  v-if="!step"
-                  appear
-                  enter-active-class="animated flipInX"
-               >
-                    <q-btn-group
-                      v-if="deleteCartModel"
+                  {{ ((amount * 7) / 100 + amount).toFixed(2).replace('.', ',') }}
+                <small class="text-caption">EUR</small>
+              </div>
+            </div>
+          </q-card-section>
+
+          <!-- </transition-group> -->
+
+          <!-- Step 1 -->
+
+          <q-card-actions
+            class="q-px-md q-py-lg row justify-between"
+          >
+            <transition-group
+              v-if="!step"
+              appear
+              enter-active-class="animated flipInX"
+            >
+                <q-btn-group
+                  v-if="deleteCartModel"
+                  outline
+                  rounded
+                >
+                  <q-btn
                       outline
+                      padding="10px 20px"
+                      class="delete-icon"
+                      @click="deleteCart"
+                      color="primary"
+                      style="min-width: 129.23px;"
                       rounded
                     >
-                      <q-btn
-                          outline
-                          padding="10px 20px"
-                          class="delete-icon"
-                          @click="deleteCart"
-                          color="primary"
-                          style="min-width: 129.23px;"
-                          rounded
-                        >
-                          <q-spinner
-                             v-if="removeLoading"
-                             size="24px"
-                           />
-                          <q-icon
-                            v-else
-                            size="24px"
-                            name="mdi-delete-outline"
-                          />
-                        </q-btn>
-                        <!-- <q-btn
-                          style="min-width: 50%"
-                          padding="10px 20px"
-                          color="dark"
-                          @click="deleteCartModel = !deleteCartModel"
-                          outline
-                          rounded
-                        /> -->
-                    </q-btn-group>
-                      <q-btn
-                        v-else-if="!step && !deleteCartModel"
-                        class="col-auto"
-                        rounded
-                        color="grey-6"
-                        no-caps
-                        outline
-                        @click="deleteCartModel = !deleteCartModel"
-                        :label="!step ? 'Vaciar carrito' : ''"
-                        padding="10px 20px"
-                        :ripple="false"
+                      <q-spinner
+                          v-if="removeLoading"
+                          size="24px"
+                        />
+                      <q-icon
+                        v-else
+                        size="24px"
+                        name="mdi-delete-outline"
                       />
-               </transition-group>
-                <q-btn
-                    v-else
-                    @click="step--"
-                    icon="mdi-arrow-left"
-                    outline
-                    rounded
-                    padding="10px 29px"
-                    label="Atras"
-                    no-caps
+                    </q-btn>
+                    <!-- <q-btn
+                      style="min-width: 50%"
+                      padding="10px 20px"
+                      color="dark"
+                      @click="deleteCartModel = !deleteCartModel"
+                      outline
+                      rounded
+                    /> -->
+                </q-btn-group>
+                  <q-btn
+                    v-else-if="!step && !deleteCartModel"
                     class="col-auto"
-                    color="blue-grey-13"
+                    rounded
+                    color="grey-6"
+                    no-caps
+                    outline
+                    @click="deleteCartModel = !deleteCartModel"
+                    :label="!step ? 'Vaciar carrito' : ''"
+                    padding="10px 20px"
+                    :ripple="false"
                   />
-                <action-button
-                  :disable="amount === 0"
-                  outline
-                  class="col"
-                  padding="10px 20px"
-                  dense
-                  :label="!step ? $t('common.continue') : $t('purchase.action')"
-                  @click="onOKClick"
-                  no-caps
-                  :loading="loading"
-                />
-              </q-card-actions>
+            </transition-group>
+            <q-btn
+                v-else
+                @click="step--"
+                icon="mdi-arrow-left"
+                outline
+                rounded
+                padding="10px 29px"
+                label="Atras"
+                no-caps
+                class="col-auto"
+                color="blue-grey-13"
+              />
+            <action-button
+              :disable="amount === 0"
+              outline
+              class="col"
+              padding="10px 20px"
+              dense
+              :label="!step ? $t('common.continue') : $t('purchase.action')"
+              @click="onOKClick"
+              no-caps
+              :loading="loading"
+            />
+          </q-card-actions>
 
-            <!-- Fin -->
-          </q-card>
+        <!-- Fin -->
+      </q-card>
     </div>
     <!-- Fin de la compra -->
 

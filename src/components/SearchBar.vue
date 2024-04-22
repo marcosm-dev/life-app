@@ -57,7 +57,7 @@
 <script setup lang="ts">
 const emit = defineEmits(['searching'])
 
-import { ref, watch } from 'vue'
+import { ref, watch, watchEffect } from 'vue';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import useAuth from 'src/composables/useAuth'
 
@@ -78,6 +78,13 @@ function emitSeach () {
 
 watch(searchModel, (val) => {
     emit('searching', val)
+})
+
+
+watchEffect(() => {
+  console.log(title.value)
+  if (!title.value) searchModel.value = true
+
 })
 
 onBeforeRouteUpdate((to, from) => {

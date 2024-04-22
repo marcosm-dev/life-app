@@ -12,10 +12,10 @@
           name="mdi-heart-outline"
         />
           <q-card-section class="border-radius-sm col-auto">
-              <ImageWithError
-                  :image="product.imagen"
-                  :brand="product.brand.name"
-              />
+            <ImageWithError
+              :image="product.imagen"
+              :brand="product.brand.name"
+            />
           </q-card-section>
           <q-card-section class="q-gutter-y-sm col q-pa-sm">
             <div class="text-subtitle3 full-width q-pa-sm border-radius-sm text-grey-10 bg-lime-14">
