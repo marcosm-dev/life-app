@@ -13,7 +13,7 @@ const urlImage = `${url}/productos/${product.imagen}`
 
 <template>
   <!-- <pre class="bg-black text-white">{{ product }}</pre> -->
-  <q-card class="my-card " flat bordered>
+  <q-card class="my-card" flat bordered>
      <q-card-section>
         <q-item class="row">
           <q-item-section class="col-auto" avatar>
@@ -30,9 +30,9 @@ const urlImage = `${url}/productos/${product.imagen}`
             </q-item-label>
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-weight-bold flex justify-end text-subtitle2">
-              {{ product.amount }} uds
-            </q-item-label>
+            <!-- <q-item-label class="text-weight-bold flex justify-end text-subtitle2">
+              {{ product.quantity }} {{ product.quantity ? '' : 'uds' }}
+            </q-item-label> -->
           </q-item-section>
         </q-item>
       </q-card-section>

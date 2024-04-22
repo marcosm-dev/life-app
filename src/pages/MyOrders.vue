@@ -22,7 +22,7 @@
                 {{ date.formatDate(new Date(+order.createdAt), 'dddd, HH:mm:ss')}}
               </q-item-label>
               <q-item-label class="text-h6 text-black">
-                {{ order.products.reduce((acc, el) => acc + el.amount, 0).toFixed(2).replace('.', ',') }}€
+                {{ order.products.reduce((acc: any, el: any) => acc + el.amount, 0).toFixed(2).replace('.', ',') }}€
               </q-item-label>
             </q-item-section>
 
@@ -57,6 +57,7 @@ export default defineComponent({
           status
           products {
             amount
+            quantity
             product {
               id
               name
