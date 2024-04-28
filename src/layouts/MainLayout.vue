@@ -190,14 +190,13 @@ export default defineComponent({
     const toggleLogo = ref(false)
     const search = ref(true)
     const searchText = ref('')
-    const { locale, t } = useI18n()
+    const { t } = useI18n()
 
     const {
       logoutUser,
       logoutLoading,
       title,
       deferredPrompt,
-      hideBanner
     } = useAuth();
     const bus = inject<EventBus>('bus', new EventBus())
     const leftDrawerOpen = ref(null)
@@ -257,7 +256,6 @@ export default defineComponent({
       cart,
       logoutUser,
       loading,
-      hideBanner,
       toggleLogo,
       logoutLoading,
       searchText,

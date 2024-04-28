@@ -3,7 +3,7 @@ import { useQuasar } from 'quasar'
 import { useCartStore } from 'src/stores/cart'
 import { reactive } from 'vue'
 
-import PurchaseOrderDialog from 'components/PurchaseOrderDialog.vue'
+import PurchaseDialog from 'components/PurchaseDialog.vue'
 
 const useCartDialog = () => {
   const $q = useQuasar()
@@ -20,7 +20,7 @@ const useCartDialog = () => {
       $q.dialog({
         title: 'Positioned',
         position: 'bottom',
-        component: PurchaseOrderDialog,
+        component: PurchaseDialog,
         componentProps: {
           products: store.cart
         }

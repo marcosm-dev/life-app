@@ -1,6 +1,6 @@
 <template>
   <q-btn
-    :text-color="neutro ? 'grey-8' : 'info'"
+    :text-color="neutro ? 'black' : 'black'"
     :label="label"
     no-caps
     outline

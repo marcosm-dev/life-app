@@ -55,7 +55,7 @@ const useCustomDialog = (type = 'password', product?: Product) => {
       product
     },
     recovery: {
-      type: 'recovery',
+      type: 'password',
       action: 'recovery',
       dense: true,
       placeHolder: t('recovery.placeHolder'),

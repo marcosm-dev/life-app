@@ -44,10 +44,10 @@
                 <template v-else-if="!success">
                   <q-card-section v-if="subtitle || description" class="text-grey-10 q-py-xs q-px-lg">
                     <p
-                      class="text-body2 border-radius-sm text-grey-8 subtitle"
+                      class="text-body2 border-radius-sm text-grey-10 subtitle"
                       v-html="subtitle"
                     />
-                    <p class="text-caption text-blue-grey-13">
+                    <p class="text-caption text-red-12 text-weight-bold">
                       * {{ description }}
                     </p>
                   </q-card-section>
@@ -102,7 +102,6 @@ import { Product } from '../models';
 import useAuth from 'src/composables/useAuth'
 import { useRoute, useRouter } from 'vue-router'
 import ChangePassword from '../ChangePassword.vue'
-import { useI18n } from 'vue-i18n';
 
 const { user, store } = useAuth()
 const { dialogRef } = useDialogPluginComponent()
@@ -112,7 +111,6 @@ const count = ref(5)
 const input = ref('')
 const loading = ref(false)
 const success = ref(false)
-const { t } = useI18n()
 
 const reset = reactive({
   password: '',
@@ -161,6 +159,14 @@ const { mutate: addToWish } = useMutation(gql`
       name
     }
   }
+`)
+
+const { mutate: resetPassword } = useMutation(gql`
+    mutation resetPassword($input:  ResetPasswordInput!) {
+      resetPassword(input: $input) {
+        token
+      }
+    }
 `)
 
 const { mutate: recoveryPassword } = useMutation(gql`
@@ -225,7 +231,7 @@ async function onOKClick() {
       break;
       case 'recovery':
         if (route.query.token) {
-          await updateUser({ input: { password: reset.password, oldPassword: reset.oldPassword } })
+          await resetPassword({ input: { password: reset.password, token: route.query.token } })
           LocalStorage.clear()
           store.$reset()
           router.push('/auth')

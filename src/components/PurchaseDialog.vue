@@ -123,15 +123,15 @@
           <q-separator class="col-12" size="1px" />
           <q-card-section class="row" @click="deleteCartModel = false">
             <div class="col-12 flex justify-between">
-              <div class="text-caption text-grey-10">
+              <div class="text-bold text-h8">
                 {{ $t('common.units') }}:
               </div>
-              <div class="text-subtitle3 text-grey-10">
+              <p>
                 {{ cartCount }}
-              </div>
+              </p>
             </div>
             <div class="col-12 flex justify-between">
-              <div class="text-subtitle1">
+              <div class="text-subtitle1 text-bold text-h7">
                   {{ $t('common.subtotal') }}
               </div>
               <div class="text-subtitle3">
@@ -141,14 +141,14 @@
             </div>
             <q-separator class="col-12 q-mb-sm q-mt-xs" size="1px"  />
             <div class="col-12 flex justify-between">
-              <div class="text-subtitle1">
+              <div class="text-h5">
                   {{ $t('common.total') }}
-                <span class="text-caption text-dark-page text-capitalize text-bold">
+                <span class="text-caption text-grey-10 text-capitalize text-bold">
                   {{ $t('purchase.includedTax', { TAX: 'IGIC'}) }}
                 </span>
               </div>
               <div
-                class="text-medium"
+                class="text-medium text-weight-bold"
                 :class="!step ? 'text-h5' : 'text-h4'"
                 style="letter-spacing: -0.9px"
               >
@@ -207,7 +207,6 @@
                     v-else-if="!step && !deleteCartModel"
                     class="col-auto"
                     rounded
-                    color="grey-6"
                     no-caps
                     outline
                     @click="deleteCartModel = !deleteCartModel"
@@ -379,8 +378,8 @@ defineEmits([
 ])
 
 const { mutate: createOrder, loading } = useMutation(gql`
-  mutation createOrder($products: [ID!]!, $userId: ID!) {
-    createOrder(input: { userId: $userId, products: $products }) {
+  mutation createOrder($productIds: [ID!]!) {
+    createOrder(input: { productIds: $productIds }) {
       id
       amount
       products {
@@ -400,8 +399,8 @@ const { mutate: createOrder, loading } = useMutation(gql`
 
 const { mutate: sendFacturaDirectaOrder, loading: sendLoading } =
   useMutation(gql`
-    mutation sendFacturaDirectaOrder($lines: [OrderLines!]!, $orderId: ID!) {
-      sendFacturaDirectaOrder(input: { orderId: $orderId, lines: $lines })
+    mutation sendOrder($orderId: ID!) {
+      sendOrder(input: { orderId: $orderId })
     }
   `)
 
@@ -434,38 +433,17 @@ function resetProcess() {
 
 }
 
-const getInvoceItems = (products) => {
-  return products.map((item) => {
-    const line = {
-      account: '700000',
-      quantity: item.quantity,
-      unitPrice: item.product.price,
-      text: item.product.description,
-      tax: [TAXES['igic']]
-    }
-    if (item.product.uuid) line.document = `pro_${item.product.uuid}`
-    return line
-  })
-}
-
 async function onOKClick() {
   try {
     if (!step.value) {
-      const { data } = await createOrder({
-        userId: user.id,
-        products: cartIds.value
-      })
+      const { data } = await createOrder({ productIds: cartIds.value  })
       order.value = data.createOrder
       step.value = 1
     } else if (step.value === 1) {
-      sendFacturaDirectaOrder({
-        orderId: order.value.id,
-        lines: getInvoceItems(order.value?.products)
-      }).then((res) => {
-        success.value = true
-        resetProcess()
-        invoice.value = res
-      })
+      sendFacturaDirectaOrder({ orderId: order.value.id })
+      success.value = true
+      resetProcess()
+      invoice.value = res
     }
   } catch (error) {
     setTimeout(() => {

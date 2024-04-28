@@ -63,7 +63,7 @@ const useAuth = () => {
   `)
 
   const { mutate: signUpMutation, loading: signUpLoading } = useMutation(gql`
-    mutation signUp($input: UserInput!) {
+    mutation signUp($input: CreateUserInput!) {
       signUp(input: $input) {
         error
         user {
@@ -83,7 +83,7 @@ const useAuth = () => {
   `)
 
 const { mutate: updateUser, loading: updateUserLoading } = useMutation(gql`
-  mutation updateUser($input: UserInput!) {
+  mutation updateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
       id
     }

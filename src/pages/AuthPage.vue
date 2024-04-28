@@ -429,7 +429,6 @@ export default defineComponent({
 
     return {
       async onSubmit() {
-        console.log('hola')
         if (register.value) await signUp()
         else await login()
       },

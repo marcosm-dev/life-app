@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia'
-import { BeforeInstallPromptEvent } from '../components/models'
-import { User } from '../components/models'
+import { BeforeInstallPromptEvent, IUser } from '../components/models'
 import { LocalStorage } from 'quasar'
 
 type Banners = {
@@ -16,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     register: false,
     deferredPrompt: null as BeforeInstallPromptEvent | null,
-    user: {} as User,
+    user: {} as IUser,
     neverShowAppInstallBanner: false,
     temporalHideBanner: false,
     title: null as string | null,
@@ -47,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
       }
       this.register = !this.register
     },
-    setUser(user: User) {
+    setUser(user: IUser) {
       this.user = user
       if (user.token) LocalStorage.set('token', user.token)
     }

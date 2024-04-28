@@ -54,7 +54,7 @@ import { name } from '../../src-pwa/manifest.json'
 export default defineComponent({
   name: 'AuthLayout',
   setup() {
-    const { store} = useAuth()
+    const { store } = useAuth()
 
     return {
       name,
