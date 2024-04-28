@@ -34,7 +34,7 @@
               />
             </q-card-section>
             <q-form v-else @submit="onOKClick">
-                <template v-if="type === 'password'">
+                <template v-if="$route.query.token">
                     <change-password
                       :type="type"
                       v-model:password="reset.password"
