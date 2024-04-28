@@ -46,7 +46,7 @@
                   {{ $t('auth.login.subtitle') }}
                 </div>
                 <u
-                  class="cursor-pointer text-subtitle1 knockout text-blue-grey-14"
+                  class="cursor-pointer text-h5 knockout text-black text-bold"
                   >{{ $t('auth.login.signUpAction') }}</u
                 >
               </span>
@@ -252,7 +252,6 @@
             :label="$t('auth.recovery')"
             flat
             class="q-mt-lg col-12"
-            text-color="blue-grey-14"
             style="text-decoration: underline"
             neutro
           />
